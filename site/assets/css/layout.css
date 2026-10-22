@@ -30,13 +30,17 @@
 .masthead__sub { font-size: 12px; opacity: 0.8; }
 
 /* One menu instead of a tab per game, so the masthead does not grow with the catalog. */
-.game-nav { display: flex; align-items: center; gap: 8px; margin-left: auto; min-width: 0; }
+.game-nav { display: flex; align-items: center; gap: 10px; margin-left: auto; min-width: 0; }
 
+/* Home link, game menu and theme toggle share one 34px height. */
 .nav-link {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
   color: var(--baize-ink);
   text-decoration: none;
   font-size: 14px;
-  padding: 6px 12px;
+  padding: 0 14px;
   border-radius: 999px;
   border: 1px solid transparent;
 }
@@ -45,17 +49,32 @@
 
 .nav-link[aria-current="page"] { background: var(--baize-ink); color: var(--baize); }
 
+/* Native arrow replaced by a drawn chevron so it sits clear of the rounded edge. */
 .game-select {
+  appearance: none;
+  -webkit-appearance: none;
   font: inherit;
   font-size: 14px;
+  line-height: 1;
+  height: 34px;
   min-width: 0;
   max-width: 260px;
-  padding: 6px 10px;
+  padding: 0 38px 0 16px;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--baize-ink) 35%, transparent);
-  background: transparent;
   color: var(--baize-ink);
+  background-color: transparent;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: right 20px center, right 15px center;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  text-overflow: ellipsis;
 }
+
+.game-select:hover { border-color: color-mix(in srgb, var(--baize-ink) 60%, transparent); }
 
 .game-select option, .game-select optgroup { color: var(--ink); background: var(--surface); }
 

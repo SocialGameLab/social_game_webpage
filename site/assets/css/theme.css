@@ -1,0 +1,80 @@
+/* Match Room design tokens — card-table palette: baize green, brass highlight, redaction ink.
+ * Game palettes (teams, cards) live here too so dark mode stays in one place. */
+
+:root {
+  --paper: #e7ede9;
+  --surface: #f6f8f6;
+  --surface-2: #dfe7e2;
+  --ink: #13201b;
+  --ink-2: #4b5c55;
+  --line: #c3cfc8;
+  --baize: #1d5a48;
+  --baize-ink: #f1f6f3;
+  --brass: #a06d12;
+  --brass-soft: #f1e2bf;
+  --redact: #27322e;
+  --good: #2c6fa8;
+  --evil: #b23f2b;
+  --red-team: #b8382a;
+  --blue-team: #2a64a8;
+  --neutral-card: #c9bfa6;
+  --assassin-card: #1b1b1b;
+  --ok: #2f7d4f;
+  --bad: #b23f2b;
+
+  --font-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --font-body: "Atkinson Hyperlegible", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, "PingFang SC", monospace;
+
+  --radius: 10px;
+  --gutter: 16px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0c1613;
+    --surface: #13221d;
+    --surface-2: #1a2d26;
+    --ink: #e2ebe6;
+    --ink-2: #9cb0a7;
+    --line: #273c33;
+    --baize: #3f9a7d;
+    --baize-ink: #07120e;
+    --brass: #dcaa47;
+    --brass-soft: #3a2f17;
+    --redact: #34443d;
+    --good: #5ea2dc;
+    --evil: #e2735d;
+    --red-team: #e0675a;
+    --blue-team: #6a9fe0;
+    --neutral-card: #6f6852;
+    --assassin-card: #000;
+    --ok: #5cbf86;
+    --bad: #e2735d;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #0c1613;
+  --surface: #13221d;
+  --surface-2: #1a2d26;
+  --ink: #e2ebe6;
+  --ink-2: #9cb0a7;
+  --line: #273c33;
+  --baize: #3f9a7d;
+  --baize-ink: #07120e;
+  --brass: #dcaa47;
+  --brass-soft: #3a2f17;
+  --redact: #34443d;
+  --good: #5ea2dc;
+  --evil: #e2735d;
+  --red-team: #e0675a;
+  --blue-team: #6a9fe0;
+  --neutral-card: #6f6852;
+  --assassin-card: #000;
+  --ok: #5cbf86;
+  --bad: #e2735d;
+  color-scheme: dark;
+}

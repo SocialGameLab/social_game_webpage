@@ -1,0 +1,3 @@
+/* __TITLE__ board. Use the tokens in assets/css/theme.css (--surface, --line,
+ * --brass, …) so light and dark mode both work; add new colors there, not here.
+ * Prefix classes with a short game tag to avoid clashes. */

@@ -1,0 +1,19 @@
+# Site-wide settings. tools/build_data.py copies these into site/data/manifest.js.
+
+title: Match Room
+subtitle: social-game-env · recorded LLM-agent games
+description: Rules and recorded LLM-agent matches from social-game-env.
+
+# Optional. When set, the rule doc, spec and config paths on each "How to play"
+# page link to this repository, e.g. https://github.com/SocialGameLab/social_game_env
+# Leave it empty while that repository is private.
+source_repo: ""
+source_branch: main
+
+# Placard order in the masthead. Each id needs content/games/<id>.yaml and
+# site/games/<id>/view.js.
+games:
+  - avalon
+  - codenames
+  - bargaining
+  - jubensha_qa

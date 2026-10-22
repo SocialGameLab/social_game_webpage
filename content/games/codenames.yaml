@@ -1,0 +1,42 @@
+# Codenames: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: codenames
+title: Codenames
+kind: Team communication
+players: 5 players · RED vs BLUE
+tagline: >-
+  Two spymasters share a secret key to a 25-word board and must steer
+  their teammates with one-word clues.
+config: configs/codenames_5p.yaml
+spec: games/codenames/codenames.yaml
+rules_doc: doc/games/codenames_rules.md
+engine: generic
+setup:
+  - Seats split into RED and BLUE. Each team has one Spymaster and at
+    least one Field Operative.
+  - 25 words are dealt face up. RED has 9 agents, BLUE 8, plus 7 neutral
+    bystanders and 1 assassin.
+  - Only the two Spymasters see which word is which color.
+round:
+  - The active Spymaster gives one word that is not on the board, plus a
+    number.
+  - One operative guesses for the team. They must guess at least once
+    and may make up to the clue number plus one guesses.
+  - Own agent, keep going. Neutral word, turn ends. Opponent agent, it
+    counts for them and the turn ends.
+  - Teams alternate. The operative role rotates when a team has more
+    than one.
+win:
+  - Reveal all of your agents first.
+  - Reveal the assassin and your team loses on the spot.
+agents:
+  - Operatives see only the public board and what has been revealed.
+  - Spymasters also receive the key as a private message.
+  - Clues and guesses are structured JSON actions; there is no free chat
+    in this game.
+watch_for:
+  - Switch the lens between a Spymaster and an operative to see the same
+    board with and without the key.
+runs:
+  - id: codenames
+    path: recordings/codenames

@@ -1,0 +1,39 @@
+# Bargaining: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: bargaining
+title: Bargaining
+kind: Negotiation
+players: 2 players · point scores
+tagline: >-
+  Two negotiators split a pool of books, hats and balls. Each knows only
+  their own values, and no deal means zero for both.
+config: configs/bargaining_2p.yaml
+spec: games/bargaining/bargaining.yaml
+rules_doc: doc/games/bargaining_rules.md
+engine: generic
+setup:
+  - A public pool of books, hats and balls (5–7 items) is drawn.
+  - Each player gets private values that make the whole pool worth
+    exactly 10 points to them.
+round:
+  - Players alternate, P0 first, for at most 10 turns.
+  - On a turn you can make an offer (how many of each item you keep,
+    plus an optional message), accept the other player's standing offer,
+    or walk away.
+win:
+  - On a deal, each player scores the value of the items they get.
+  - Walking away or running out of turns scores 0 for both.
+  - There is no winner; each seat's reward is its own point total.
+agents:
+  - Each agent sees its own values, the pool and the offer history, never
+    the other player's values.
+  - Offers are structured JSON. Only the offer binds; the message is just
+    talk.
+watch_for:
+  - 'In this run the agents send offers with empty messages. The prompt''s
+    sample payload shows `"say": ""`, and the model copies it, so the
+    negotiation is silent.'
+  - The deal still lands at 6 and 8 points (14 of a possible 20).
+runs:
+  - id: bargaining
+    path: recordings/bargaining

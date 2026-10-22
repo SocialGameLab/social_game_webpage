@@ -1,0 +1,46 @@
+# Avalon: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: avalon
+title: Avalon
+kind: Hidden roles
+players: 5 players · 3 good, 2 evil
+tagline: >-
+  A loyal majority sends teams on missions while a hidden evil minority
+  tries to sabotage them, then hunts for Merlin.
+config: configs/avalon_5p.yaml
+spec: games/avalon/avalon.yaml
+rules_doc: doc/games/avalon_rules.md
+engine: generic
+setup:
+  - Each seat secretly gets a role. Good has Merlin and two Loyal Servants;
+    evil has the Assassin and a Minion.
+  - Evil players learn who the other evil players are. Merlin also learns
+    who is evil, but must not make it obvious.
+  - Everyone else knows only their own role.
+round:
+  - The leader proposes a mission team (2 or 3 players, set per mission).
+  - Every player posts one short structured signal, such as a vote
+    intent, trust, or opposition toward a seat.
+  - Every player speaks once in free text, in random order.
+  - All players vote at once. A strict majority approves the team;
+    otherwise leadership passes on. Five rejections in a row hand evil the
+    game.
+  - Team members secretly play Success or Fail. Good players must play
+    Success. One Fail sinks the mission.
+win:
+  - Evil wins on 3 failed missions or 5 straight rejected teams.
+  - If good completes 3 missions, the Assassin names one player. Naming
+    Merlin steals the win for evil; missing hands it to good.
+agents:
+  - Each turn the agent gets a text prompt with its role, private
+    knowledge, the public state, recent events and the legal actions.
+  - 'Structured moves come back as one JSON action, for example
+    `{"action_id": "vote", "payload": {"approve": true}}`.'
+  - Speech turns use a separate discussion prompt and return free text.
+watch_for:
+  - Merlin (P4) sees both evil players and pushes back on the very first
+    team. Watch whether evil notices who knows too much.
+  - The final assassination decides this game.
+runs:
+  - id: avalon
+    path: recordings/avalon

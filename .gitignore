@@ -1,0 +1,7 @@
+# Single-file exports from tools/build_single_file.py
+dist/
+
+__pycache__/
+*.py[oc]
+.venv/
+.DS_Store

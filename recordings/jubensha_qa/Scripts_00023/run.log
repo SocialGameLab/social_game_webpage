@@ -1,0 +1,15 @@
+Playing jubensha_qa: configs/jubensha_qa/Scripts_00023 (seed 0)
+
+[1;31mGive Feedback / Get Help: https://github.com/BerriAI/litellm/issues/new[0m
+LiteLLM.Info: If you need to debug this error, use `litellm._turn_on_debug()'.
+
+
+[1;31mGive Feedback / Get Help: https://github.com/BerriAI/litellm/issues/new[0m
+LiteLLM.Info: If you need to debug this error, use `litellm._turn_on_debug()'.
+
+
+--- Game over ---
+Script: Scripts_00023 (7 players, 8 questions)
+LLM available: True
+Overall accuracy: 0.39
+Run: demo/games/jubensha_qa/Scripts_00023/20261019T194801Z_jubensha_qa_7p_0

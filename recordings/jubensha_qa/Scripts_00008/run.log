@@ -1,0 +1,7 @@
+Playing jubensha_qa: configs/jubensha_qa/Scripts_00008 (seed 0)
+
+--- Game over ---
+Script: Scripts_00008 (7 players, 10 questions)
+LLM available: True
+Overall accuracy: 0.19
+Run: demo/games/jubensha_qa/Scripts_00008/20261019T194801Z_jubensha_qa_7p_0

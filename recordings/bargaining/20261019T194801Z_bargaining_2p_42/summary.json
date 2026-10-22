@@ -1,0 +1,29 @@
+{
+  "roles": {
+    "0": "NEGOTIATOR",
+    "1": "NEGOTIATOR"
+  },
+  "variables": {
+    "discount": false,
+    "gamma": 0.9,
+    "last_offer": {
+      "ball": 2,
+      "book": 1,
+      "hat": 1
+    },
+    "last_offerer": 1,
+    "max_turns": 10,
+    "mode": "semi_competitive",
+    "n_players": 2,
+    "outcome": "AGREED",
+    "pool": {
+      "ball": 2,
+      "book": 1,
+      "hat": 3
+    },
+    "proposer": 0,
+    "turn": 2
+  },
+  "winner": null,
+  "winners": []
+}

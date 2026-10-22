@@ -1,0 +1,40 @@
+/* Element defaults and small shared utilities. */
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+button { font: inherit; color: inherit; cursor: pointer; }
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--surface-2);
+  padding: 0.05em 0.35em;
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+}
+
+.muted { color: var(--ink-2); }
+
+.small { font-size: 13px; }
+
+.callout { border-left: 3px solid var(--brass); background: var(--brass-soft); padding: 8px 12px; border-radius: 0 8px 8px 0; font-size: 13px; margin-top: 10px; }
+
+/* Team labels. Each game picks a palette token from theme.css. */
+.team { font-weight: 700; }
+.team--GOOD { color: var(--good); }
+.team--EVIL { color: var(--evil); }
+.team--RED { color: var(--red-team); }
+.team--BLUE { color: var(--blue-team); }

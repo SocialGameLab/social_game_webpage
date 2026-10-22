@@ -1,0 +1,65 @@
+# Jubensha QA: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: jubensha_qa
+title: Jubensha QA
+kind: Murder mystery
+players: 6–7 players · scored by an LLM judge
+tagline: >-
+  Each agent plays a character in a scripted murder mystery, with secrets
+  to protect, and must answer the script's questions about what really
+  happened.
+config: configs/jubensha_qa.yaml
+spec: games/jubensha_qa/jubensha_qa.yaml
+rules_doc: doc/games/jubensha_qa.md
+engine: jubensha_qa
+setup:
+  - Every seat secretly gets one character with a private brief (secrets,
+    a personal timeline, relationships and motives).
+  - Everyone shares the same public background story and clue cards.
+  - Each seat is also told which questions point at itself, the ones it
+    should defend.
+round:
+  - Characters introduce themselves once at the start.
+  - For every question in the script, the table discusses it in public
+    for two passes.
+  - Each seat then picks a partner for a private chat of two messages
+    each.
+  - Every seat privately writes its own answer.
+win:
+  - There is no winner. After the game an LLM judge grades each answer
+    against the script's answer key.
+  - A seat's score is its share of correct answers. Defense measures how
+    often others got a question about that seat wrong.
+agents:
+  - All turns are free text built from one long prompt that includes the
+    brief, the background, every clue and the conversation so far.
+  - Partner choice is a structured action that only the engine sees.
+watch_for:
+  - Use the lens to follow one character, including the whispers and
+    answers only they could see.
+  - Open the verdict panel after the last question to see answers next to
+    the key, with the judge's reasoning.
+run_label: Script
+runs:
+  - id: scripts_00023
+    path: recordings/jubensha_qa/Scripts_00023
+    script: Scripts_00023
+    label: 魔幻酒吧 · The Magic Bar
+    note: >-
+      London, 1920s. A gang boss is found shot with his eyes removed,
+      inside a locked room. 7 players, 8 questions.
+  - id: scripts_00046
+    path: recordings/jubensha_qa/Scripts_00046
+    script: Scripts_00046
+    label: 殊途 · Divergent Paths
+    note: >-
+      A xianxia mystery on Shu Mountain: a sect killing, a twin who is
+      not who she claims, and two sworn brothers in disguise.
+      6 players, 10 questions.
+  - id: scripts_00008
+    path: recordings/jubensha_qa/Scripts_00008
+    script: Scripts_00008
+    label: 死岛 · Death Island
+    note: >-
+      An art auction on a private island, where one guest is far older
+      than they look. 7 players, 10 questions.

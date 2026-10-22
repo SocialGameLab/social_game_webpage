@@ -1,0 +1,32 @@
+/* Codenames board: 5×5 word grid with key outlines. */
+
+.cn-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+
+.cn-card {
+  border-radius: 5px;
+  padding: 10px 2px;
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  background: var(--surface-2);
+  border: 2px solid transparent;
+  overflow-wrap: anywhere;
+  line-height: 1.15;
+}
+
+.cn-card--key-RED { border-color: var(--red-team); }
+.cn-card--key-BLUE { border-color: var(--blue-team); }
+.cn-card--key-NEUTRAL { border-color: var(--neutral-card); }
+.cn-card--key-ASSASSIN { border-color: var(--assassin-card); border-style: dashed; }
+
+.cn-card--RED { background: var(--red-team); color: #fff; }
+.cn-card--BLUE { background: var(--blue-team); color: #fff; }
+.cn-card--NEUTRAL { background: var(--neutral-card); color: #1d1a12; }
+.cn-card--ASSASSIN { background: var(--assassin-card); color: #fff; }
+
+.cn-card--last { outline: 3px solid var(--brass); outline-offset: 1px; }
+
+.clue-chip { font-family: var(--font-display); font-weight: 800; font-size: 26px; text-transform: uppercase; }
+
+.score-row { display: flex; gap: 14px; font-size: 14px; }
+

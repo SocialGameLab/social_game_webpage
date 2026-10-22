@@ -1,0 +1,9 @@
+{
+  "game": "games/avalon/avalon.yaml",
+  "n_players": 5,
+  "seed": 42,
+  "variables": {
+    "deliberation_rounds": 1,
+    "enable_discussion": true
+  }
+}

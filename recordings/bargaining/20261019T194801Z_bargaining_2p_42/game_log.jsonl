@@ -1,0 +1,5 @@
+{"_visibility": "hidden", "event": "setup", "knowledge": {"0": {"values": {"ball": 0, "book": 1, "hat": 3}}, "1": {"values": {"ball": 3, "book": 1, "hat": 1}}}, "roles": {"0": "NEGOTIATOR", "1": "NEGOTIATOR"}}
+{"event": "offer", "leaves": {"ball": 2, "book": 0, "hat": 1}, "offerer": 0, "say": "", "take": {"ball": 0, "book": 1, "hat": 2}}
+{"event": "offer", "leaves": {"ball": 0, "book": 0, "hat": 2}, "offerer": 1, "say": "", "take": {"ball": 2, "book": 1, "hat": 1}}
+{"_visibility": "hidden", "event": "game_end", "joint_welfare": 14, "outcome": "AGREED"}
+{"_visibility": "hidden", "event": "game_over", "variables": {"discount": false, "gamma": 0.9, "last_offer": {"ball": 2, "book": 1, "hat": 1}, "last_offerer": 1, "max_turns": 10, "mode": "semi_competitive", "n_players": 2, "outcome": "AGREED", "pool": {"ball": 2, "book": 1, "hat": 3}, "proposer": 0, "turn": 2}, "winner": null, "winners": []}

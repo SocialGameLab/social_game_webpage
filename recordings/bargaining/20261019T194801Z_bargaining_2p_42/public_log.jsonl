@@ -1,0 +1,2 @@
+{"event": "offer", "leaves": {"ball": 2, "book": 0, "hat": 1}, "offerer": 0, "say": "", "take": {"ball": 0, "book": 1, "hat": 2}}
+{"event": "offer", "leaves": {"ball": 0, "book": 0, "hat": 2}, "offerer": 1, "say": "", "take": {"ball": 2, "book": 1, "hat": 1}}

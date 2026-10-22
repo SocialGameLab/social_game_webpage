@@ -1,0 +1,33 @@
+{"_visibility": "hidden", "event": "setup", "knowledge": {"0": {}, "1": {}, "2": {}, "3": {}, "4": {}}, "roles": {"0": "BLUE_SPYMASTER", "1": "RED_OPERATIVE", "2": "RED_OPERATIVE", "3": "BLUE_OPERATIVE", "4": "RED_SPYMASTER"}}
+{"board": ["Violin", "Harvest", "Jungle", "Temple", "Saddle", "Garden", "Rocket", "Lantern", "Anchor", "Mirror", "Compass", "Marble", "Glacier", "Comet", "Thunder", "Apple", "River", "Falcon", "Pirate", "Engine", "Cavern", "Shadow", "Castle", "Beacon", "Needle"], "event": "board"}
+{"_audience": [4, 0], "_visibility": "private", "colors": ["RED", "BLUE", "BLUE", "RED", "ASSASSIN", "RED", "BLUE", "NEUTRAL", "NEUTRAL", "BLUE", "NEUTRAL", "NEUTRAL", "BLUE", "BLUE", "RED", "NEUTRAL", "RED", "RED", "NEUTRAL", "BLUE", "BLUE", "RED", "RED", "RED", "NEUTRAL"], "event": "key_reveal", "words": ["Violin", "Harvest", "Jungle", "Temple", "Saddle", "Garden", "Rocket", "Lantern", "Anchor", "Mirror", "Compass", "Marble", "Glacier", "Comet", "Thunder", "Apple", "River", "Falcon", "Pirate", "Engine", "Cavern", "Shadow", "Castle", "Beacon", "Needle"]}
+{"count": 2, "event": "clue", "team": "RED", "word": "Sanctuary"}
+{"actor": 1, "color": "RED", "event": "reveal", "index": 3, "word": "Temple"}
+{"actor": 1, "color": "RED", "event": "reveal", "index": 5, "word": "Garden"}
+{"count": 2, "event": "clue", "team": "BLUE", "word": "Space"}
+{"actor": 3, "color": "BLUE", "event": "reveal", "index": 6, "word": "Rocket"}
+{"actor": 3, "color": "BLUE", "event": "reveal", "index": 13, "word": "Comet"}
+{"count": 2, "event": "clue", "team": "RED", "word": "Gothic"}
+{"actor": 2, "color": "RED", "event": "reveal", "index": 22, "word": "Castle"}
+{"actor": 2, "color": "RED", "event": "reveal", "index": 21, "word": "Shadow"}
+{"count": 2, "event": "clue", "team": "BLUE", "word": "Geology"}
+{"actor": 3, "color": "BLUE", "event": "reveal", "index": 12, "word": "Glacier"}
+{"actor": 3, "color": "NEUTRAL", "event": "reveal", "index": 11, "word": "Marble"}
+{"count": 2, "event": "clue", "team": "RED", "word": "Floodplain"}
+{"actor": 1, "color": "RED", "event": "reveal", "index": 16, "word": "River"}
+{"actor": 1, "color": "BLUE", "event": "reveal", "index": 1, "word": "Harvest"}
+{"count": 2, "event": "clue", "team": "BLUE", "word": "Expedition"}
+{"actor": 3, "color": "BLUE", "event": "reveal", "index": 2, "word": "Jungle"}
+{"actor": 3, "color": "NEUTRAL", "event": "reveal", "index": 10, "word": "Compass"}
+{"count": 2, "event": "clue", "team": "RED", "word": "Warning"}
+{"actor": 2, "color": "RED", "event": "reveal", "index": 23, "word": "Beacon"}
+{"actor": 2, "color": "NEUTRAL", "event": "reveal", "index": 7, "word": "Lantern"}
+{"count": 2, "event": "clue", "team": "BLUE", "word": "Automotive"}
+{"actor": 3, "color": "BLUE", "event": "reveal", "index": 19, "word": "Engine"}
+{"actor": 3, "color": "BLUE", "event": "reveal", "index": 9, "word": "Mirror"}
+{"count": 1, "event": "clue", "team": "RED", "word": "Raptor"}
+{"actor": 1, "color": "RED", "event": "reveal", "index": 17, "word": "Falcon"}
+{"count": 1, "event": "clue", "team": "BLUE", "word": "Cave"}
+{"actor": 3, "color": "BLUE", "event": "reveal", "index": 20, "word": "Cavern"}
+{"event": "game_end", "outcome": "all_agents_found"}
+{"_visibility": "hidden", "event": "game_over", "variables": {"blue_operative": 3, "blue_remaining": 0, "board": ["Violin", "Harvest", "Jungle", "Temple", "Saddle", "Garden", "Rocket", "Lantern", "Anchor", "Mirror", "Compass", "Marble", "Glacier", "Comet", "Thunder", "Apple", "River", "Falcon", "Pirate", "Engine", "Cavern", "Shadow", "Castle", "Beacon", "Needle"], "clue_count": 1, "clue_word": "Cave", "current_team": "BLUE", "guess_count": 0, "guess_limit": 2, "n_players": 5, "red_operative": 2, "red_remaining": 2, "revealed": [3, 5, 6, 13, 22, 21, 12, 11, 16, 1, 2, 10, 23, 7, 19, 9, 17, 20]}, "winner": "BLUE", "winners": []}

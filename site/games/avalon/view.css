@@ -1,0 +1,32 @@
+/* Avalon board: mission track, proposal, rejection counter. */
+
+.missions { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+
+.mission {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--ink-2);
+}
+
+.mission--ok { background: var(--good); border-color: var(--good); color: #fff; }
+.mission--fail { background: var(--evil); border-color: var(--evil); color: #fff; }
+.mission--active { border-color: var(--brass); color: var(--brass); }
+
+.mission-cap { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; font-size: 11px; color: var(--ink-2); text-align: center; margin-top: 3px; }
+
+.reject-track { display: flex; gap: 5px; align-items: center; font-size: 13px; color: var(--ink-2); }
+
+.reject-pip { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid var(--line); }
+
+.reject-pip--on { background: var(--evil); border-color: var(--evil); }
+
+.team-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.team-chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px 2px 4px; font-size: 13px; }
+

@@ -1,5 +1,5 @@
-/* Match Room app: routing, the two page views ("How to play" and "Watch the
- * match"), playback and input. Game-specific drawing lives in
+/* Match Room app: routing, the game menu, the two game views ("How to play"
+ * and "Watch the match"), playback and input. The home page is home.js. Game-specific drawing lives in
  * games/<id>/view.js; shared pieces in ui.js. Every view is a string template
  * re-rendered from MatchRoom.state. */
 (function () {
@@ -12,32 +12,41 @@
   const state = MR.state;
 
   const app = document.getElementById("app");
-  const placards = document.getElementById("placards");
+  const gameSelect = document.getElementById("game-select");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const BUILD_HINT = "uv run --project ../social_game_env python tools/build_data.py";
 
   const site = () => MR.manifest.site || {};
 
   // ---------------------------------------------------------------- routing
-  // Hash is a plain token (game.view.run) so links can carry it.
+  // Hash is a plain token (game.view.run) so links can carry it. An empty or
+  // unknown hash is the home page.
   function readHash() {
     const [gameId, viewName, runId] = location.hash.replace(/^#/, "").split(".");
-    const known = MR.manifest.games.find((x) => x.id === gameId) || MR.manifest.games[0];
+    const known = MR.manifest.games.find((x) => x.id === gameId);
+    if (!known) return { gameId: null };
     return { gameId: known.id, view: viewName === "watch" ? "watch" : "rules", runId };
   }
 
   function writeHash() {
     const parts = [state.gameId, state.view];
-    if (game().runs.length > 1) parts.push(state.runId);
-    try { history.replaceState(null, "", "#" + parts.join(".")); } catch (_) { /* sandboxed frame */ }
+    if (state.gameId && game().runs.length > 1) parts.push(state.runId);
+    const url = state.gameId ? "#" + parts.join(".") : location.pathname + location.search;
+    try { history.replaceState(null, "", url); } catch (_) { /* sandboxed frame */ }
   }
 
-  /** Switch game/view/run. Loads the game first if it has not arrived yet. */
+  /** Switch page, game, view or run. Loads the game first if it has not arrived yet. */
   async function go(patch) {
     stop();
     const target = { ...state, ...patch };
+    if (!target.gameId) {
+      state.gameId = null;
+      writeHash();
+      renderHome();
+      return;
+    }
     if (!MR.data[target.gameId] || !MR.views[target.gameId]) {
-      renderPlacards(target.gameId);
+      renderNav(target.gameId);
       app.innerHTML = `<p class="feed__empty">Loading…</p>`;
       try { await MR.loadGame(target.gameId); } catch (err) {
         app.innerHTML = `<p class="feed__empty">${esc(err.message)}. Build the data with <code>${esc(BUILD_HINT)}</code>.</p>`;
@@ -54,15 +63,24 @@
   }
 
   // ---------------------------------------------------------------- top level
-  function renderPlacards(current) {
-    placards.innerHTML = MR.manifest.games.map((g) => `
-      <button class="placard" type="button" data-game="${esc(g.id)}" aria-current="${g.id === current}">
-        ${esc(g.title)}<span class="placard__kind">${esc(g.kind)}</span>
-      </button>`).join("");
+  // The masthead holds one menu, grouped by kind, so it stays the same size
+  // however many games there are. The home page is the full gallery.
+  function renderNav(current) {
+    const groups = {};
+    MR.manifest.games.forEach((g) => (groups[g.kind] = groups[g.kind] || []).push(g));
+    gameSelect.innerHTML = `<option value="" ${current ? "" : "selected"}>${current ? "All games" : "Choose a game…"}</option>` +
+      Object.entries(groups).map(([kind, gs]) => `<optgroup label="${esc(kind)}">${gs.map((g) => `<option value="${esc(g.id)}" ${g.id === current ? "selected" : ""}>${esc(g.title)}</option>`).join("")}</optgroup>`).join("");
+    document.querySelectorAll(".nav-link[data-home]").forEach((a) => a.setAttribute("aria-current", current ? "false" : "page"));
+  }
+
+  function renderHome() {
+    renderNav(null);
+    document.title = site().title || "Match Room";
+    MR.home.render(app);
   }
 
   function render() {
-    renderPlacards(state.gameId);
+    renderNav(state.gameId);
     const g = game();
     document.title = `${g.title} · ${site().title || "Match Room"}`;
     app.innerHTML = `
@@ -308,9 +326,13 @@
   const togglePlay = () => (state.playing ? (stop(), updateRoom(false)) : play());
 
   // ---------------------------------------------------------------- input
-  placards.addEventListener("click", (ev) => {
-    const b = ev.target.closest("[data-game]");
-    if (b) go({ gameId: b.dataset.game });
+  gameSelect.addEventListener("change", () => { go({ gameId: gameSelect.value || null }); window.scrollTo({ top: 0 }); });
+
+  document.addEventListener("click", (ev) => {
+    if (!ev.target.closest("[data-home]")) return;
+    ev.preventDefault();
+    go({ gameId: null });
+    window.scrollTo({ top: 0 });
   });
 
   app.addEventListener("click", (ev) => {
@@ -379,6 +401,7 @@
   }
   const s = site();
   if (s.title) document.querySelector(".wordmark").textContent = s.title;
+  MR.home.bind(app);
   if (s.subtitle) document.querySelector(".masthead__sub").textContent = s.subtitle;
   window.addEventListener("hashchange", () => { const h = readHash(); state.cursor = 0; go(h); });
   go(readHash());

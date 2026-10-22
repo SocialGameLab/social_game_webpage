@@ -23,13 +23,19 @@ the contract for keeping the structure consistent as it grows.
 | Change | Edit | Not |
 |---|---|---|
 | Rules copy, taglines, "watch for" notes | `content/games/<id>.yaml` | JS strings |
-| Site title, placard order, source-repo link | `content/site.yaml` | `index.html` |
+| Site title, home-page copy, game order, source-repo link | `content/site.yaml` | `index.html` / `home.js` |
 | How one game's events, seats and board look | `site/games/<id>/view.js` + `view.css` | `app.js` / `ui.js` |
 | Something every game needs | `site/assets/js/ui.js` (a helper) or `app.js` (page behavior) | copy-paste across views |
 | Colors | tokens in `site/assets/css/theme.css`, light **and** both dark blocks | hex values in game CSS |
 | A game that `runners.play` can't drive | a new entry in `ENGINES` (`tools/build_data.py`) and `_command` (`tools/record_runs.py`) | `if game_id == ...` branches |
 
-The core (`core.js`, `ui.js`, `app.js`) must stay game-agnostic: no game ids,
+Navigation must scale with the catalog. The masthead holds one grouped game
+menu, never a tab per game. The home gallery is the place to browse, and it
+gains search and kind filters at 7 or more games. Don't add per-game UI to
+the masthead or the home page; a game's card comes from the `title`, `kind`,
+`players` and `tagline` in its content file.
+
+The core (`core.js`, `ui.js`, `home.js`, `app.js`) must stay game-agnostic: no game ids,
 role names or event names specific to one game. If a view needs something the
 core doesn't offer, add an optional hook to `MatchRoom.defineGame`, document
 it in the hook list in `core.js` and the README table, and give it a default
@@ -68,8 +74,8 @@ same change so new games start from the current pattern.
   should match before and after for every game, run, lens and position.
   Compare them headlessly (for example with jsdom) rather than by eye.
 - `node --check` every JS file you edited.
-- The old demo still lives at `../social_game_env/demo/` until the owner
-  confirms this site works. Don't delete it.
+- `python3 tools/check_site.py` must pass. CI runs it before every deploy and
+  will block a game that is missing its content, view or data file.
 
 ## Style
 

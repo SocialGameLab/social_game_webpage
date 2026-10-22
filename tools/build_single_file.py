@@ -42,7 +42,7 @@ def main() -> None:
     css += [f"games/{g}/view.css" for g in game_ids]
     styles = "<style>\n" + "\n".join((SITE / p).read_text(encoding="utf-8") for p in css) + "\n</style>"
 
-    scripts = ["assets/js/core.js", "assets/js/ui.js", "data/manifest.js"]
+    scripts = ["assets/js/core.js", "assets/js/ui.js", "assets/js/home.js", "data/manifest.js"]
     scripts += [p for g in game_ids for p in (f"games/{g}/view.js", f"data/{g}.js")]
     scripts += ["assets/js/app.js"]
     inline_js = "\n".join(_script((SITE / p).read_text(encoding="utf-8")) for p in scripts)

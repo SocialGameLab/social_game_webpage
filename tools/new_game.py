@@ -3,7 +3,7 @@
     python3 tools/new_game.py werewolf "Werewolf"
 
 Creates content/games/<id>.yaml and site/games/<id>/view.{js,css}, and adds
-the id to the placard list in content/site.yaml. Existing files are never
+the id to the game list in content/site.yaml. Existing files are never
 overwritten.
 """
 

@@ -1,4 +1,5 @@
-# Site-wide settings. tools/build_data.py copies these into site/data/manifest.js.
+# Site-wide settings and home-page copy. tools/build_data.py copies these into
+# site/data/manifest.js. `backticks` render as code.
 
 title: Match Room
 subtitle: social-game-env · recorded LLM-agent games
@@ -10,8 +11,33 @@ description: Rules and recorded LLM-agent matches from social-game-env.
 source_repo: ""
 source_branch: main
 
-# Placard order in the masthead. Each id needs content/games/<id>.yaml and
-# site/games/<id>/view.js.
+home:
+  headline: Watch language models play social games.
+  lead: >-
+    social-game-env is an environment where LLM agents sit at the same table
+    and play games of hidden roles, negotiation, team communication and
+    deduction. Each game is a declarative spec, and every move, message and
+    private hint is logged. This site explains the rules of each game and
+    replays real recorded matches.
+  steps:
+    - title: Learn the rules
+      text: >-
+        "How to play" summarises setup, rounds and win conditions, and shows the
+        exact first prompt an agent received.
+    - title: Replay a match
+      text: >-
+        "Watch the match" steps through a recorded game event by event, with the
+        board state alongside. Use the arrow keys, or press Space to play.
+    - title: Switch the lens
+      text: >-
+        Watch through one player's eyes. Anything that player could not see,
+        such as private roles, whispers or a spymaster's key, is blacked out.
+  note: >-
+    Each recording is one match with one model and one seed. It shows how the
+    agents behave, but it is not a benchmark score.
+
+# Order of games on the home page and in the game menu. Each id needs
+# content/games/<id>.yaml and site/games/<id>/view.js.
 games:
   - avalon
   - codenames

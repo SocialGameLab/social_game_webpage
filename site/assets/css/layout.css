@@ -1,7 +1,7 @@
 /* Page frame: masthead, game heading, "How to play" columns. */
 
 /* ------------------------------------------------------------------ */
-/* Masthead and game placards                                         */
+/* Masthead and game menu                                             */
 /* ------------------------------------------------------------------ */
 .masthead {
   display: flex;
@@ -17,7 +17,7 @@
   z-index: 10;
 }
 
-.masthead__brand { display: flex; flex-direction: column; line-height: 1.1; flex: none; }
+.masthead__brand { display: flex; flex-direction: column; line-height: 1.1; flex: none; color: inherit; text-decoration: none; }
 
 .wordmark {
   font-family: var(--font-display);
@@ -29,24 +29,35 @@
 
 .masthead__sub { font-size: 12px; opacity: 0.8; }
 
-.placards { display: flex; gap: 6px; overflow-x: auto; flex: 1; scrollbar-width: none; }
+/* One menu instead of a tab per game, so the masthead does not grow with the catalog. */
+.game-nav { display: flex; align-items: center; gap: 8px; margin-left: auto; min-width: 0; }
 
-.placard {
-  flex: none;
+.nav-link {
+  color: var(--baize-ink);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.nav-link:hover { border-color: color-mix(in srgb, var(--baize-ink) 35%, transparent); }
+
+.nav-link[aria-current="page"] { background: var(--baize-ink); color: var(--baize); }
+
+.game-select {
+  font: inherit;
+  font-size: 14px;
+  min-width: 0;
+  max-width: 260px;
+  padding: 6px 10px;
+  border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--baize-ink) 35%, transparent);
   background: transparent;
   color: var(--baize-ink);
-  border-radius: 999px;
-  padding: 6px 14px;
-  font-size: 14px;
-  display: flex;
-  gap: 8px;
-  align-items: baseline;
 }
 
-.placard__kind { font-size: 11px; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.06em; }
-
-.placard[aria-current="true"] { background: var(--baize-ink); color: var(--baize); }
+.game-select option, .game-select optgroup { color: var(--ink); background: var(--surface); }
 
 .theme-toggle {
   flex: none;
@@ -183,7 +194,8 @@ main {
 
 @media (max-width: 760px) {
   .masthead { flex-wrap: wrap; gap: 10px; }
-  .placards { order: 3; flex-basis: 100%; }
+  .game-nav { order: 3; flex-basis: 100%; margin-left: 0; }
+  .game-select { flex: 1; max-width: none; }
   .theme-toggle { margin-left: auto; }
   .game-head { grid-template-columns: 1fr; }
   .rules { grid-template-columns: 1fr; }

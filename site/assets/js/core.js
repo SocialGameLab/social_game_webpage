@@ -1,7 +1,7 @@
 /* Match Room core: the global namespace, string helpers, the game registry and
  * the loader. Plain scripts, no modules, so the page also opens from file://.
  *
- * Load order (see index.html): core.js → ui.js → data/manifest.js → app.js.
+ * Load order (see index.html): core.js → ui.js → home.js → data/manifest.js → app.js.
  * Each game then arrives on demand as games/<id>/view.{css,js} + data/<id>.js. */
 (function () {
   "use strict";
@@ -30,7 +30,7 @@
 
   // ---------------------------------------------------------------- registry
   // Three things arrive per game, each through its own call:
-  //   setManifest(...)       data/manifest.js  site settings + placard list
+  //   setManifest(...)       data/manifest.js  site settings, home copy, one card per game
   //   addData({...})         data/<id>.js      copy + recorded runs (generated)
   //   defineGame(id, view)   games/<id>/view.js how to draw that game's events
   MR.manifest = null;

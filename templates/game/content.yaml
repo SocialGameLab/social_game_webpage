@@ -4,7 +4,7 @@
 # Every list item is one short sentence. `backticks` render as code.
 id: __ID__
 title: __TITLE__
-kind: Game category            # small caps label on the placard, e.g. "Negotiation"
+kind: Game category            # groups the game menu and the home filter, e.g. "Negotiation"
 players: N players · teams     # eyebrow line above the title
 tagline: >-
   One or two sentences a newcomer can read in five seconds.

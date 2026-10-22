@@ -12,15 +12,19 @@
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/layout.css">
   <link rel="stylesheet" href="assets/css/room.css">
+  <link rel="stylesheet" href="assets/css/home.css">
   <!-- Each game's view.css is added on demand by MatchRoom.loadGame. -->
 </head>
 <body>
   <header class="masthead">
-    <div class="masthead__brand">
+    <a class="masthead__brand" href="#" data-home>
       <span class="wordmark">Match Room</span>
       <span class="masthead__sub">social-game-env · recorded LLM-agent games</span>
-    </div>
-    <nav class="placards" id="placards" aria-label="Games"></nav>
+    </a>
+    <nav class="game-nav" aria-label="Games">
+      <a class="nav-link" href="#" data-home>Home</a>
+      <select id="game-select" class="game-select" aria-label="Go to a game"></select>
+    </nav>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme">◐</button>
   </header>
 
@@ -30,6 +34,7 @@
 
   <script src="assets/js/core.js"></script>
   <script src="assets/js/ui.js"></script>
+  <script src="assets/js/home.js"></script>
   <script src="data/manifest.js"></script>
   <!-- Each game's view.js and data/<id>.js are added on demand by MatchRoom.loadGame. -->
   <script src="assets/js/app.js"></script>

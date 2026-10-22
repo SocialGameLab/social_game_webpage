@@ -12,7 +12,7 @@ For every game listed in ``content/site.yaml`` it reads
 each run's ``path``, slims the event log, and writes:
 
 * ``site/data/<id>.js``     the game's copy and runs, as ``MatchRoom.addData({...})``
-* ``site/data/manifest.js`` site settings and the placard list
+* ``site/data/manifest.js`` site settings, home-page copy, and one card per game
 
 Both are script files, not JSON, so the page also works from ``file://``.
 """
@@ -233,10 +233,13 @@ def main() -> None:
 
     site = yaml.safe_load((CONTENT / "site.yaml").read_text())
     DATA.mkdir(parents=True, exist_ok=True)
-    placards = []
+    cards = []
     for gid in site["games"]:
         game = yaml.safe_load((CONTENT / "games" / f"{gid}.yaml").read_text())
-        placards.append({"id": gid, "title": game["title"], "kind": game["kind"]})
+        marker = ENGINES[game.get("engine", "generic")][0](game)
+        finished = sum(_latest_run(ROOT / r["path"], marker) is not None for r in game.get("runs", []))
+        # Enough for the home-page card and the game menu, without loading the game.
+        cards.append({k: game.get(k) for k in ("id", "title", "kind", "players", "tagline")} | {"runs": finished})
         if args.games and gid not in args.games:
             continue
         print(f"{gid}:")
@@ -247,7 +250,7 @@ def main() -> None:
         _write_js(DATA / f"{gid}.js", "MatchRoom.addData", {**shipped, "runs": runs})
 
     site_meta = {k: v for k, v in site.items() if k != "games"}
-    _write_js(DATA / "manifest.js", "MatchRoom.setManifest", {"site": site_meta, "games": placards})
+    _write_js(DATA / "manifest.js", "MatchRoom.setManifest", {"site": site_meta, "games": cards})
 
 
 if __name__ == "__main__":

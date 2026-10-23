@@ -143,8 +143,9 @@ private.
 
 ## Current recordings
 
-All runs used `azure/o_series/gpt-6-luna` on 2026-10-19, with no
-random-action fallbacks.
+All runs used `azure/o_series/gpt-6-luna`, with no random-action fallbacks.
+The first six were recorded on 2026-10-19, the last four on 2026-10-23. Each
+bundle's `meta.json` in social-game-env records the model, time and commit.
 
 | Game | Seed | Result |
 |---|---|---|
@@ -154,6 +155,10 @@ random-action fallbacks.
 | Jubensha QA 00023 魔幻酒吧 | 0 | 39% answer accuracy |
 | Jubensha QA 00046 殊途 | 0 | 37% |
 | Jubensha QA 00008 死岛 | 0 | 19% |
+| Werewolf, 7 players | 42 | Village wins: both wolves lynched on days 1 and 2 |
+| Secret Hitler, 5 players | 42 | Liberals win 5–5 after an execution, a veto and two chaos policies |
+| Spyfall, 5 players | 42 | P3 wins; the Spy named the location in all 5 rounds |
+| Coup, 5 players | 42 | P1 is the last one standing |
 
 ### Known caveats shown on the page
 

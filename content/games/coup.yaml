@@ -1,0 +1,37 @@
+# Coup: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: coup
+title: Coup
+kind: Bluffing
+players: 5 players · last one standing
+tagline: >-
+  Claim any character you like to take its action; get caught lying and
+  you lose a card.
+setup:
+  - Each player gets two hidden influence cards and two coins.
+  - The court deck holds three each of Duke, Assassin, Captain,
+    Ambassador and Contessa.
+round:
+  - On your turn take one action. Income and Coup need no claim; Tax,
+    Steal, Assassinate and Exchange claim a character.
+  - Any opponent may challenge a claim. The loser of a challenge gives
+    up an influence card.
+  - Some actions can be blocked by claiming a character, and blocks can
+    be challenged too.
+  - Coup costs seven coins and cannot be stopped. At ten coins it is the
+    only legal action.
+win:
+  - A player with no living influence is out.
+  - The last player with influence left wins.
+agents:
+  - Each turn the agent gets a text prompt with its hidden cards, coins,
+    the public state and the legal actions.
+  - Actions, challenges and blocks come back as one JSON action; there
+    is no free chat.
+watch_for:
+  - Four bluffs are caught by challenges; P0 is caught claiming Duke
+    twice and is out.
+  - Nobody launches a Coup or an assassination. Every elimination comes
+    from losing a challenge.
+runs:
+  - id: coup

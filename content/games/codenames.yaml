@@ -7,10 +7,6 @@ players: 5 players · RED vs BLUE
 tagline: >-
   Two spymasters share a secret key to a 25-word board and must steer
   their teammates with one-word clues.
-config: configs/codenames_5p.yaml
-spec: games/codenames/codenames.yaml
-rules_doc: doc/games/codenames_rules.md
-engine: generic
 setup:
   - Seats split into RED and BLUE. Each team has one Spymaster and at
     least one Field Operative.
@@ -39,4 +35,3 @@ watch_for:
     board with and without the key.
 runs:
   - id: codenames
-    path: recordings/codenames

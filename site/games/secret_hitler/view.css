@@ -1,0 +1,15 @@
+/* Secret Hitler board: policy tracks and the election tracker. */
+
+.team--LIBERAL { color: var(--good); }
+.team--FASCIST { color: var(--evil); }
+
+.sh-track { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
+
+.sh-slot { height: 30px; border-radius: 4px; border: 1.5px dashed var(--line); }
+
+.sh-slot--lib { background: var(--good); border: 1.5px solid var(--good); }
+.sh-slot--fasc { background: var(--evil); border: 1.5px solid var(--evil); }
+
+.sh-pips { display: flex; gap: 5px; align-items: center; font-size: 13px; color: var(--ink-2); }
+.sh-pip { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid var(--line); }
+.sh-pip--on { background: var(--evil); border-color: var(--evil); }

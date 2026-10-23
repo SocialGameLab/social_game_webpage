@@ -1,0 +1,10 @@
+/* Werewolf board: who is alive, and the Seer's checks. */
+
+.team--VILLAGE { color: var(--good); }
+.team--WOLVES { color: var(--evil); }
+
+.ww-list { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 4px; }
+
+.ww-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px; font-size: 13px; }
+
+.ww-row--dead > span:nth-child(2) { text-decoration: line-through; color: var(--ink-2); }

@@ -1,9 +1,0 @@
-Game start -- avalon, 5 players, seed 42
-
---- Game over ---
-Winner: EVIL
-Final state: {'leader': 4, 'mission_index': 3, 'proposal_attempt': 2, 'rejection_counter': 0, 'good_points': 3, 'evil_points': 1, 'current_team': [1, 2, 4], 'delib_audience': None, 'enforce_good_success': True, 'enable_discussion': True, 'deliberation_rounds': 1, 'has_assassination': True, 'n_players': 5, 'assassination_target': 4, 'assassination_success': True}
-Roles: {0: 'ASSASSIN', 1: 'LOYAL_SERVANT', 2: 'LOYAL_SERVANT', 3: 'MINION', 4: 'MERLIN'}
-Rewards: {0: 1.0, 1: -1.0, 2: -1.0, 3: 1.0, 4: -1.0}
-Total time: 373.3s
-Log: demo/games/avalon/20261019T194801Z_avalon_5p_42

@@ -7,10 +7,6 @@ players: 5 players · 3 good, 2 evil
 tagline: >-
   A loyal majority sends teams on missions while a hidden evil minority
   tries to sabotage them, then hunts for Merlin.
-config: configs/avalon_5p.yaml
-spec: games/avalon/avalon.yaml
-rules_doc: doc/games/avalon_rules.md
-engine: generic
 setup:
   - Each seat secretly gets a role. Good has Merlin and two Loyal Servants;
     evil has the Assassin and a Minion.
@@ -43,4 +39,3 @@ watch_for:
   - The final assassination decides this game.
 runs:
   - id: avalon
-    path: recordings/avalon

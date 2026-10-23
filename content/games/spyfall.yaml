@@ -1,0 +1,38 @@
+# Spyfall: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: spyfall
+title: Spyfall
+kind: Deduction
+players: 5 players · one spy per round
+tagline: >-
+  Everyone but the spy knows the location; they question each other to
+  find the spy without giving the place away.
+setup:
+  - Each of five rounds deals one seat the Spy card and gives everyone
+    else the same secret location.
+  - The Spy sees only the public list of possible locations.
+  - Scores carry over from round to round.
+round:
+  - Before each question, the Spy may reveal themself and guess the
+    location.
+  - The asker picks someone and asks a free-text question; the answerer
+    becomes the next asker.
+  - An asker may instead accuse one player, once per round. Everyone else
+    votes, and only a unanimous vote indicts.
+  - After a fixed number of questions the round ends and the Spy escapes.
+win:
+  - The Spy scores for escaping, for an innocent indicted, or for naming
+    the location.
+  - Everyone else scores when the Spy is indicted or guesses wrong.
+  - After five rounds the highest total wins, and ties share the win.
+agents:
+  - Each turn the agent gets a text prompt with its role, the location
+    if it knows it, the public state and the legal actions.
+  - Questions and answers are free text inside one JSON action.
+watch_for:
+  - The Spy names the location correctly in all five rounds, usually
+    after one or two questions.
+  - The non-spies' answers give the place away ("to get medical care",
+    "looking over the menu"), so read the answers from the Spy's lens.
+runs:
+  - id: spyfall

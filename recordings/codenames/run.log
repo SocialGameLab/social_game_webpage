@@ -1,9 +1,0 @@
-Game start -- codenames, 5 players, seed 42
-
---- Game over ---
-Winner: BLUE
-Final state: {'current_team': 'BLUE', 'red_remaining': 2, 'blue_remaining': 0, 'clue_word': 'Cave', 'clue_count': 1, 'guess_count': 0, 'guess_limit': 2, 'red_operative': 2, 'blue_operative': 3, 'revealed': [3, 5, 6, 13, 22, 21, 12, 11, 16, 1, 2, 10, 23, 7, 19, 9, 17, 20], 'board': ['Violin', 'Harvest', 'Jungle', 'Temple', 'Saddle', 'Garden', 'Rocket', 'Lantern', 'Anchor', 'Mirror', 'Compass', 'Marble', 'Glacier', 'Comet', 'Thunder', 'Apple', 'River', 'Falcon', 'Pirate', 'Engine', 'Cavern', 'Shadow', 'Castle', 'Beacon', 'Needle'], 'n_players': 5}
-Roles: {0: 'BLUE_SPYMASTER', 1: 'RED_OPERATIVE', 2: 'RED_OPERATIVE', 3: 'BLUE_OPERATIVE', 4: 'RED_SPYMASTER'}
-Rewards: {0: 1.0, 1: -1.0, 2: -1.0, 3: 1.0, 4: -1.0}
-Total time: 190.4s
-Log: demo/games/codenames/20261019T194801Z_codenames_5p_42

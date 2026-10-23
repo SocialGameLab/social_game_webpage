@@ -1,15 +1,16 @@
-"""Bundle recorded runs and page copy into the data files the site reads.
+"""Bundle social-game-env's demo runs and page copy into the data files the site reads.
 
-Needs a checkout of social-game-env, whose engine rebuilds each game's first
-prompt from the recorded seed. No model is called. Run it with that repo's
-environment::
+Reads only the exported bundles in social-game-env's ``demo/`` folder (its
+``index.json`` and each run's ``run.json`` and event log); the engine is never
+imported and no model is called. It needs PyYAML, which social-game-env's
+environment provides::
 
     uv run --project ../social_game_env python tools/build_data.py
-    uv run --project ../social_game_env python tools/build_data.py --env /path/to/social_game_env
+    uv run --project ../social_game_env python tools/build_data.py --demo /path/to/social_game_env/demo
 
 For every game listed in ``content/site.yaml`` it reads
-``content/games/<id>.yaml``, picks the newest completed run directory under
-each run's ``path``, slims the event log, and writes:
+``content/games/<id>.yaml``, takes the runs it names (or every exported run)
+from ``demo/<id>/``, slims the event log, and writes:
 
 * ``site/data/<id>.js``     the game's copy and runs, as ``MatchRoom.addData({...})``
 * ``site/data/manifest.js`` site settings, home-page copy, and one card per game
@@ -20,11 +21,8 @@ Both are script files, not JSON, so the page also works from ``file://``.
 from __future__ import annotations
 
 import argparse
-import ast
 import json
-import os
 import sys
-from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -34,50 +32,31 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content"
 DATA = ROOT / "site" / "data"
 
+# The demo/ bundle format this build understands (social-game-env demo/README.md).
+SCHEMA_VERSION = 1
+
 # Events whose payload is already carried elsewhere in the bundle.
 _DROP_FIELDS = {
     "setup": ("knowledge", "roles"),  # moved onto players[]
-    "game_over": ("variables",),  # summary carries the final state
+    "game_over": ("variables",),  # result carries the final state
     "briefing": ("background", "clues"),  # moved onto run.briefing
 }
 
-# Content keys that only the build uses; they are not shipped to the page.
-_BUILD_ONLY = ("engine",)
-
-ENV: Path  # social-game-env checkout, set in main()
+# Facts about a game that come from social-game-env's demo index, not page copy.
+_ENV_FIELDS = ("spec", "config", "rules_doc")
 
 
-def _import_env(env: Path) -> None:
-    """Make social-game-env's ``src`` importable and pull in the engine."""
-    global ENV, build_action_prompt, is_discussion_turn, build_discussion_prompt
-    global GenericEnv, load_game_spec, load_instance, resolve_game_path, resolve_prompt_path
-    ENV = env
-    os.chdir(env)  # the engine resolves spec and prompt paths against the repo root
-    sys.path.insert(0, str(env / "src"))
-    from agents.action_io import build_action_prompt, is_discussion_turn
-    from agents.discussion_prompt import build_discussion_prompt
-    from engine import GenericEnv, load_game_spec, load_instance, resolve_game_path
-    from engine.config import resolve_prompt_path
+def _read_json(path: Path) -> Any:
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _read_jsonl(path: Path) -> list[dict[str, Any]]:
-    return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
-def _latest_run(root: Path, marker: str) -> Path | None:
-    done = sorted(p.parent for p in root.glob(f"*/{marker}"))
-    return done[-1] if done else None
-
-
-def _rewards_from_log(run_root: Path) -> dict[str, float] | None:
-    """`runners play` prints rewards but does not save them; read them back."""
-    log = run_root / "run.log"
-    if not log.exists():
-        return None
-    for line in log.read_text().splitlines():
-        if line.startswith("Rewards: "):
-            return {str(k): v for k, v in ast.literal_eval(line[len("Rewards: "):]).items()}
-    return None
+def _check_version(where: str, version: Any) -> None:
+    if version != SCHEMA_VERSION:
+        sys.exit(f"{where}: demo schema_version {version!r}, this build reads {SCHEMA_VERSION}. Update tools/build_data.py.")
 
 
 def _slim(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -88,133 +67,24 @@ def _slim(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return slim
 
 
-# --------------------------------------------------------------------------- #
-# First prompt, rebuilt offline from the run's seed
-# --------------------------------------------------------------------------- #
-def _render_prompt(env: Any, spec: Any, prompt_path: Path | None) -> dict[str, Any]:
-    env.reset()
-    seat = env.agent_selection
-    obs = env.observe(seat)
-    if prompt_path is not None and is_discussion_turn(obs, spec):
-        text, kind = build_discussion_prompt(obs, prompt_path, spec), "discussion"
-    else:
-        text, kind = build_action_prompt(obs), "action"
-    return {"seat": seat, "phase": obs.phase, "kind": kind, "text": text}
-
-
-# --------------------------------------------------------------------------- #
-# Engines: how a recorded run becomes page data. A game's content file names
-# one with `engine:`; most games use "generic".
-# --------------------------------------------------------------------------- #
-def _generic_marker(game: dict[str, Any]) -> str:
-    return "summary.json"
-
-
-def _generic_extras(game: dict[str, Any], run_root: Path, run_dir: Path, events: list, summary: dict) -> dict[str, Any]:
-    instance = load_instance(ENV / game["config"])
-    spec_path = resolve_game_path(instance)
-    spec = load_game_spec(spec_path)
-    prompt_path = resolve_prompt_path(spec_path, spec, "discussion")
-    return {
-        "result": {
-            "winner": summary.get("winner"),
-            "winners": summary.get("winners", []),
-            "rewards": _rewards_from_log(run_root),
-            "variables": summary.get("variables", {}),
-        },
-        "prompt": _render_prompt(GenericEnv(spec, instance), spec, prompt_path),
-    }
-
-
-def _jubensha_marker(game: dict[str, Any]) -> str:
-    # Jubensha writes summary.json before judging; scores.json comes last.
-    return "scores.json"
-
-
-def _jubensha_extras(game: dict[str, Any], run_root: Path, run_dir: Path, events: list, summary: dict) -> dict[str, Any]:
-    from jubensha_qa.data import load_script
-    from jubensha_qa.runner import SPEC_PATH, GameConfig, build_entities, build_instance
-
-    briefing = next(e for e in events if e.get("event") == "briefing")
-    scores = json.loads((run_dir / "scores.json").read_text())
-
-    script = load_script(ENV / "configs" / "jubensha_qa" / summary["script"])
-    cfg = GameConfig(
-        seed=summary["seed"],
-        group_rounds=summary["group_rounds"],
-        private_turns=summary["private_turns"],
-        reveal_protected=summary["reveal_protected"],
-    )
-    # Read the stored key directly: build_answer_key may write to configs/.
-    entities = build_entities(script, list(script.answer_key))
-    instance = build_instance(script, entities, cfg)
-    spec = load_game_spec(SPEC_PATH)
-    prompt_path = resolve_prompt_path(SPEC_PATH, spec, "discussion")
-
-    return {
-        "briefing": {"background": briefing["background"], "clues": briefing["clues"]},
-        "questions": [e["question"] for e in events if e.get("event") == "question"],
-        "verdict": {
-            "answer_key": scores["answer_key"],
-            "owners": scores["owners"],
-            "grades": scores["grades"],
-            "per_question_accuracy": scores["per_question_accuracy"],
-            "per_agent_accuracy": scores["per_agent_accuracy"],
-            "per_agent_defense": scores["per_agent_defense"],
-            "judge_fallbacks": scores["judge_fallbacks"],
-            "overall_accuracy": summary["overall_accuracy"],
-        },
-        "prompt": _render_prompt(GenericEnv(spec, instance), spec, prompt_path),
-    }
-
-
-Extras = Callable[[dict, Path, Path, list, dict], dict[str, Any]]
-ENGINES: dict[str, tuple[Callable[[dict], str], Extras]] = {
-    "generic": (_generic_marker, _generic_extras),
-    "jubensha_qa": (_jubensha_marker, _jubensha_extras),
-}
-
-
-# --------------------------------------------------------------------------- #
-def _build_run(game: dict[str, Any], run_meta: dict[str, Any]) -> dict[str, Any] | None:
-    marker, extras = ENGINES[game.get("engine", "generic")]
-    run_root = ROOT / run_meta["path"]
-    run_dir = _latest_run(run_root, marker(game))
-    if run_dir is None:
-        print(f"  skip {run_meta['path']}: no completed run yet")
+def _build_run(demo: Path, gid: str, meta: dict[str, Any]) -> dict[str, Any] | None:
+    bundle = demo / gid / meta["id"]
+    if not (bundle / "run.json").is_file():
+        print(f"  skip {meta['id']}: not exported in {bundle}")
         return None
-
-    events = _read_jsonl(run_dir / "game_log.jsonl")
-    summary = json.loads((run_dir / "summary.json").read_text())
-    config = json.loads((run_dir / "config.json").read_text())
-    setup = next(e for e in events if e.get("event") == "setup")
-
-    spec = load_game_spec(ENV / (config.get("game") or game["spec"]))
-    team_of = {
-        name: role.get("team") if isinstance(role, dict) else getattr(role, "team", None)
-        for name, role in spec.roles.items()
-    }
-
-    names = {str(k): v for k, v in summary.get("assignments", {}).items()}
-    players = []
-    for seat_key, role in sorted(setup["roles"].items(), key=lambda kv: int(kv[0])):
-        players.append({
-            "seat": int(seat_key),
-            "name": names.get(seat_key, f"P{seat_key}"),
-            "role": role,
-            "team": team_of.get(role),
-            "knowledge": setup.get("knowledge", {}).get(seat_key, {}),
-        })
-
+    rec = _read_json(bundle / "run.json")
+    _check_version(f"{gid}/{meta['id']}", rec.get("schema_version"))
     return {
-        "id": run_meta["id"],
-        "label": run_meta.get("label"),
-        "note": run_meta.get("note"),
-        "source": str(run_dir.relative_to(ROOT)),
-        "seed": summary.get("seed", config.get("seed")),
-        "players": players,
-        "events": _slim(events),
-        **extras(game, run_root, run_dir, events, summary),
+        "id": meta["id"],
+        "label": meta.get("label"),
+        "note": meta.get("note"),
+        "source": f"demo/{gid}/{meta['id']}",
+        "seed": rec["seed"],
+        "players": rec["players"],
+        "events": _slim(_read_jsonl(bundle / rec["events_file"])),
+        **({"result": rec["result"]} if rec["result"] is not None else {}),
+        **rec["extras"],
+        "prompt": rec["prompt"],
     }
 
 
@@ -226,28 +96,35 @@ def _write_js(path: Path, call: str, payload: Any) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    parser.add_argument("--env", type=Path, default=ROOT.parent / "social_game_env", help="social-game-env checkout (default: sibling directory)")
+    parser.add_argument("--demo", type=Path, default=ROOT.parent / "social_game_env" / "demo", help="social-game-env's demo/ folder (default: sibling checkout)")
     parser.add_argument("games", nargs="*", help="only rebuild these game ids (the manifest is always rewritten)")
     args = parser.parse_args()
-    _import_env(args.env.resolve())
+    demo = args.demo.resolve()
+    if not (demo / "index.json").is_file():
+        sys.exit(f"{demo / 'index.json'} not found. Pass --demo, or export the runs in social-game-env.")
+    index = _read_json(demo / "index.json")
+    _check_version("index.json", index.get("schema_version"))
 
     site = yaml.safe_load((CONTENT / "site.yaml").read_text())
     DATA.mkdir(parents=True, exist_ok=True)
     cards = []
     for gid in site["games"]:
         game = yaml.safe_load((CONTENT / "games" / f"{gid}.yaml").read_text())
-        marker = ENGINES[game.get("engine", "generic")][0](game)
-        finished = sum(_latest_run(ROOT / r["path"], marker) is not None for r in game.get("runs", []))
+        exported = index["games"].get(gid, {})
+        # Content lists runs to set their order, labels and notes; without a list, show every exported run.
+        metas = game.pop("runs", None) or [{"id": r["id"]} for r in exported.get("runs", [])]
+        recorded = {r["id"] for r in exported.get("runs", [])}
         # Enough for the home-page card and the game menu, without loading the game.
-        cards.append({k: game.get(k) for k in ("id", "title", "kind", "players", "tagline")} | {"runs": finished})
+        cards.append({k: game.get(k) for k in ("id", "title", "kind", "players", "tagline")} | {"runs": sum(m["id"] in recorded for m in metas)})
         if args.games and gid not in args.games:
             continue
         print(f"{gid}:")
-        runs = [r for r in (_build_run(game, meta) for meta in game.pop("runs", [])) if r is not None]
+        if not exported:
+            print(f"  no demo/{gid} in social-game-env yet")
+        runs = [r for r in (_build_run(demo, gid, m) for m in metas) if r is not None]
         for r in runs:
             print(f"  {r['id']}: {len(r['events'])} events from {r['source']}")
-        shipped = {k: v for k, v in game.items() if k not in _BUILD_ONLY}
-        _write_js(DATA / f"{gid}.js", "MatchRoom.addData", {**shipped, "runs": runs})
+        _write_js(DATA / f"{gid}.js", "MatchRoom.addData", {**game, **{k: exported.get(k) for k in _ENV_FIELDS}, "runs": runs})
 
     site_meta = {k: v for k, v in site.items() if k != "games"}
     _write_js(DATA / "manifest.js", "MatchRoom.setManifest", {"site": site_meta, "games": cards})

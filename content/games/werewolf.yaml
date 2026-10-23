@@ -1,0 +1,38 @@
+# Werewolf: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: werewolf
+title: Werewolf
+kind: Hidden roles
+players: 7 players · 2 wolves, 1 seer, 4 villagers
+tagline: >-
+  Wolves pick off the village by night while everyone argues by day over
+  who to lynch.
+setup:
+  - Each seat secretly gets a role. The village has a Seer and four
+    Villagers; the wolves are two Werewolves.
+  - The wolves learn who the other wolf is. Everyone else knows only
+    their own role.
+round:
+  - At night the wolves secretly pick a living villager. A tie means no
+    kill.
+  - The Seer secretly checks one player and learns whether they are a
+    wolf.
+  - At dawn the night's victim, if any, is announced.
+  - By day every living player speaks once, in turn.
+  - Everyone votes at once. A unique plurality is lynched; a tie lynches
+    nobody.
+win:
+  - The village wins once no wolves are left alive.
+  - The wolves win once they are at least as many as the villagers.
+agents:
+  - Each turn the agent gets a text prompt with its role, private
+    knowledge, the public state, recent events and the legal actions.
+  - Night picks and votes come back as one JSON action.
+  - Day speech uses a separate discussion prompt and returns free text.
+watch_for:
+  - The Seer (P3) finds a wolf on each of the two nights. Switch to the
+    Seer's lens to see the checks the village never sees directly.
+  - The village lynches both wolves, P0 then P5, on the first two days,
+    even after the wolves kill the Seer.
+runs:
+  - id: werewolf

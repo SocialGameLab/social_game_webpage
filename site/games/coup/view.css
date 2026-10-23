@@ -1,0 +1,15 @@
+/* Coup board: each player's two influence cards and what they have claimed. */
+
+.cp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+
+.cp-row { display: grid; gap: 4px; }
+
+.cp-row--out { opacity: 0.55; }
+
+.cp-who { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+
+.cp-cards { display: flex; gap: 6px; }
+
+.cp-card { flex: 1; border: 1.5px dashed var(--line); border-radius: 4px; padding: 3px 6px; font-size: 12px; text-align: center; color: var(--ink-2); }
+
+.cp-card--lost { border: 1.5px solid var(--evil); color: var(--evil); font-weight: 700; }

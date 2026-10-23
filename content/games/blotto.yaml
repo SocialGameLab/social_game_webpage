@@ -1,0 +1,31 @@
+# Colonel Blotto: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: blotto
+title: Colonel Blotto
+kind: Matrix games
+players: 2 players · one shot
+tagline: >-
+  Two commanders secretly spread 10 coins over 3 fields; whoever puts more
+  coins on a field takes it.
+view: rounds
+setup:
+  - Each commander has 10 coins to place on 3 fields, each worth 1 point.
+round:
+  - Both commanders secretly submit how many coins go on each field, as
+    whole numbers that add up to exactly 10.
+  - Each field goes to whoever placed strictly more coins there, and a tie
+    splits the field's point evenly.
+win:
+  - The game is a single move.
+  - Each score is the points you won minus the points your opponent won, so
+    the two scores always sum to zero.
+agents:
+  - The prompt gives the rules, the coin budget, the fields and their
+    values, with no history and no talk.
+  - The agent returns one JSON `allocate` action with a list of coins per
+    field, such as `[4, 3, 3]`.
+watch_for:
+  - Both commanders pick the same split, 4, 3 and 3 coins, so every field
+    ties and the match ends 0 to 0.
+runs:
+  - id: blotto

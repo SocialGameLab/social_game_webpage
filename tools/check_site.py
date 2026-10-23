@@ -3,7 +3,8 @@
     python3 tools/check_site.py
 
 Standard library only, so CI can run it without social-game-env. Checks that
-every game in the manifest has its content file, view.js, view.css and data
+every game in the manifest has its content file, view.js and view.css (its
+own, its shared kind's under site/kinds/, or the game named by view_from), and data
 file; that each data file matches its game id; that every JS file parses
 (when node is installed); and that the manifest lists every game in
 content/site.yaml. When social-game-env is checked out next to this repo, it
@@ -43,13 +44,21 @@ def main() -> int:
     if listed != ids:
         errors.append(f"manifest games {ids} differ from content/site.yaml {listed}: run tools/build_data.py")
 
-    for gid in ids:
-        for rel in (f"content/games/{gid}.yaml", f"site/games/{gid}/view.js", f"site/games/{gid}/view.css", f"site/data/{gid}.js"):
+    for card in manifest["games"]:
+        gid = card["id"]
+        # A game draws with its own view, a shared kind, or another game's view.
+        if card.get("view"):
+            vdir, call = f"site/kinds/{card['view']}", f'MatchRoom.defineKind("{card["view"]}"'
+        elif card.get("view_from"):
+            vdir, call = f"site/games/{card['view_from']}", f'MatchRoom.defineGame("{card["view_from"]}"'
+        else:
+            vdir, call = f"site/games/{gid}", f'MatchRoom.defineGame("{gid}"'
+        for rel in (f"content/games/{gid}.yaml", f"{vdir}/view.js", f"{vdir}/view.css", f"site/data/{gid}.js"):
             if not (ROOT / rel).exists():
                 errors.append(f"{gid}: missing {rel}")
-        view = SITE / "games" / gid / "view.js"
-        if view.exists() and f'MatchRoom.defineGame("{gid}"' not in view.read_text(encoding="utf-8"):
-            errors.append(f"{gid}: view.js does not call MatchRoom.defineGame(\"{gid}\", ...)")
+        view = ROOT / vdir / "view.js"
+        if view.exists() and call not in view.read_text(encoding="utf-8"):
+            errors.append(f"{gid}: {vdir}/view.js does not call {call}, ...)")
         data = SITE / "data" / f"{gid}.js"
         if data.exists():
             game = _payload(data, "MatchRoom.addData")

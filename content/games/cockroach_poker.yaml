@@ -1,0 +1,45 @@
+# Cockroach Poker: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: cockroach_poker
+title: Cockroach Poker
+kind: Bluffing
+players: 4 players · last one standing
+tagline: >-
+  Slide a face-down bug to a rival and say what it is; they must call your
+  bluff or pass the card on with a claim of their own.
+view: table
+setup:
+  - The deck has eight copies each of eight creatures, from Bat and Fly to
+    Scorpion and StinkBug.
+  - Each player is dealt 16 hidden cards and starts with an empty face-up
+    pile, and a random player goes first.
+round:
+  - The holder passes one card face down to a living opponent and names a
+    creature, truthfully or not.
+  - The recipient either says whether they believe the claim, or peeks at
+    the card and passes it on with a new claim.
+  - A card can only be passed to a player who has not yet seen it, and not
+    straight back to the player who just passed it.
+  - When someone calls, the card goes face up to the passer if the call was
+    right and to the caller if it was wrong.
+  - Whoever takes the card starts the next offer.
+win:
+  - A player is out with four of one creature face up, or with an empty hand
+    when they must offer.
+  - The last player left wins.
+agents:
+  - Each turn the agent gets a text prompt with its hidden hand, every
+    face-up pile, the current claim, any card it peeked at, and the legal
+    actions.
+  - 'Moves come back as one JSON action, for example
+    `{"action_id": "call_claim", "payload": {"believe": true}}`.'
+  - There is no free chat; the only talk is the creature named with each
+    card.
+watch_for:
+  - Most claims are true, yet callers keep answering "not believe" and lose,
+    which is how P1 goes out with four Bats, P2 with four Rats and P3 with
+    four StinkBugs.
+  - P0 survives as the last player despite taking seven face-up cards,
+    because no single creature reaches four.
+runs:
+  - id: cockroach_poker

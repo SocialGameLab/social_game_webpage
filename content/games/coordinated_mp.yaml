@@ -1,0 +1,32 @@
+# Coordinated Matching Pennies: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: coordinated_mp
+title: Coordinated Matching Pennies
+kind: Matrix games
+players: 2 players · one shot
+tagline: >-
+  One round of matching pennies with a public coin flip in the middle that
+  players could use as a shared cue.
+view: rounds
+view_options: {"round_events": ["game_end"]}
+setup:
+  - P0 wants the two choices to match and P1 wants them to differ.
+  - A match scores +1 for P0 and −1 for P1, and a mismatch the reverse.
+  - The public signal changes no payoffs.
+round:
+  - P0 secretly picks heads or tails.
+  - A random public signal, `T` or `B`, is shown to both players.
+  - P1 picks heads or tails, seeing the signal but not P0's choice.
+  - Both choices are revealed and scored.
+win:
+  - The game is a single round, and whoever scores +1 wins.
+agents:
+  - The agent gets a text prompt with the game description, the public
+    events so far (including the signal for P1) and the legal actions.
+  - There is no talk phase; the choice comes back as one JSON `choose`
+    action with `heads` or `tails`.
+watch_for:
+  - A single move with no talk, as P0 picks heads, the public signal is `T`,
+    and P1 also picks heads, so the choices match and P0 wins 1 to −1.
+runs:
+  - id: coordinated_mp

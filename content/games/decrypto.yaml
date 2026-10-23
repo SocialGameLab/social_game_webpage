@@ -1,0 +1,43 @@
+# Decrypto: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: decrypto
+title: Decrypto
+kind: Word games
+players: 4 players · WHITE vs BLACK
+tagline: >-
+  Each team sends a secret code to a teammate through clues about its
+  own keywords, while the other team listens in and tries to crack it.
+view: clues
+view_options: {"roles_public": true}
+setup:
+  - Seats split into WHITE and BLACK, two players each.
+  - Each team gets four secret keywords, numbered 1 to 4, that only its
+    own players see.
+  - Codes are three different digits from 1 to 4, such as 3-1-4.
+round:
+  - The active team's encryptor privately draws a code and gives three
+    public clues of up to three words each.
+  - The opposing team's encryptor guesses the code first, to intercept
+    it.
+  - The encryptor's teammate then guesses the code.
+  - The code is revealed, and a right intercept or a wrong home guess
+    earns a token.
+  - Teams take turns, and the encryptor rotates within each team.
+win:
+  - A team that makes two intercepts wins.
+  - A team that misreads its own code twice loses.
+agents:
+  - Each agent sees its own team's keywords as a private message, and
+    only the encryptor sees the live code.
+  - Clues are free text, and code guesses are three digits from a fixed
+    list.
+  - Every move comes back as one JSON action.
+watch_for:
+  - P0 or P2's lens shows Black's keywords Quartz, Umbrella, Rocket, Hammer
+    and P1 or P3's shows White's Pyramid, Yellow, Fossil, Ladder; the
+    encryptor's lens shows that round's code.
+  - Black won on a second interception in round 5 when P1 reused `lemon`,
+    `T-rex`, `Giza` in a new order, and both decoders slipped once by re-
+    entering an old code (P0 3-1-2 in round 4, P3 3-2-4 in round 5).
+runs:
+  - id: decrypto

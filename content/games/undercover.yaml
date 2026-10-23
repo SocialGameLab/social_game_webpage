@@ -1,0 +1,42 @@
+# Undercover: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: undercover
+title: Undercover
+kind: Word games
+players: 5 players · one undercover
+tagline: >-
+  Four civilians share a secret word and one undercover holds a related
+  one; describe it in a word and vote out the odd one.
+view: clues
+setup:
+  - One seat is the Undercover and the other four are Civilians.
+  - A random pair of related words is drawn, such as Coffee and Tea.
+  - Each Civilian is privately given the first word and the Undercover
+    the second.
+round:
+  - Each living player says one word that hints at their own word without
+    saying it.
+  - Each living player then speaks once to argue who the Undercover is.
+  - Everyone votes in secret for another living player, and the top vote
+    is eliminated.
+  - A tied vote gets one runoff among the tied players, and a second tie
+    means nobody is eliminated.
+win:
+  - The Civilians win as soon as the Undercover is voted out.
+  - The Undercover wins if a Civilian is voted out when only two players
+    remain.
+agents:
+  - The agent sees its own word and its role, but never anyone else's
+    word.
+  - Hints are one free-text word, discussion is free text, and votes name
+    a seat.
+  - Every move comes back as one JSON action.
+watch_for:
+  - Civilians had Guitar and P3 had Violin (no seat's lens shows the words,
+    only the final reveal); P0 and P2 doubted P4's `amplifier`, and Civilian
+    P4 was voted out in round 1.
+  - In round 2 everyone pointed at P3's broad `strings` and `acoustic`, and
+    P3's defence that `frets` cannot fit a violin all but named the
+    Undercover word; P3 was voted out and Civilians won.
+runs:
+  - id: undercover

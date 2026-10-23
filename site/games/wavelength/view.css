@@ -1,0 +1,11 @@
+/* Wavelength board: the 0–10 dial with the target and the team's guess. */
+
+.wl-score { font-size: 15px; }
+
+.wl-scale { display: grid; grid-template-columns: repeat(11, 1fr); gap: 3px; }
+
+.wl-stop { text-align: center; font-size: 11px; padding: 6px 0; border-radius: 3px; border: 1px solid var(--line); color: var(--ink-2); }
+
+.wl-stop--target { border-color: var(--brass); color: var(--brass); font-weight: 700; }
+
+.wl-stop--dial { background: var(--baize); border-color: var(--baize); color: var(--baize-ink); }

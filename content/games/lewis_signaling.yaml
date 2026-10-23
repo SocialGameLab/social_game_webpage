@@ -1,0 +1,31 @@
+# Lewis Signaling Game: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: lewis_signaling
+title: Lewis Signaling Game
+kind: Signaling
+players: 2 players · sender and receiver
+tagline: >-
+  A sender sees a hidden state and sends a bare number; the receiver must
+  guess the state from that number alone.
+view: race
+setup:
+  - One seat is the Sender and the other is the Receiver.
+  - A world state of 0, 1 or 2 is drawn at random and shown only to the
+    Sender.
+round:
+  - The Sender sends a message of 0, 1 or 2, which has no built-in meaning.
+  - The Receiver sees the message and picks an action of 0, 1 or 2.
+win:
+  - Both players score 1 if the action matches the world state, and 0
+    otherwise.
+agents:
+  - The Sender's prompt shows the world state, and the Receiver's prompt
+    shows only the message.
+  - 'Each move comes back as one JSON action, for example
+    `{"action_id": "send", "payload": {"message": 0}}`.'
+  - There is no chat; the message is the only channel.
+watch_for:
+  - 'An uneventful one-shot: the hidden world state is 0, the Sender sends
+    0, the Receiver picks 0, and both score 1.'
+runs:
+  - id: lewis_signaling

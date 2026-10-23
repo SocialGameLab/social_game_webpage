@@ -1,0 +1,44 @@
+# Love Letter: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: love_letter
+title: Love Letter
+kind: Card games
+players: 4 players · first to 4 favor
+tagline: >-
+  Hold one card, draw one, play one. Knock rivals out of the round or hold
+  the highest card when the deck runs dry.
+view: table
+view_options: {"round_resets": true}
+setup:
+  - Each round shuffles the 21-card Second Edition deck, sets one card aside
+    face down and deals each player one hidden card.
+  - Cards run from Spy (0) and Guard (1) up to King (7), Countess (8) and
+    Princess (9), and each has its own effect.
+round:
+  - On your turn you lose any Handmaid protection, draw a card and play one
+    of your two cards for its effect.
+  - A Guard guesses a rival's card to knock them out, a Priest peeks at a
+    hand, a Baron compares hands and the lower one is out.
+  - A Prince makes a player discard and redraw, a King swaps hands, and
+    anyone who discards the Princess is out.
+  - The round ends when one player is left or the deck is empty, and the
+    highest surviving hand wins, with discard totals breaking ties.
+win:
+  - Each round winner gains one favor, and the only surviving player who
+    played or discarded a Spy gains one more.
+  - The match ends as soon as a player reaches 4 favor.
+agents:
+  - Each turn the agent gets a text prompt with its hidden hand, the public
+    discards, scores and protection, and the legal actions.
+  - 'A move comes back as one JSON action, for example
+    `{"action_id": "play_card", "payload": {"slot": "FIRST", "target": 1,
+    "guess": "Princess"}}`.'
+  - There is no free chat; the only information comes from cards played.
+watch_for:
+  - 'In round 1 pick P2''s lens: P2 holds the Princess, swaps it to P3 with
+    the King, then plays a Prince on P3 to force the Princess discard and
+    win the round.'
+  - P2 won rounds 1, 2 and 8 and reached 4 favor after eight rounds, while
+    P0 (rounds 5 and 6) and P3 (rounds 3 and 7) each won two.
+runs:
+  - id: love_letter

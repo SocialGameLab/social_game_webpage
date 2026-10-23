@@ -1,0 +1,38 @@
+# Oshi Zumo: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: oshi_zumo
+title: Oshi Zumo
+kind: Dice games
+players: 2 players · push the wrestler off
+tagline: >-
+  Two players secretly bid coins each round to shove a wrestler toward the
+  other's edge; every coin you bid is gone for good.
+view: race
+setup:
+  - The wrestler starts in the middle of the ring, three steps from each
+    edge.
+  - Each player starts with 10 coins, and there are at most 20 rounds.
+round:
+  - Both players bid at the same time, anywhere from 0 to the coins they
+    have left.
+  - Both bids are spent, win or lose.
+  - The higher bid pushes the wrestler one step toward the opponent's edge,
+    and a tie leaves it where it is.
+win:
+  - Pushing the wrestler past the opponent's edge wins at once.
+  - After 20 rounds the player with the wrestler on the opponent's side
+    wins, and a wrestler in the middle is a draw.
+agents:
+  - Each round the agent gets a text prompt with both coin stacks, the
+    wrestler's position, past bids and the legal actions.
+  - 'The bid comes back as one JSON action, for example
+    `{"action_id": "bid", "payload": {"amount": 3}}`.'
+  - There is no chat, and neither player sees the other's bid until both
+    are in.
+watch_for:
+  - Both players bid small and mostly match each other, the wrestler never
+    moves more than one step, and both run out of coins by round 12.
+  - Rounds 13 to 20 are all 0 to 0 bids, so the match ends at position 0 as
+    a draw with zero reward for both.
+runs:
+  - id: oshi_zumo

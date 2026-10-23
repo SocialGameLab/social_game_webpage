@@ -1,0 +1,40 @@
+# Taboo: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: taboo
+title: Taboo
+kind: Word games
+players: 4 players · one shared team
+tagline: >-
+  One player describes a secret word without saying it or any of its
+  forbidden words, and the rest of the team tries to guess it.
+view: clues
+view_options: {"roles_public": true}
+setup:
+  - All four players are on one team and share one score.
+  - The game plays ten cards, each with a target word and a list of
+    taboo words.
+  - The clue-giver rotates each card, and only the giver sees the target
+    and its taboo words.
+round:
+  - The giver writes a free-text clue.
+  - A clue that contains the target or a taboo word, matched by word and
+    stem, loses the card at once.
+  - The other three guess at the same time, or pass.
+  - If anyone is right the card is solved, and otherwise the giver tries
+    again, up to three clues per card.
+win:
+  - The team scores one point per solved card.
+  - Everyone gets the same result, the number of cards solved out of ten.
+agents:
+  - The giver sees the target and taboo words as a private message, and
+    guessers see only the clues.
+  - Clues and guesses are free text inside one JSON action.
+watch_for:
+  - Each round only the giver's lens (P0, P1, P2, P3 in turn) shows the
+    target and its five taboo words, so pick that seat to check how each
+    clue dodges them.
+  - The team scored 10/10 and needed a second clue only once, for falcon in
+    round 0 (`Peregrine`); later clues grew into long one-sentence
+    dictionary definitions.
+runs:
+  - id: taboo

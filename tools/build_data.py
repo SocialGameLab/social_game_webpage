@@ -115,7 +115,9 @@ def main() -> None:
         metas = game.pop("runs", None) or [{"id": r["id"]} for r in exported.get("runs", [])]
         recorded = {r["id"] for r in exported.get("runs", [])}
         # Enough for the home-page card and the game menu, without loading the game.
-        cards.append({k: game.get(k) for k in ("id", "title", "kind", "players", "tagline")} | {"runs": sum(m["id"] in recorded for m in metas)})
+        card = {k: game.get(k) for k in ("id", "title", "kind", "players", "tagline")} | {"runs": sum(m["id"] in recorded for m in metas)}
+        # Where the page finds the game's view: a shared kind, or another game's view.
+        cards.append(card | {k: game[k] for k in ("view", "view_from") if game.get(k)})
         if args.games and gid not in args.games:
             continue
         print(f"{gid}:")

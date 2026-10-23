@@ -1,0 +1,38 @@
+# Bertrand Competition: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_bertrand
+title: Bertrand Competition
+kind: Economics experiments
+players: 2 players · 10 rounds
+tagline: >-
+  Two firms secretly set prices each round, and the cheaper one takes the
+  whole market. Can they keep prices high without undercutting each other?
+view: rounds
+setup:
+  - Two identical firms each make goods at a unit cost of 10.
+  - Market demand is `100 - lowest price`, and prices can be any whole
+    number from 0 to 100.
+round:
+  - Each firm sends one public, non-binding message.
+  - Each firm secretly sets a price.
+  - Prices are revealed, and all demand goes to the lower-priced firm;
+    on a tie the two firms split it.
+win:
+  - The cheaper firm earns `(price - 10) × demand` for the round, and the
+    other firm earns 0.
+  - After 10 rounds, each firm's reward is its total profit, and the
+    higher total wins.
+  - Pricing at cost earns about 0, while both firms holding the monopoly
+    price of 55 would share 2025 per round.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the public
+    state, past prices and profits, and the messages so far.
+  - Messages and prices both come back as one JSON action; the message is
+    free text inside a `talk` action.
+watch_for:
+  - P0 proposed alternating monopoly rounds at price 55, and both followed
+    the schedule exactly for rounds 1 to 9, earning 2025 per round taken.
+  - In round 10, which both had just confirmed was P1's turn, P0 undercut to
+    54 and took the market, so P0 won 12149 to 8100.
+runs:
+  - id: eco_bertrand

@@ -1,0 +1,44 @@
+# Deception: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: deception
+title: "Deception: Murder in Hong Kong"
+kind: Murder mystery
+players: 5 players · one murderer, one forensic scientist
+tagline: >-
+  The Murderer secretly picks a clue and a weapon from their own cards,
+  and the Forensic Scientist knows the answer but may speak only in tiles.
+view: clues
+setup:
+  - One seat is the Murderer, one is the Forensic Scientist, and three
+    are Investigators.
+  - Every seat except the Forensic Scientist shows four clue cards and
+    four means cards face up.
+  - Roles are hidden, except that everyone knows who the Forensic
+    Scientist is.
+  - At the start, the Murderer secretly picks one of their own
+    clue cards and one means card.
+round:
+  - Each round the Forensic Scientist sets one silent tile in each of
+    five categories, such as location and cause.
+  - Everyone but the Forensic Scientist speaks once.
+  - Each Investigator in turn accuses a seat and names one of its clue
+    cards and one of its means cards.
+win:
+  - The Investigators and the Forensic Scientist win the moment one
+    accusation gets the seat, clue and means all right.
+  - The Murderer wins if no one gets it right in three rounds.
+agents:
+  - The Forensic Scientist sees the solution as a private message, and
+    the Murderer knows its own choice.
+  - Discussion is free text, while tiles and accusations are picked from
+    fixed options.
+  - Every move comes back as one JSON action.
+watch_for:
+  - Only Forensic Scientist P4's lens shows the true pair (P3's clue Coin,
+    means Gas), and P4 never speaks, so the scene tiles are the only hint.
+  - Investigators accused P3 in all three rounds but always with Gloves; in
+    round 2 all three had Gas right, then in round 3 they dropped Gas
+    instead of the clue, and the Murderer won even though P3 had mentioned
+    Coin.
+runs:
+  - id: deception

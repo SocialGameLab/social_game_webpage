@@ -27,6 +27,8 @@ the contract for keeping the structure consistent as it grows.
 | Rules copy, taglines, "watch for" notes | `content/games/<id>.yaml` | JS strings |
 | Site title, home-page copy, game order, source-repo link | `content/site.yaml` | `index.html` / `home.js` |
 | How one game's events, seats and board look | `site/games/<id>/view.js` + `view.css` | `app.js` / `ui.js` |
+| How a family of similar games looks (matrix rounds, deals, clue games, card tables, score races) | a kind in `site/kinds/<kind>/view.js` + `view.css`, chosen per game with `view:` and `view_options:` in its content file | one near-identical view per game |
+| A game that plays like one that already has a view | `view_from: <id>` in its content file | a copied view.js |
 | Something every game needs | `site/assets/js/ui.js` (a helper) or `app.js` (page behavior) | copy-paste across views |
 | Colors | tokens in `site/assets/css/theme.css`, light **and** both dark blocks | hex values in game CSS |
 | Which runs exist, how they're played, a game's spec/config/rule-doc paths | social-game-env `demo/<id>/demo.yaml` (and `ENGINES` in its `src/runners/demo.py`) | this repo |
@@ -48,7 +50,9 @@ that leaves the existing games unchanged.
 ## Adding a game
 
 1. `python3 tools/new_game.py <id> "<Title>"`. The id matches the game's name in
-   social-game-env.
+   social-game-env. If a kind in `site/kinds/` fits (each lists its options at
+   the top of its view.js), pass `--view <kind>`, or `--view-from <id>` to reuse
+   another game's view; then the game needs no view.js of its own.
 2. Fill in `content/games/<id>.yaml`. The field reference is
    `templates/game/content.yaml`.
 3. Record in social-game-env (`demo/<id>/demo.yaml`, then

@@ -1,0 +1,50 @@
+# The Chameleon: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: chameleon
+title: The Chameleon
+kind: Word games
+players: 5 players · one chameleon per round
+tagline: >-
+  Everyone but the Chameleon knows the secret topic; each says one word
+  about it, then the table votes on who was bluffing.
+view: clues
+view_options: {"redeal": {"event": "round_roles", "seat_key": "chameleon", "role": "Chameleon", "other": "Knows the topic", "secret_event": "topic_reveal"}}
+setup:
+  - Each round deals one seat the Chameleon role and the other four the
+    informed role.
+  - A grid of nine possible topics is public, and one is picked at random
+    as the secret topic.
+  - Only the informed players are told the secret topic.
+  - Scores carry over, and roles are dealt again every round.
+round:
+  - Starting with the dealer, every player says one word related to the
+    topic, and the Chameleon must bluff.
+  - Each player then speaks once to argue who the Chameleon is.
+  - Everyone votes at the same time, and if the top vote ties, the dealer
+    picks one of the tied players.
+  - If the accused is the Chameleon, they get one guess at the topic from
+    the grid.
+  - The last Chameleon deals the next round.
+win:
+  - The Chameleon scores 2 if someone else is accused, or 1 if caught but
+    they name the topic.
+  - Every informed player scores 2 when the caught Chameleon guesses
+    wrong.
+  - The match ends when someone reaches 5 points, and everyone tied for
+    the top score wins.
+agents:
+  - Each turn the agent gets its role, the public grid and history, and
+    the secret topic only if it is informed.
+  - Clue words and discussion are free text, while votes and the topic
+    guess are picked from fixed options.
+  - Every move comes back as one JSON action.
+watch_for:
+  - Pick P3's lens to see that P3 is never shown the topic in rounds 1, 2
+    and 4; in round 2 P3's vague `heat` was caught but P3 still guessed
+    Circus, and when Circus came back in round 4 P3 said `acrobat` and
+    slipped through.
+  - Round 3 quietly made P2 the Chameleon (P2's lens has no Beach), yet the
+    table voted P3 for the broad `tide`; the Chameleon escaped in rounds 1,
+    3 and 4 and P3 finished as sole winner.
+runs:
+  - id: chameleon

@@ -1,0 +1,41 @@
+# The Resistance: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: resistance
+title: The Resistance
+kind: Hidden roles
+players: 5 players · 3 Resistance, 2 spies
+tagline: >-
+  A loyal majority sends teams on five missions while two hidden spies try
+  to get onto them and sabotage them.
+view_from: avalon
+setup:
+  - Each seat secretly gets a role, three Resistance and two Spies.
+  - The spies learn who the other spy is, and the Resistance know only
+    their own role.
+  - There are no special roles and no assassination at the end.
+round:
+  - The leader proposes a mission team, sized 2, 3, 2, 3 and 3 for the five
+    missions.
+  - Every player posts one short structured signal, such as a vote intent,
+    trust, or opposition toward a seat.
+  - Every player speaks once in free text, in random order.
+  - All players vote at once, a strict majority approves the team, and
+    otherwise leadership passes on.
+  - Team members secretly play Success or Fail, Resistance players must
+    play Success, and one Fail sinks the mission.
+win:
+  - The Resistance win on 3 successful missions.
+  - The spies win on 3 failed missions or 5 rejected teams in a row.
+agents:
+  - Each turn the agent gets a text prompt with its role, any known spy
+    partner, the public state, recent events and the legal actions.
+  - 'Structured moves come back as one JSON action, for example
+    `{"action_id": "vote", "payload": {"approve": true}}`.'
+  - Speech turns use a separate discussion prompt and return free text.
+watch_for:
+  - 'The talk misremembers mission 1: it was only P0 and P1, yet P2 and P1
+    both argue as if P2 was on it, and Spy P0''s fail goes unpinned.'
+  - Spy P3 plays Success on mission 2, then fails the two-person mission 3
+    with P4, and Spy P0 fails mission 4 for a 3 to 1 Evil win.
+runs:
+  - id: resistance

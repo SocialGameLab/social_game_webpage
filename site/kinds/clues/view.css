@@ -1,0 +1,5 @@
+/* Kind "clues": the clue list on the board. */
+
+.cl-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 13px; }
+
+.cl-list li { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }

@@ -1,0 +1,38 @@
+# Three-Player Matching Pennies: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: matching_pennies_3p
+title: Three-Player Matching Pennies
+kind: Matrix games
+players: 3 players · 8 rounds
+tagline: >-
+  Three players pick heads or tails in a circle of goals, where each one is
+  chasing or dodging another.
+view: rounds
+setup:
+  - Three players choose heads or tails for 8 rounds.
+  - P0 wants to match P1, P1 wants to match P2, and P2 wants to differ from
+    P0.
+  - Each player scores +1 when they meet their goal and −1 when they miss.
+round:
+  - Each player sends one public, non-binding message, in seat order.
+  - All three then secretly choose `heads` or `tails` at the same time.
+  - The choices are revealed together and each player's +1 or −1 is added to
+    their score.
+win:
+  - The game ends after 8 rounds.
+  - Each seat's reward is its own total score; the higher total is recorded
+    as the winner and equal totals are a draw.
+agents:
+  - Each turn the agent gets a text prompt with the game description, the
+    scores, the most recent public events (past choices and messages) and
+    the legal actions.
+  - The message and the choice each come back as one JSON action, `talk`
+    with free text or `choose` with `heads` or `tails`.
+watch_for:
+  - For the first five rounds all three seats pick the same side,
+    alternating heads and tails, which pays P0 and P1 every round and costs
+    P2 five straight points.
+  - P0 breaks the pattern in round 6, but P1 wins every round of the match
+    and finishes on 8, against 4 for P0 and −4 for P2.
+runs:
+  - id: matching_pennies_3p

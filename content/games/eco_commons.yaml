@@ -1,0 +1,44 @@
+# Tragedy of the Commons: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_commons
+title: Tragedy of the Commons
+kind: Economics experiments
+players: 5 players · 12 months
+tagline: >-
+  Five fishers share one lake that regrows each month. Take too much and
+  the lake collapses for everyone.
+view: rounds
+view_options: {"round_label": "Month"}
+setup:
+  - The lake starts full at its capacity of 100 tons of fish.
+  - All five fishers see the stock, everyone's past catches and the
+    scores.
+round:
+  - Each fisher secretly requests a catch, from 0 up to the current stock.
+  - Catches are revealed; if requests exceed the stock, it is split in
+    proportion to requests, rounded down.
+  - If fewer than 5 tons are left, the lake collapses and the game ends at
+    once.
+  - Otherwise each fisher sends one public, non-binding message in a town
+    hall.
+  - The remaining fish double, up to the capacity of 100.
+win:
+  - Each fisher's reward is the total tons they caught over the game.
+  - The game ends after 12 months or at a collapse, and the highest total
+    wins.
+  - Leaving at least half the lake each month (10 tons each) can last all
+    12 months, for 120 tons per fisher.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the stock, past
+    catches, scores and the town hall messages.
+  - Requests and messages both come back as one JSON action; the message
+    is free text inside a `talk` action.
+watch_for:
+  - Every catch in all 12 months is 0, so the lake sits at 100 and all five
+    fishers end with 0, although each pledged to request 10 at every town
+    hall.
+  - The talk drifts with the empty nets; by month 9 fishers note the
+    zero-catch rounds, and the last two town halls switch to requests of 20
+    or 100 for the final harvest.
+runs:
+  - id: eco_commons

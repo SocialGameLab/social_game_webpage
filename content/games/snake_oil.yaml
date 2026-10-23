@@ -1,0 +1,41 @@
+# Snake Oil: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: snake_oil
+title: Snake Oil
+kind: Party games
+players: 4 players · rotating customer
+tagline: >-
+  Sellers glue two word cards into a product and pitch it to a customer,
+  who buys the one they like best.
+view: clues
+view_options: {"roles_public": true}
+setup:
+  - Each seat is dealt a private hand of six word cards.
+  - Each round one seat is the customer and draws a public customer card
+    that says who they are.
+  - The customer role rotates until every seat has had it once, so the
+    game lasts four rounds.
+round:
+  - Each seller in turn picks two cards from their hand and gives a
+    free-text pitch of up to 80 words.
+  - The customer picks the winning seller.
+  - Sellers draw back up to six cards, and the next seat becomes the
+    customer.
+win:
+  - Each won round earns one customer card.
+  - The seat with the most customer cards wins, and ties share the win.
+agents:
+  - Each agent sees its own hand privately, plus the public customer
+    card and every pitch so far.
+  - A pitch is two card numbers and free text inside one JSON action.
+  - The customer's choice is a seat, and nothing checks which pitch is
+    best.
+watch_for:
+  - P1 won 2 of 4 customers (Cowboy with cactus trail socks, Astronaut with
+    laser goggles), P0 and P2 one each, and P3 none despite pitching three
+    times.
+  - Pitches are long, polished ad copy tailored to each customer rather than
+    jokes; the Athlete picked P2's practical Honey Sandwich for quick
+    energy.
+runs:
+  - id: snake_oil

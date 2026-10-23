@@ -2,6 +2,8 @@
 
 .team--VILLAGE { color: var(--good); }
 .team--WOLVES { color: var(--evil); }
+.team--TOWN { color: var(--good); }
+.team--MAFIA { color: var(--evil); }
 
 .ww-list { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 4px; }
 

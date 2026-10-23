@@ -1,0 +1,37 @@
+# Minimum Effort Game: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_min_effort
+title: Minimum Effort Game
+kind: Economics experiments
+players: 4 players · 10 rounds
+tagline: >-
+  Everyone picks an effort from 1 to 7, but the group is only as good as
+  its laziest member.
+view: rounds
+setup:
+  - Four identical players play 10 rounds.
+  - Each round every player picks a whole-number effort from 1 to 7.
+round:
+  - Each player sends one public, non-binding message.
+  - Each player secretly chooses an effort level.
+  - All efforts and the group minimum are revealed, and payoffs are
+    applied.
+win:
+  - Each round a player earns `2 × lowest effort - own effort + 6`.
+  - Everyone at 7 earns 13 each, everyone at 1 earns 7 each, and choosing
+    7 when someone chooses 1 earns only 1.
+  - After 10 rounds, each player's reward is their total, and the highest
+    total wins.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the public
+    state, past efforts and payoffs, and the messages so far.
+  - Messages and efforts both come back as one JSON action; the message is
+    free text inside a `talk` action.
+watch_for:
+  - An uneventful match where all four players agree on effort 7 in the
+    first message and choose 7 in all 10 rounds, earning 13 a round and 130
+    each.
+  - The messages are near-identical restatements of "I'll choose 7 again"
+    from round 2 on.
+runs:
+  - id: eco_min_effort

@@ -1,0 +1,41 @@
+# Deposit Contract: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: deposit_contract
+title: Deposit Contract
+kind: Negotiation
+players: 2 players · 8 rounds
+tagline: >-
+  A prisoner's dilemma where players can first agree to put money in
+  escrow. Whoever breaks the deal loses their deposit.
+view: deals
+setup:
+  - Two players play 8 rounds, and P0 proposes first.
+  - The proposer role swaps every round.
+  - Each round ends in a cooperate-or-breach choice that pays 3 each for
+    mutual cooperation, 5 and 0 for a lone breach, and 1 each for mutual
+    breach.
+round:
+  - Both players send one public, non-binding message.
+  - The proposer suggests a deposit of 0 to 5 that both players would
+    post.
+  - The responder accepts or rejects; on a rejection both score 1 and the
+    round ends.
+  - After an accepted deal, both players talk once more.
+  - Both players choose cooperate or breach at the same time.
+win:
+  - A lone breacher loses the deposit to the cooperator, mutual breach
+    burns both deposits, and mutual cooperation returns them.
+  - After 8 rounds, the higher total score wins, and equal totals are a
+    draw.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the payoff
+    table, the current contract, past outcomes and the messages so far.
+  - Messages, proposals, contract replies and choices each come back as
+    one JSON action.
+watch_for:
+  - Both cooperated in all 8 rounds for a 24 to 24 draw, with every contract
+    accepted and no breach.
+  - P0's first message suggested a deposit of 2 but it actually proposed 3;
+    deposits stayed at 3 until P1 raised them to 5 in round 6.
+runs:
+  - id: deposit_contract

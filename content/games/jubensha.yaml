@@ -1,0 +1,38 @@
+# Jubensha: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: jubensha
+title: Jubensha
+kind: Murder mystery
+players: 5 players · one murderer
+tagline: >-
+  One of the five committed the murder; after two rounds of talk, the
+  table names a suspect in one vote.
+view: clues
+setup:
+  - One seat is the Murderer and the other four are Civilians.
+  - Each player gets a short private brief that tells them which side
+    they are on.
+  - There is no scripted evidence deck, so clues are whatever the
+    players say.
+round:
+  - Over two passes around the table, each player either reveals a clue
+    or speaks, and both are public.
+  - Everyone then votes at the same time for a suspect.
+  - A tied vote is broken at random among the top suspects.
+win:
+  - The Civilians win if the most-voted player is the Murderer.
+  - The Murderer wins otherwise.
+agents:
+  - The agent sees its own role and private brief, plus everything said
+    so far.
+  - Clues and discussion are free text, and the vote names a seat.
+  - Every move comes back as one JSON action.
+watch_for:
+  - Degenerate case where every brief only says innocent or murderer with no
+    case clues, so all five seats report having nothing and the talk loops
+    for two rounds.
+  - The table still voted out P4, the real murderer, after P4 tried to cast
+    suspicion on P3 for asking seats 3 and 4 for details, so the Civilians
+    won.
+runs:
+  - id: jubensha

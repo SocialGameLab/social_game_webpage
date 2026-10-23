@@ -1,0 +1,38 @@
+# Inspection Game: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: inspection_game
+title: Inspection Game
+kind: Economics experiments
+players: 2 players · 10 rounds · roles swap
+tagline: >-
+  One player decides whether to break the rules, the other whether to pay
+  to check. The two swap roles every round.
+view: rounds
+setup:
+  - P0 starts as the inspector and P1 as the inspectee.
+  - The roles swap every round, so each player inspects for 5 of the 10
+    rounds.
+round:
+  - The roles for the round are announced.
+  - Each player sends one public, non-binding message.
+  - At the same time, the inspector picks inspect or skip and the
+    inspectee picks comply or violate.
+  - Both choices are revealed, and payoffs are applied.
+win:
+  - Payoffs (inspector, inspectee) are inspect and comply 1 and 2, inspect
+    and violate 3 and -1, skip and comply 2 and 2, and skip and violate 0
+    and 4.
+  - After 10 rounds, the higher total score wins, and equal totals are a
+    draw.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the payoff
+    table, its role this round, past choices and the scores.
+  - Messages and choices both come back as one JSON action; only the
+    actions for the agent's current role are legal.
+watch_for:
+  - The players agreed on skip/comply for 2 points each and kept it through
+    round 8 as roles alternated, tied at 16 each.
+  - In round 9 P1 promised to comply but violated while P0 skipped (+4 to
+    P1), then inspected as inspector in round 10, so P1 won 21 to 18.
+runs:
+  - id: inspection_game

@@ -52,6 +52,12 @@
    *   onClick(t, r)       handle a click inside the room; return true if handled */
   MR.defineGame = (id, view) => { MR.views[id] = { rolesArePublic: true, ...view }; };
 
+  /* A kind is a shared view for a family of similar games (kinds/<kind>/view.js).
+   * make(options, game) returns the same hooks as a game view; `options` is the
+   * game's `view_options` from its content file. */
+  MR.kinds = {};
+  MR.defineKind = (kind, make) => { MR.kinds[kind] = make; };
+
   // ---------------------------------------------------------------- loader
   function addScript(src) {
     return new Promise((resolve, reject) => {
@@ -72,17 +78,34 @@
     document.head.appendChild(l);
   }
 
+  // Several games can share one script (a kind, or another game's view); fetch each once.
+  const scripts = {};
+  const addScriptOnce = (src) => (scripts[src] = scripts[src] || addScript(src).catch((err) => { delete scripts[src]; throw err; }));
+
+  /* Where a game's view comes from, set by its manifest card:
+   *   view: "<kind>"     a shared view in kinds/<kind>/, given the game's view_options
+   *   view_from: "<id>"  another game's view, reused as is
+   *   neither            the game's own games/<id>/view.js */
+  function viewSource(id) {
+    const card = (MR.manifest && MR.manifest.games.find((g) => g.id === id)) || {};
+    if (card.view) return { dir: `kinds/${card.view}`, ready: () => MR.kinds[card.view], bind: () => MR.kinds[card.view](MR.data[id].view_options || {}, MR.data[id]) };
+    if (card.view_from) return { dir: `games/${card.view_from}`, ready: () => MR.views[card.view_from], bind: () => MR.views[card.view_from] };
+    return { dir: `games/${id}`, ready: () => MR.views[id], bind: null };
+  }
+
   const pending = {};
   /** Resolve once both the view and the data for `id` are registered. A
    *  single-file build inlines everything, so nothing is fetched there. */
   MR.loadGame = (id) => {
     if (MR.views[id] && MR.data[id]) return Promise.resolve();
     if (!pending[id]) {
-      addStyle(`games/${id}/view.css`);
+      const src = viewSource(id);
+      addStyle(`${src.dir}/view.css`);
       pending[id] = Promise.all([
-        MR.views[id] ? null : addScript(`games/${id}/view.js`),
-        MR.data[id] ? null : addScript(`data/${id}.js`),
-      ]).catch((err) => { delete pending[id]; throw err; });
+        src.ready() ? null : addScriptOnce(`${src.dir}/view.js`),
+        MR.data[id] ? null : addScriptOnce(`data/${id}.js`),
+      ]).then(() => { if (src.bind) MR.views[id] = { rolesArePublic: true, ...src.bind() }; })
+        .catch((err) => { delete pending[id]; throw err; });
     }
     return pending[id];
   };

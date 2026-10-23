@@ -1,0 +1,42 @@
+# Just One: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: just_one
+title: Just One
+kind: Word games
+players: 5 players · one shared team
+tagline: >-
+  Everyone writes a one-word clue for a teammate, but matching clues
+  cancel out, so the team must be helpful without being obvious.
+view: clues
+view_options: {"roles_public": true}
+setup:
+  - All five players are on one team and share one score.
+  - The game plays 13 cards, each with a different mystery word.
+  - The guesser rotates each card, and the other four are told the word
+    privately.
+round:
+  - The four clue-givers each secretly write one single-word clue.
+  - Invalid clues are struck, such as ones with several words, digits,
+    or the answer itself or its stem.
+  - Any two clues that are the same after normalizing cancel each other.
+  - The guesser sees only the surviving clues and guesses once or
+    passes.
+  - A wrong guess also throws away the next card, while a pass costs
+    nothing.
+win:
+  - The team scores one point per correct guess.
+  - Everyone gets the same result, the number of correct guesses out of
+    13.
+agents:
+  - Clue-givers see the mystery word as a private message, and the
+    guesser never does.
+  - Clue-givers cannot see each other's clues before the filter runs.
+  - Clues and guesses are free text inside one JSON action.
+watch_for:
+  - The guesser is the one seat without the card, so pick any other seat's
+    lens to see the secret (for example lizard in round 0, hidden from P0).
+  - Only one clue survived each round and the team got just 1 of 13 (barrel
+    from `stave`); P2 guessed `lizard`, the earlier word, for thunder and
+    then repeated the clue `trilobite` for fossil.
+runs:
+  - id: just_one

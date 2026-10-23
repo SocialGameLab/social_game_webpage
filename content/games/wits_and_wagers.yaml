@@ -1,0 +1,37 @@
+# Wits & Wagers: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: wits_and_wagers
+title: Wits & Wagers
+kind: Party games
+players: 5 players · each for themself
+tagline: >-
+  Everyone guesses a number for a trivia question, then bets on whose
+  guess came closest without going over.
+setup:
+  - Each of seven rounds shows a public trivia question with a number
+    for an answer.
+  - Only the game knows the answer until the reveal.
+  - Every player starts at 0 points.
+round:
+  - In seat order each player submits a secret whole-number estimate.
+  - All estimates are revealed with the answer.
+  - The highest estimate that is not over the answer scores 3 for its
+    owner.
+  - Each player then bets on one seat and scores 2 if it was that best
+    estimate.
+win:
+  - After seven rounds the highest score wins, and ties share the win.
+agents:
+  - The agent sees the question and, after the reveal, every estimate,
+    but never the answer in advance.
+  - Estimates are numbers and bets are seats, so there is no free text
+    in this game.
+  - Every move comes back as one JSON action.
+watch_for:
+  - Degenerate run where every seat estimated 0 on all seven questions (true
+    answers ranged from 7 to 360), so the engine named P4 closest each time
+    and everyone bet on P4.
+  - P4 finished as sole winner with 1.75 to everyone else's 0.7, purely from
+    being picked as best on identical zero guesses.
+runs:
+  - id: wits_and_wagers

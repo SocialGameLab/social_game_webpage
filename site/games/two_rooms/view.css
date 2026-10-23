@@ -1,0 +1,5 @@
+/* Two Rooms board: who is in each room. */
+
+.tr-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.tr-chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px 2px 4px; font-size: 13px; }

@@ -1,0 +1,37 @@
+# Volunteer's Dilemma: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_volunteer
+title: Volunteer's Dilemma
+kind: Economics experiments
+players: 3 players · 10 rounds
+tagline: >-
+  One volunteer is enough to help everyone, but volunteering costs you.
+  Each player hopes someone else will step up.
+view: rounds
+setup:
+  - Three identical players play 10 rounds.
+  - If anyone volunteers, everyone gets a benefit of 10, and each
+    volunteer pays a cost of 2.
+round:
+  - Each player sends one public, non-binding message.
+  - Each player secretly decides whether to volunteer.
+  - All decisions are revealed, and payoffs are applied.
+win:
+  - If at least one player volunteers, volunteers earn 8 and everyone else
+    earns 10.
+  - If nobody volunteers, everyone earns 0 for the round.
+  - After 10 rounds, each player's reward is their total, and the highest
+    total wins.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the public
+    state, past decisions and payoffs, and the messages so far.
+  - Messages and decisions both come back as one JSON action; the message
+    is free text inside a `talk` action.
+watch_for:
+  - P0 proposed a seat rotation (P0, P1, P2) and it held perfectly, with
+    exactly one volunteer in each of the 10 rounds.
+  - Because 10 rounds do not split evenly over 3 seats, P0 volunteered four
+    times (rounds 1, 4, 7 and 10) and finished on 92, behind P1 and P2 on
+    94.
+runs:
+  - id: eco_volunteer

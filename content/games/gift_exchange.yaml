@@ -1,0 +1,38 @@
+# Gift Exchange: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: gift_exchange
+title: Gift Exchange
+kind: Negotiation
+players: 2 players · 10 rounds · roles swap
+tagline: >-
+  An employer pays a wage up front, and the worker then decides how hard to
+  work. Does a generous wage buy real effort?
+view: deals
+setup:
+  - One player starts as the Employer and the other as the Worker.
+  - The roles swap after 5 rounds, and scores carry over.
+  - Wages run from 0 to 10, and effort runs from 0 to 5.
+round:
+  - Both players send one public message.
+  - The Employer offers a wage.
+  - The Worker replies with a public message.
+  - The Worker chooses an effort level, and payoffs are applied.
+win:
+  - The Employer earns `10 - wage + 4 × effort` per round.
+  - The Worker earns `wage - effort` per round.
+  - After 10 rounds, the higher total score wins, and equal totals are a
+    draw.
+agents:
+  - Each turn the agent gets a text prompt with the rules, its current
+    role, past wages and efforts, scores and the messages so far.
+  - Nothing is hidden; every wage, effort and message is public.
+  - Messages, wages and efforts each come back as one JSON action.
+watch_for:
+  - In leg 1 employer P1 promised wage 10 every round but paid it only in
+    round 2, the one round P0 worked (effort 5), and P1 led 60 to 5 at the
+    swap.
+  - In leg 2 worker P1 took wage 10 in rounds 1 and 5 with effort 0, working
+    only in round 4 at wage 0, and won 75 to 55; much of the leg 2 talk
+    reads as if the seats kept their old roles.
+runs:
+  - id: gift_exchange

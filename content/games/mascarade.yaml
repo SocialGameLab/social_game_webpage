@@ -1,0 +1,42 @@
+# Mascarade: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: mascarade
+title: Mascarade
+kind: Bluffing
+players: 5 players · first to 13 coins
+tagline: >-
+  Masks get swapped behind your back until nobody is sure who they are,
+  then everyone claims to be the King.
+view: table
+setup:
+  - Each player starts with 6 coins and one secret mask from King, Queen,
+    Judge, Bishop, Fool, Thief, Witch and Spy, which they see at the start.
+  - Three of the eight masks go undealt, so a claimed mask may be in nobody's
+    hands.
+round:
+  - On your turn you swap two players' masks, look at your own mask, or claim
+    a mask.
+  - A swap can be real or fake, and the public log never says which, so both
+    players lose track of their masks.
+  - When you claim a mask, each other player in turn may join the claim or
+    pass.
+  - The true holder among the claimants earns that mask's coins (King 3,
+    Queen and Judge 2, Bishop, Fool and Spy 1), and every false claimant
+    pays 1.
+win:
+  - The game ends when someone reaches 13 coins, or after 80 turns.
+  - The player with the most coins wins.
+agents:
+  - Each turn the agent gets a text prompt with the mask it last saw, every
+    player's coins, the public log and the legal actions.
+  - 'Moves come back as one JSON action, for example
+    `{"action_id": "swap", "payload": {"a": 0, "b": 1, "real": true}}`.'
+  - There is no free chat; bluffing happens only through swaps and claims.
+watch_for:
+  - P4 claims King on every turn and nobody challenges until turn 14, when
+    P2 joins the claim, is shown to be a false claimant, and P4's third King
+    payout ends the game.
+  - 'Pick P0''s or P1''s lens after P1''s opening swap: P0 looks and finds
+    the Thief, P1 finds the Spy, so P1''s swap was real.'
+runs:
+  - id: mascarade

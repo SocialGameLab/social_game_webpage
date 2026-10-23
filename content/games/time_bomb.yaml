@@ -1,0 +1,42 @@
+# Time Bomb: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: time_bomb
+title: Time Bomb
+kind: Hidden roles
+players: 5 players · 3 Sherlock, 2 Moriarty
+tagline: >-
+  Take turns cutting wires from each other's piles; Sherlock needs every
+  defuse wire found, and Moriarty wants the bomb.
+view: table
+setup:
+  - Each seat secretly gets a role, and the two Moriarty players learn who
+    the other one is.
+  - Twenty-five wires (5 Defuse, 1 Bomb, 19 Safe) are shuffled and dealt
+    five to each player.
+  - You learn how many of each wire your pile holds, but not their order,
+    and nobody else sees your counts.
+round:
+  - The cutter picks any player with wires left, and that pile's top wire is
+    revealed to everyone.
+  - The player who was cut becomes the next cutter.
+  - After five cuts, the remaining wires are reshuffled and redealt with one
+    fewer wire per player.
+win:
+  - Sherlock wins the moment the fifth Defuse wire is revealed.
+  - Moriarty wins if the Bomb is revealed or the fifth round ends without
+    every Defuse found.
+agents:
+  - Each turn the agent gets a text prompt with its role, any known
+    Moriarty partner, its own wire counts, every revealed wire and the
+    legal actions.
+  - 'The move comes back as one JSON action, for example
+    `{"action_id": "cut", "payload": {"target": 1}}`.'
+  - There is no free chat; players signal only through which pile they cut.
+watch_for:
+  - In round 2 Moriarty P3, whose pile is all Safe, cuts its own pile four
+    times and then partner P0, spending the whole round and avoiding P4, who
+    holds the Bomb that round.
+  - Sherlock still wins in round 3, when P1 cuts P2 for a Defuse and P2 cuts
+    itself for the fifth; P2's lens shows it held two Defuse wires.
+runs:
+  - id: time_bomb

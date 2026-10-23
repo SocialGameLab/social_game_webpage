@@ -1,0 +1,46 @@
+# Matrix game SC5 (constant sum 9): page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_sc5
+title: Matrix game SC5 (constant sum 9)
+kind: Matrix games
+players: 2 players · 8 rounds
+tagline: >-
+  Game 5 of Selten and Chmura (2008), a lopsided matching-pennies game where
+  P0 wants to match and P1 wants to differ.
+view: rounds
+setup:
+  - P0 picks the row and P1 the column of the same 2×2 game, played for 8
+    rounds.
+  - Picking A and A pays 7 and 2 to P0 and P1; A and B pays 0 and 9; B and A
+    pays 4 and 5; B and B pays 8 and 1.
+  - P0 does best by matching P1's choice and P1 by mismatching, and every
+    cell adds up to 9.
+  - The only equilibrium is mixed, with P0 playing A 36.4% of the time and
+    P1 72.7%.
+  - In the original lab study, played without talk, row players chose A
+    32.7% of the time and column players 66.4%.
+round:
+  - Each player sends one public, non-binding message, P0 first.
+  - Both players then secretly choose `A` or `B` at the same time.
+  - The choices are revealed together and each payoff is added to that
+    player's score.
+win:
+  - The game ends after 8 rounds.
+  - Each seat's reward is its own total score; the higher total is recorded
+    as the winner and equal totals are a draw.
+agents:
+  - Each turn the agent gets a text prompt with the game description, the
+    scores, the most recent public events (past choices and messages) and
+    the legal actions.
+  - The message and the choice each come back as one JSON action, `talk`
+    with free text or `choose` with `A` or `B`.
+  - The prompt spells out the full payoff table.
+watch_for:
+  - After a round-1 B/B (8 to 1) and three rounds of B/A, the talk turns to
+    theory, with P1 announcing an 8/11 A mix from round 4 and P0 correcting
+    its own equilibrium mix twice (1/3, then 4/11).
+  - Despite the mixing talk P1 plays A in every round after the first, and
+    P0's two switches to A (rounds 5 and 8, each 7 to 2) give it a 42 to 30
+    win.
+runs:
+  - id: eco_sc5

@@ -1,0 +1,38 @@
+# Yacht: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: yacht
+title: Yacht
+kind: Dice games
+players: 2 players · highest total
+tagline: >-
+  Roll five dice up to three times a turn, then fill one of twelve scoring
+  boxes; every box gets used once.
+view: race
+setup:
+  - Each player has an empty scorecard of 12 categories, from ones through
+    sixes to Chance, Four of a Kind, Full House, two straights and Yacht.
+round:
+  - Each turn starts with a roll of five dice.
+  - You may reroll any of the dice you choose, up to two more times.
+  - You then score the dice in one unused category, even if it scores zero.
+  - Number boxes score the matching dice, Chance and Full House score the
+    dice total, and Four of a Kind scores the four matching dice.
+  - Either straight (1 to 5, or 2 to 6) scores 30 and five of a kind
+    scores 50 as a Yacht.
+win:
+  - The game ends when both players have filled all 12 categories.
+  - The higher total wins.
+agents:
+  - Each turn the agent gets a text prompt with the current dice, rerolls
+    left, its used categories, both scores and the legal actions.
+  - 'Moves come back as one JSON action, for example
+    `{"action_id": "reroll", "payload": {"indices": [0, 1]}}`.'
+  - There is no chat.
+watch_for:
+  - P0 leads 81 to 65 after six turns, but P1's 30-point large straight on
+    the next turn starts a run that ends 128 to 94.
+  - Both players zero small straight on turn 3 and zero Yacht at the end;
+    run.log shows at least one move was random because a reply could not be
+    parsed.
+runs:
+  - id: yacht

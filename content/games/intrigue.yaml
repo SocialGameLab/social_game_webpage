@@ -1,0 +1,38 @@
+# Intrigue: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: intrigue
+title: Intrigue
+kind: Negotiation
+players: 4 players · 5 rounds
+tagline: >-
+  Players bribe each other to get their scholars hired. Hosts keep every
+  bribe, whether they hire or not.
+view: deals
+setup:
+  - Each player starts with 10 coins, 3 scholars and a salary of 4.
+  - Coins, scholars and salaries are all public.
+round:
+  - Every player collects their salary.
+  - Each player sends one public, non-binding message.
+  - In turn, each player may send one scholar to a rival with a bribe of
+    up to 20 coins, paid at once and never refunded.
+  - Each host then hires or refuses each scholar sent to them, keeping
+    the bribe either way.
+  - Hiring raises the host's salary by 2 for later rounds.
+win:
+  - After 5 rounds, each player's reward is their coins divided by 50.
+  - The player with the most coins wins.
+agents:
+  - Each turn the agent gets a text prompt with the rules, everyone's
+    coins, scholars and salaries, and the messages and bribes so far.
+  - Messages, bribes and hiring choices each come back as one JSON
+    action.
+watch_for:
+  - Round 3 is decisive, as P0 and P3 sent bribes of 14 and 13 coins to P1,
+    who hired both and finished with the most coins (reward 1.26 against
+    1.06 for P0).
+  - The talk is muddled, with messages addressed to a nonexistent "Host 4"
+    and later corrections of scholar offers players could not make, and
+    nobody bribes in round 5.
+runs:
+  - id: intrigue

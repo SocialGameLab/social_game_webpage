@@ -1,0 +1,42 @@
+# Multi-Buyer Market: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: multi_buyer_market
+title: Multi-Buyer Market
+kind: Negotiation
+players: 5 players · 1 seller, 4 scripted buyers
+tagline: >-
+  A seller has one item, four buyers and only six turns. Settle for the
+  first decent bid, or keep looking for the rare rich buyer?
+view: deals
+setup:
+  - The seller has one item and a private cost of 25.
+  - Each of the four buyers has a private budget, most near 40 and a few
+    near 90.
+  - The buyers follow a fixed script, so only the seller is an LLM agent.
+round:
+  - On each turn the seller quotes a price to one buyer, accepts a
+    buyer's standing counteroffer, or passes.
+  - A buyer accepts a quote at or below 95% of their budget, and
+    otherwise counters with a lower price, never above their budget.
+  - Each conversation is private between the seller and that buyer.
+  - Each quote that draws a counter, and each pass, uses one of the
+    seller's 6 turns.
+win:
+  - The game ends at the first deal, or with no deal once the 6 turns are
+    used.
+  - On a deal the seller scores `price - 25`, which can be negative, and
+    the buyer scores `budget - price`.
+  - With no deal everyone scores 0, and there is no winner.
+agents:
+  - The seller's prompt has its cost, the number of buyers, the turn
+    budget and its private threads, but never the buyers' budgets.
+  - Each move comes back as one JSON action, with an optional message to
+    the buyer.
+watch_for:
+  - Seller P4 (cost 25, visible in its lens) quoted 50 or 60, each buyer
+    countered once, and the seller accepted P2's 45, using 4 of its 6 turns.
+  - The buyer lenses show that P0, P2 and P3 countered at their exact
+    budgets (42, 45, 43), so the winning buyer P2 earned 0 while the seller
+    earned 20.
+runs:
+  - id: multi_buyer_market

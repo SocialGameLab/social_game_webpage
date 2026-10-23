@@ -1,0 +1,11 @@
+/* Kind "table": one row per seat. */
+
+.tb-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+
+.tb-seat { display: grid; gap: 2px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+
+.tb-seat--out { opacity: 0.55; }
+
+.tb-who { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+
+.tb-secret { color: var(--brass); }

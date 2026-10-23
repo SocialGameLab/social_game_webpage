@@ -1,0 +1,43 @@
+# Insider: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: insider
+title: Insider
+kind: Word games
+players: 5 players · a Master and a hidden Insider
+tagline: >-
+  The table asks yes/no questions to find a secret word, but one player
+  already knew it and was quietly steering.
+view: clues
+setup:
+  - One seat is the public Master, one is the hidden Insider, and three
+    are Commons.
+  - A secret word is drawn from a public list of twelve.
+  - Only the Master and the Insider are told the word.
+round:
+  - The non-Master players take turns, sharing 20 chances in all.
+  - On each chance a player asks one yes/no question or guesses a word
+    from the list.
+  - The Master answers each question with YES, NO or UNKNOWN.
+  - Once someone guesses the word, everyone speaks once about who might
+    have steered the group.
+  - Everyone but the Guesser votes on whether the Guesser is the Insider,
+    and if that fails against an innocent Guesser, all point to a suspect.
+win:
+  - If all 20 chances run out without the word, everyone loses.
+  - The Commons and Master win if the vote catches the Insider.
+  - The Insider wins by escaping either vote or by getting an innocent
+    Guesser accused.
+agents:
+  - The Master and the Insider see the secret word as a private message,
+    and the Commons do not.
+  - Questions and discussion are free text, while answers, guesses and
+    votes are picked from fixed options.
+  - Every move comes back as one JSON action.
+watch_for:
+  - P3's lens (shared with Master P4) shows Meteor from the start; P3 asked
+    the fourth question, whether it originates outside Earth, and P0 guessed
+    Meteor right after the YES.
+  - In discussion every seat named P3, the guesser P0 was cleared, and the
+    table caught the Insider after only 5 questions for a Commons win.
+runs:
+  - id: insider

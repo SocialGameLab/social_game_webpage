@@ -1,0 +1,41 @@
+# Two Rooms and a Boom: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: two_rooms
+title: Two Rooms and a Boom
+kind: Hidden roles
+players: 6 players · 3 Blue, 3 Red
+tagline: >-
+  Two rooms trade hostages for three rounds; Red wins if the Bomber ends up
+  in the same room as the President.
+setup:
+  - Each seat secretly gets a card, with the President on Blue, the Bomber
+    on Red and the rest plain team members.
+  - Players are split at random into two rooms of three, and each player
+    sees only their own room.
+  - One player in each room is picked at random as its leader.
+round:
+  - Each player takes one turn to speak to their room, privately show their
+    card to one roommate, or reveal it to the whole room.
+  - Each leader may hand leadership to a roommate, and then the room votes,
+    with a new leader needing a strict majority.
+  - Both leaders secretly pick one roommate other than themselves as a
+    hostage.
+  - The two hostages swap rooms at the same time, and the game lasts three
+    rounds.
+win:
+  - After the third swap all cards are revealed.
+  - Red wins if the Bomber and the President share a room, and Blue wins if
+    they do not.
+agents:
+  - Each turn the agent gets a text prompt with its card, its room and
+    roommates, what was said and shown in its room, and the legal actions.
+  - 'Moves come back as one JSON action, for example
+    `{"action_id": "share_card", "payload": {"target": 2}}`.'
+  - Talk is free text heard only by the speaker's current room.
+watch_for:
+  - Red P5 claims Blue, is shown Blue cards by P1 and P2, and leads room 0
+    all game while Bomber P0 starts in the President's room.
+  - President P4 sends P0 across in rounds 1 and 3, while P5 sends P0 back
+    in round 2, and Blue wins because P0 ends in room 0 and P4 in room 1.
+runs:
+  - id: two_rooms

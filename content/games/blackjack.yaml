@@ -1,0 +1,33 @@
+# Blackjack: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: blackjack
+title: Blackjack
+kind: Card games
+players: 1 player · against the dealer
+tagline: >-
+  One hand against a scripted dealer: hit to get closer to 21, stand before
+  you bust.
+view: race
+setup:
+  - A small shuffled deck holds two each of ace through nine and eight
+    ten-value cards.
+  - The player gets two cards and the dealer gets two, with only the
+    dealer's first card face up.
+round:
+  - The player chooses to hit for another card or stand.
+  - Going over 21 is a bust and loses at once.
+  - After the player stands, the dealer draws until reaching 17 or more.
+  - An ace counts as 11 when that does not bust the hand, and as 1
+    otherwise.
+win:
+  - Beating the dealer's total or a dealer bust scores +1.
+  - A tie scores 0, and a lower total or a bust scores -1.
+agents:
+  - Each turn the agent gets a text prompt with its hand, the dealer's up
+    card and the legal actions.
+  - The move comes back as one JSON action, `hit` or `stand`, with no chat.
+watch_for:
+  - A single short hand where P0 is dealt 4 and 10 against a dealer 10, hits
+    once for a 7 to make 21, stands, and beats the dealer's 20.
+runs:
+  - id: blackjack

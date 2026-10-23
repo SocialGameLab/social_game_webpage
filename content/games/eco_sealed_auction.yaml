@@ -1,0 +1,39 @@
+# Sealed-Bid Auction: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_sealed_auction
+title: Sealed-Bid Auction
+kind: Economics experiments
+players: 3 players · 10 rounds · first price
+tagline: >-
+  Three bidders each know only what the item is worth to them. The highest
+  sealed bid wins and pays what it bid.
+view: rounds
+setup:
+  - Each round one item is auctioned among three bidders.
+  - Each bidder gets a new private value for the item, drawn from 10, 20,
+    and so on up to 100.
+  - Bids can be any whole number from 0 to 100.
+round:
+  - Every bidder learns their own value for this round's item.
+  - Every bidder submits one sealed bid, with no talking.
+  - All bids are revealed, the highest bid wins (ties broken at random),
+    and the winner pays their own bid.
+win:
+  - The winner scores `value - bid` for the round, which can be negative,
+    and the others score 0.
+  - After 10 rounds, each bidder's reward is their total, and the highest
+    total wins.
+  - In theory each bidder should bid about two thirds of their value.
+agents:
+  - Each turn the agent gets a text prompt with the rules, its own private
+    value, and the past bids, winners and prices.
+  - It never sees the other bidders' values.
+  - The bid comes back as one JSON action.
+watch_for:
+  - With no talk, every bid in every round is 0 except P2's bid of 1 in
+    round 2, so each item sold for 0 or 1 and ties decided the winner.
+  - P0 won six rounds at price 0 and finished with 420 against 129 for P2
+    and 90 for P1; `run.log` also shows an LLM fallback, so at least one bid
+    was random.
+runs:
+  - id: eco_sealed_auction

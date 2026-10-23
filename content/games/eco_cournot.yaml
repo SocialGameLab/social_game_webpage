@@ -1,0 +1,38 @@
+# Cournot Competition: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_cournot
+title: Cournot Competition
+kind: Economics experiments
+players: 2 players · 10 rounds
+tagline: >-
+  Two firms secretly choose how much to produce, and the more they make
+  together, the lower the price both get.
+view: rounds
+setup:
+  - Two identical firms each make goods at a unit cost of 10.
+  - Each round a firm can produce any whole quantity from 0 to 90.
+round:
+  - Each firm sends one public, non-binding message.
+  - Each firm secretly chooses a quantity.
+  - Quantities are revealed, and the market price is set at
+    `100 - total quantity`, never below 0.
+win:
+  - Each firm earns `(price - 10) × its quantity` per round, which can be
+    negative.
+  - After 10 rounds, each firm's reward is its total profit, and the
+    higher total wins.
+  - The Nash outcome is 30 each for 900 profit each per round, while
+    splitting the monopoly output gives 1012.5 each.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the public
+    state, past quantities, prices and profits, and the messages so far.
+  - Messages and quantities both come back as one JSON action; the
+    message is free text inside a `talk` action.
+watch_for:
+  - Both agreed to produce 22.5 each, yet both chose the Cournot quantity 30
+    in every round (price 40, 900 profit each), and from round 3 the talk
+    simply endorsed 30.
+  - The `run.log` shows an LLM fallback, so at least one move was a random
+    legal move because a reply could not be parsed.
+runs:
+  - id: eco_cournot

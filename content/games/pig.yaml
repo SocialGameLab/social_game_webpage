@@ -1,0 +1,31 @@
+# Pig: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: pig
+title: Pig
+kind: Dice games
+players: 2 players · first to 50
+tagline: >-
+  Keep rolling to grow your pot, but a single 1 wipes it out; bank in time
+  to reach 50 first.
+view: race
+setup:
+  - Both players start at 0 points and take turns with one six-sided die.
+round:
+  - On your turn you roll the die, and any face from 2 to 6 is added to your
+    turn pot.
+  - Rolling a 1 empties the pot and ends your turn.
+  - After at least one good roll you may hold, which banks the pot into your
+    score and ends your turn.
+win:
+  - The first player to bank 50 or more points wins.
+agents:
+  - Each turn the agent gets a text prompt with both scores, its current pot,
+    the last roll and the legal actions.
+  - The move comes back as one JSON action, `roll` or `hold`, with no chat.
+watch_for:
+  - 'Busts dominate: P1 loses a 21-point pot on its first turn, and both
+    players roll many 1s before anyone banks.'
+  - P0 leads 34 to 19 and later 42 to 41, but P1 banks 11 on its final turn
+    to win 52 to 42.
+runs:
+  - id: pig

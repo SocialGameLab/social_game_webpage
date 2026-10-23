@@ -1,0 +1,37 @@
+# Repeated Prisoner's Dilemma: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: repeated_prisoners_dilemma
+title: Repeated Prisoner's Dilemma
+kind: Matrix games
+players: 2 players · 10 rounds
+tagline: >-
+  Each round both players cooperate or defect. Defecting always pays more
+  alone, but mutual cooperation beats mutual defection.
+view: rounds
+setup:
+  - Two players choose cooperate or defect for 10 rounds.
+  - Both cooperate scores 3 each, and both defect scores 1 each.
+  - A defector facing a cooperator scores 5 and the cooperator scores 0.
+round:
+  - Each player sends one public, non-binding message, P0 first.
+  - Both players then secretly choose `cooperate` or `defect` at the same
+    time.
+  - The choices are revealed together and each payoff is added to that
+    player's score.
+win:
+  - The game ends after 10 rounds.
+  - Each seat's reward is its own total score; the higher total is recorded
+    as the winner and equal totals are a draw.
+agents:
+  - Each turn the agent gets a text prompt with the game description, the
+    scores, the most recent public events (past choices and messages) and
+    the legal actions.
+  - The message and the choice each come back as one JSON action, `talk`
+    with free text or `choose` with `cooperate` or `defect`.
+watch_for:
+  - Eight rounds of mutual cooperation at 3 each end in round 9, when P0
+    promises to cooperate and then defects for 5 to 0.
+  - In round 10 both send the same apology for defecting last round (only P0
+    had) and promise to cooperate, then both defect, so P0 wins 30 to 25.
+runs:
+  - id: repeated_prisoners_dilemma

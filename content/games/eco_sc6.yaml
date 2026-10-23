@@ -1,0 +1,45 @@
+# Matrix game SC6 (constant sum 8): page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_sc6
+title: Matrix game SC6 (constant sum 8)
+kind: Matrix games
+players: 2 players · 8 rounds
+tagline: >-
+  Game 6 of Selten and Chmura (2008), a lopsided matching-pennies game where
+  P0 wants to match and P1 wants to differ.
+view: rounds
+setup:
+  - P0 picks the row and P1 the column of the same 2×2 game, played for 8
+    rounds.
+  - Picking A and A pays 7 and 1 to P0 and P1; A and B pays 1 and 7; B and A
+    pays 3 and 5; B and B pays 8 and 0.
+  - P0 does best by matching P1's choice and P1 by mismatching, and every
+    cell adds up to 8.
+  - The only equilibrium is mixed, with P0 playing A 45.5% of the time and
+    P1 63.6%.
+  - In the original lab study, played without talk, row players chose A
+    44.5% of the time and column players 59.6%.
+round:
+  - Each player sends one public, non-binding message, P0 first.
+  - Both players then secretly choose `A` or `B` at the same time.
+  - The choices are revealed together and each payoff is added to that
+    player's score.
+win:
+  - The game ends after 8 rounds.
+  - Each seat's reward is its own total score; the higher total is recorded
+    as the winner and equal totals are a draw.
+agents:
+  - Each turn the agent gets a text prompt with the game description, the
+    scores, the most recent public events (past choices and messages) and
+    the legal actions.
+  - The message and the choice each come back as one JSON action, `talk`
+    with free text or `choose` with `A` or `B`.
+  - The prompt spells out the full payoff table.
+watch_for:
+  - From round 3 on both seats refuse to announce anything, and P0 still
+    wins 45 to 19 by landing on a matching cell (A/A 7 to 1, B/B 8 to 0) in
+    five of eight rounds.
+  - When announcements return in round 7 both say A, but P1 plays B for 7 to
+    1, and in round 8 P0 says A again yet plays B for 8 to 0.
+runs:
+  - id: eco_sc6

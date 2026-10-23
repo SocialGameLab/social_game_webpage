@@ -1,0 +1,43 @@
+# Loan and Default: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: loan_and_default
+title: Loan and Default
+kind: Negotiation
+players: 2 players · 10 rounds · roles swap
+tagline: >-
+  A lender offers a loan that doubles in the borrower's hands. The borrower
+  then decides whether to pay it back.
+view: deals
+setup:
+  - One player starts as the Lender and the other as the Borrower.
+  - The roles swap after 5 rounds, and scores carry over.
+  - A loan has a principal of 0 to 10 and interest of 0 to 5.
+round:
+  - Both players send one public message.
+  - The Lender offers a principal and interest, and a principal of 0
+    means no loan.
+  - The Borrower accepts or rejects; with no loan, both score 1 and the
+    round ends.
+  - The project return, twice the principal, is announced.
+  - The Borrower chooses to repay or default, and payoffs are applied.
+win:
+  - On repayment, the Lender earns `10 + interest` and the Borrower earns
+    `return - principal - interest`.
+  - On default, the Lender earns `10 - principal` and the Borrower earns
+    `return - 2`.
+  - After 10 rounds, the higher total score wins, and equal totals are a
+    draw.
+agents:
+  - Each turn the agent gets a text prompt with the rules, its current
+    role, the loan terms, past rounds, scores and the messages so far.
+  - Messages, offers, replies and the repay choice each come back as one
+    JSON action.
+watch_for:
+  - Borrower P0 repaid the principal-2, zero-interest loan three times,
+    defaulted in round 4 when P1 added interest 1, and defaulted again in
+    round 5 after P1 dropped the interest back to 0 as P0 asked.
+  - After the swap the talk still speaks from the old roles, and lender P0's
+    final loan of principal 10 at interest 5 (the terms P1 named) was
+    repaid, giving P0 +15 and a 63 to 56 win.
+runs:
+  - id: loan_and_default

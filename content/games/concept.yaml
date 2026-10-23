@@ -1,0 +1,40 @@
+# Concept: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: concept
+title: Concept
+kind: Word games
+players: 5 players · rotating clue-giver
+tagline: >-
+  The clue-giver may not use any words, only icons like Animal, Big or
+  Water, and the others try to guess the secret word.
+view: clues
+view_options: {"roles_public": true}
+setup:
+  - Each of eight rounds gives one seat, the clue-giver, a secret target
+    word such as Elephant or Submarine.
+  - The clue-giver role rotates every round.
+  - The public board has 40 icons, such as Animal, Big and Water, plus
+    five modifiers, such as Main and Negation.
+round:
+  - The clue-giver places a set of markers, one main icon, one second
+    icon and one modifier.
+  - They may place a second set, or stop after the first.
+  - The other players then guess the word in seat order, one guess each,
+    or pass.
+  - The first correct guess scores a point for the guesser and the
+    clue-giver and ends the round.
+win:
+  - After eight rounds the highest score wins, and ties share the win.
+agents:
+  - Only the clue-giver sees the target word, as a private message.
+  - Markers are picked from fixed icon lists, so the clue-giver cannot
+    write any text.
+  - Guesses are free text, and every move comes back as one JSON action.
+watch_for:
+  - P0 wins with three right guesses, Bicycle, Library and Elephant, each
+    on the first try once the markers are down.
+  - In the last round P2's target is Robot, but it repeats its Volcano
+    markers (Nature with Fire, then Hot), so the table guesses volcano and
+    lava.
+runs:
+  - id: concept

@@ -1,10 +1,16 @@
-/* Werewolf: night kills, the Seer's checks, day speeches and lynches. */
+/* Werewolf: night kills, the Seer's checks, day speeches and lynches. Mafia
+ * reuses this view (view_from: werewolf), so team words come from TEAMS. */
 (function () {
   "use strict";
 
   const { esc } = MatchRoom.util;
   const ui = MatchRoom.ui;
   const state = MatchRoom.state;
+
+  // The killers' team: what one member is called, the team, and everyone else.
+  const TEAMS = { WOLVES: ["Wolf", "Wolves", "villagers"], MAFIA: ["Mafia", "Mafia", "town"] };
+  const killers = (r) => TEAMS[(r.players.find((p) => TEAMS[p.team]) || {}).team] || TEAMS.WOLVES;
+  const knownKillers = (k) => k.known_wolves || k.known_mafia || [];
 
   // Night events carry the day that just ended, so night 1 is day 0.
   const nightHead = (e) => `Night ${e.day + 1}`;
@@ -18,7 +24,7 @@
       switch (e.event) {
         case "seer_result": return ui.sys("seer", `The Seer checks <strong>${esc(ui.shortName(r, e.target))}</strong>: ${e.is_wolf ? "<strong>a wolf</strong>" : "not a wolf"}.`, r, e);
         case "night_kill": return ui.chapterHead(nightHead(e), `<strong>${esc(ui.shortName(r, e.target))}</strong> is killed in the night.`);
-        case "no_night_kill": return ui.chapterHead(nightHead(e), "The wolves could not agree; nobody dies.");
+        case "no_night_kill": return ui.chapterHead(nightHead(e), `The ${esc(killers(r)[1].toLowerCase())} could not agree; nobody dies.`);
         case "lynch": return ui.card(`<strong>Day ${e.day}: the village lynches ${esc(ui.shortName(r, e.target))}.</strong>`, r, e, true);
         case "no_lynch": return ui.card(`<strong>Day ${e.day}: the vote is tied.</strong> Nobody is lynched.`, r, e);
         default: return undefined;
@@ -29,13 +35,13 @@
       if (ui.roleVisibleTo(p.seat)) return undefined;
       // A wolf knows the other wolves even when their roles are hidden.
       const k = typeof state.lens === "number" ? ui.player(r, state.lens).knowledge || {} : {};
-      if ((k.known_wolves || []).includes(p.seat)) return `<span class="team team--WOLVES">Wolf (you know this)</span>`;
+      if (knownKillers(k).includes(p.seat)) return `<span class="team team--${esc(p.team)}">${esc(killers(r)[0])} (you know this)</span>`;
       return undefined;
     },
 
     knowledge(r, p) {
       const k = p.knowledge || {};
-      return (k.known_wolves || []).length ? `<div class="brief">Fellow wolf: ${ui.seatList(r, k.known_wolves)}</div>` : "";
+      return knownKillers(k).length ? `<div class="brief">Fellow ${esc(killers(r)[0].toLowerCase())}: ${ui.seatList(r, knownKillers(k))}</div>` : "";
     },
 
     board(r, evs) {
@@ -53,7 +59,7 @@
         <li class="ww-row${p.seat in fate ? " ww-row--dead" : ""}">${ui.dot(p.seat)}<span>${esc(p.name)}</span><span class="small muted">${esc(fate[p.seat] || "alive")}</span></li>`).join("");
       return [
         ui.endBanner(r),
-        ui.block(day ? `Day ${day} · ${alive} alive` : `${alive} alive`, `<ul class="ww-list">${rows}</ul><p class="small muted">Wolves win once they match the villagers in number.</p>`),
+        ui.block(day ? `Day ${day} · ${alive} alive` : `${alive} alive`, `<ul class="ww-list">${rows}</ul><p class="small muted">${esc(killers(r)[1])} win once they match the ${esc(killers(r)[2])} in number.</p>`),
         checks.length ? ui.block("Seer's checks", `<ul class="ww-list">${checks.map((c) => `<li class="ww-row">${ui.dot(c.target)}<span>${esc(ui.shortName(r, c.target))}</span><span class="small team team--${c.is_wolf ? "WOLVES" : "VILLAGE"}">${c.is_wolf ? "wolf" : "not a wolf"}</span></li>`).join("")}</ul>`) : "",
       ].join("");
     },

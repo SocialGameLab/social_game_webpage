@@ -1,0 +1,42 @@
+# Wavelength: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: wavelength
+title: Wavelength
+kind: Word games
+players: 5 players · RED vs BLUE
+tagline: >-
+  A Psychic sees a hidden point on a scale like HOT to COLD and gives a
+  clue, and their team tries to set the dial on it.
+setup:
+  - Seats split into RED with three players and BLUE with two.
+  - RED moves first at 0 points, and BLUE starts with 1 point.
+  - Each team has a Psychic, and the role rotates within the team every
+    turn.
+round:
+  - A public scale is drawn, such as HOT to COLD, and only the active
+    Psychic sees the target, a number from 0 to 10.
+  - The Psychic gives one free-text clue, the teammates discuss, and one
+    of them sets the dial.
+  - One player from the other team guesses whether the target is left or
+    right of the dial.
+  - The active team scores 4, 3 or 2 for hitting the target or landing
+    one or two away, and the other team scores 1 for a right call unless
+    the hit was exact.
+  - A team that scores 4 but is still behind takes another turn at once.
+win:
+  - When a team reaches 10, the higher score wins.
+  - A tie at 10 or more goes to sudden death, one turn per team, until
+    the scores differ.
+agents:
+  - Only the active Psychic sees the target, as a private message.
+  - Clues and team discussion are free text, while the dial and the
+    left/right call are picked from fixed options.
+  - Every move comes back as one JSON action.
+watch_for:
+  - Each round only the psychic's lens shows the target, for example P4 in
+    round 5 sees target 0 behind the `humble potato` clue.
+  - Blue won 12 to 8 by landing 3 points on all three of its turns, while
+    Red's teammates read the potato as 3 instead of the extreme 0 and scored
+    nothing in round 5.
+runs:
+  - id: wavelength

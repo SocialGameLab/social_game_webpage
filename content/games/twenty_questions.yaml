@@ -1,0 +1,36 @@
+# 20 Questions: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: twenty_questions
+title: 20 Questions
+kind: Word games
+players: 5 players · one answerer, four guessers
+tagline: >-
+  One player secretly holds a thing from a public list, and the others
+  have twenty yes/no questions or guesses to find it.
+view: clues
+setup:
+  - One seat is the public Answerer and the other four are Guessers.
+  - The secret is drawn from a public shortlist of twelve things, such as
+    Dog, Piano and Lighthouse.
+  - Only the Answerer is told the secret.
+round:
+  - The Guessers take turns, sharing 20 chances in all.
+  - On each chance a Guesser asks one yes/no question or names a thing
+    from the shortlist.
+  - The Answerer replies to each question with YES, NO or UNKNOWN.
+win:
+  - The Guessers win the moment one of them names the secret.
+  - The Answerer wins once all 20 chances are used up.
+agents:
+  - The Answerer sees the secret as a private message, and the Guessers
+    see only the questions and answers so far.
+  - Questions are free text, while answers and guesses are picked from
+    fixed options.
+  - Every move comes back as one JSON action.
+watch_for:
+  - Only Answerer P3's lens shows Airplane; five yes/no questions (alive,
+    portable, human-made, transport, engine) were enough and P0 guessed it
+    on turn 6 of a 20-question budget.
+  - A short, clean match with no free-text talk, only questions and answers.
+runs:
+  - id: twenty_questions

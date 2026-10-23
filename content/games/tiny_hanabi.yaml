@@ -1,0 +1,34 @@
+# Tiny Hanabi: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: tiny_hanabi
+title: Tiny Hanabi
+kind: Signaling
+players: 2 players · one shared score
+tagline: >-
+  Two partners each hold a secret card and get one move apiece; the first
+  move is the only way to tell the partner anything.
+view: race
+setup:
+  - Each player is dealt one private card, a 0 or a 1, and cannot see the
+    partner's card.
+round:
+  - The first player picks action 0, 1 or 2, and the partner sees that
+    choice.
+  - The second player then picks action 0, 1 or 2.
+win:
+  - Both players get the same score, from 0 to 10, read from a fixed table
+    of both cards and both actions.
+  - A first move of 1 is a safe middle choice worth 4 or 8 whatever the
+    cards, while the 10-point outcomes need the actions to fit both cards.
+agents:
+  - Each agent gets a text prompt with its own card, the first player's
+    action if it has been made, and the legal actions.
+  - 'The move comes back as one JSON action, for example
+    `{"action_id": "play", "payload": {"action": 0}}`.'
+  - There is no chat; the first action is the only signal.
+watch_for:
+  - P0 held card 0 and played action 0, P1 held card 1 and played action 1,
+    and the pair scored 0, below the safe first move of 1 that guarantees 4
+    or 8.
+runs:
+  - id: tiny_hanabi

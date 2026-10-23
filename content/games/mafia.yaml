@@ -1,0 +1,41 @@
+# Mafia: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: mafia
+title: Mafia
+kind: Hidden roles
+players: 7 players · 5 town, 2 mafia
+tagline: >-
+  The mafia kill one townsperson each night, and by day the town talks and
+  votes to lynch a suspect.
+view_from: werewolf
+setup:
+  - Each seat secretly gets a role, five Townspeople and two Mafia.
+  - The mafia learn each other's seats, while the town knows only the role
+    counts.
+  - There is no seer, doctor or other special role, so the town has only
+    talk and votes to go on.
+round:
+  - At night the living mafia each pick a townsperson, and the most-picked
+    one is killed at dawn.
+  - By day every living player speaks once in free text, in turn.
+  - Everyone then votes at once, and the player with the most votes is
+    lynched.
+  - A tied vote, at night or by day, removes nobody.
+win:
+  - The town wins when every mafia member is dead.
+  - The mafia win once living mafia are at least as many as living town.
+agents:
+  - Each turn the agent gets a text prompt with its role, any known mafia
+    partners, who is alive, past kills and lynches, the day's talk and the
+    legal actions.
+  - 'Votes and kills come back as one JSON action, for example
+    `{"action_id": "lynch_vote", "payload": {"target": 3}}`.'
+  - Speech turns use a separate discussion prompt and return free text.
+watch_for:
+  - The day 1 talk is generic, and the town lynches P4, a Townsperson who
+    had pressed P0 and P2, after P6 named P4 as its main suspect.
+  - The night 1 kill of P6 leaves two Mafia (P0 and P5) against two town, so
+    Mafia wins after one day; P5 spent the day agreeing with P4 and pushing
+    P2.
+runs:
+  - id: mafia

@@ -1,0 +1,44 @@
+# Liar's Dice: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: liars_dice
+title: Liar's Dice
+kind: Bluffing
+players: 5 players · last one with dice
+tagline: >-
+  Everyone rolls in secret, then bids on how many of a face are on the whole
+  table until someone calls the last bid a lie.
+view: table
+setup:
+  - Each player starts with five dice and rolls them under a cup that only
+    they can see.
+  - Aces are wild for bids on faces 2 to 6, and a bid on aces counts only
+    aces.
+round:
+  - Each bid must top the last one by raising the face at the same quantity
+    or raising the quantity, and the opening bid cannot be aces.
+  - Switching to aces needs at least half the last quantity rounded up, and
+    switching back needs at least double plus one.
+  - After every bid, each other player may call Calza, betting the bid is
+    exactly right.
+  - Otherwise the next player raises or calls Dudo, and all cups are
+    revealed to settle it.
+  - On Dudo the doubter loses a die if the bid was met and the bidder loses
+    one if not, while an exact Calza wins a die back and a wrong one costs a
+    die.
+win:
+  - The first time a player drops to one die they lead a Palifico round,
+    where aces are not wild and the bid face cannot change.
+  - A player with no dice is out, and the last player with dice wins.
+agents:
+  - Each turn the agent gets a text prompt with its own hidden dice, every
+    player's dice count, the bids so far and the legal actions.
+  - 'Moves come back as one JSON action, for example
+    `{"action_id": "raise_bid", "payload": {"quantity": 4, "face": 3}}`.'
+  - There is no free chat; the bids are the only signal.
+watch_for:
+  - Calza is called 12 times but is exact only 3 times, and P2 is knocked
+    out by a wrong Calza while P3 lands two exact ones to win dice back.
+  - 'In the last round pick P3''s lens: P3 holds two 5s, bids two 5s, and P1
+    calls Dudo with its last die and is out.'
+runs:
+  - id: liars_dice

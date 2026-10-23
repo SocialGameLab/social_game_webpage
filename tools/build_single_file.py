@@ -36,14 +36,17 @@ def main() -> None:
     index = (SITE / "index.html").read_text(encoding="utf-8")
     manifest = (SITE / "data" / "manifest.js").read_text(encoding="utf-8")
     payload = re.search(r"MatchRoom\.setManifest\((.*)\);\s*$", manifest, re.S).group(1)
-    game_ids = [g["id"] for g in json.loads(payload)["games"]]
+    cards = json.loads(payload)["games"]
+    game_ids = [g["id"] for g in cards]
+    # Each view folder once: a game's own, its shared kind, or the game it borrows from.
+    view_dirs = list(dict.fromkeys(f"kinds/{g['view']}" if g.get("view") else f"games/{g.get('view_from') or g['id']}" for g in cards))
 
     css = list(re.findall(r'<link rel="stylesheet" href="(assets/[^"]+)">', index))
-    css += [f"games/{g}/view.css" for g in game_ids]
+    css += [f"{d}/view.css" for d in view_dirs]
     styles = "<style>\n" + "\n".join((SITE / p).read_text(encoding="utf-8") for p in css) + "\n</style>"
 
     scripts = ["assets/js/core.js", "assets/js/ui.js", "assets/js/home.js", "data/manifest.js"]
-    scripts += [p for g in game_ids for p in (f"games/{g}/view.js", f"data/{g}.js")]
+    scripts += [f"{d}/view.js" for d in view_dirs] + [f"data/{g}.js" for g in game_ids]
     scripts += ["assets/js/app.js"]
     inline_js = "\n".join(_script((SITE / p).read_text(encoding="utf-8")) for p in scripts)
 

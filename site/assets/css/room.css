@@ -247,6 +247,20 @@
 /* ------------------------------------------------------------------ */
 /* Responsive and motion                                              */
 /* ------------------------------------------------------------------ */
+/* Readable fields and round tables, shared by the kinds in kinds/. */
+.kv { display: inline-block; margin-right: 10px; }
+.kv__k { color: var(--ink-2); font-size: 0.92em; }
+.kv-line { margin-top: 4px; color: var(--ink-2); }
+.kv-list .kv { display: block; margin: 0 0 2px; }
+
+.rt-wrap { overflow-x: auto; }
+.rt { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+.rt th, .rt td { border-bottom: 1px solid var(--line); padding: 3px 5px; text-align: left; vertical-align: top; }
+.rt th { font-weight: 600; white-space: nowrap; }
+.rt-last td { background: color-mix(in srgb, var(--brass) 10%, transparent); }
+.rt-legend { margin: 0 0 4px; }
+
+/* ------------------------------------------------------------------ */
 @media (max-width: 1100px) {
   .room { grid-template-columns: minmax(0, 1fr) 320px; }
   .room__seats { grid-column: 1 / -1; }

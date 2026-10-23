@@ -1,0 +1,39 @@
+# Public Goods: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_public_goods
+title: Public Goods
+kind: Economics experiments
+players: 4 players · 10 rounds
+tagline: >-
+  Four players choose how many tokens to put in a shared pot. The pot pays
+  everyone, so each player is tempted to keep their tokens and free-ride.
+view: rounds
+setup:
+  - Each round every player holds 10 tokens.
+  - Every token put into the group account pays 0.3 to each of the four
+    players.
+round:
+  - Each player sends one public, non-binding message.
+  - Each player secretly chooses how many tokens, from 0 to 10, to put
+    into the group account.
+  - All contributions and the total are revealed, and payoffs are applied.
+win:
+  - Each round a player earns `10 - own contribution + 0.3 × total
+    contribution`.
+  - Contributing nothing always pays more for yourself, but if everyone
+    gives all 10 each earns 12 instead of 10.
+  - After 10 rounds, each player's reward is their total, and the highest
+    total wins.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the public
+    state, past contributions and payoffs, and the messages so far.
+  - Messages and contributions both come back as one JSON action; the
+    message is free text inside a `talk` action.
+watch_for:
+  - All four promised full contributions of 10 in rounds 1 and 2 but
+    contributed 0, and contributions stayed at 0 for all 10 rounds, leaving
+    100 each.
+  - Watch the talk turn in round 3, when P1, P2 and P3 cite the MPCR of 0.3
+    and stop promising, and P0 joins them a round later.
+runs:
+  - id: eco_public_goods

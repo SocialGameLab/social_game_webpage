@@ -1,0 +1,12 @@
+{
+  "case_id": "001-176928_Roigas_v._Estonia",
+  "verdict": "DEFENSE",
+  "winner": "DEFENSE",
+  "roles": {
+    "0": "JUROR",
+    "1": "DEFENSE_ADVOCATE",
+    "2": "PLAINTIFF_ADVOCATE",
+    "3": "JUROR",
+    "4": "JUROR"
+  }
+}

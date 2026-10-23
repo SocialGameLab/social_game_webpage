@@ -1,0 +1,25 @@
+{
+  "case_id": "2023_内0925行初2号",
+  "verdict": "PLAINTIFF",
+  "ground_truth": "PLAINTIFF",
+  "correct": true,
+  "citation_alignment": {
+    "governing_total": 1,
+    "plaintiff_aligned": [],
+    "defense_aligned": []
+  },
+  "advocate_rewards": {
+    "PLAINTIFF": {
+      "verdict": 1.0,
+      "alignment": 0.0,
+      "aligned": 0,
+      "governing_total": 1
+    },
+    "DEFENSE": {
+      "verdict": -1.0,
+      "alignment": 0.0,
+      "aligned": 0,
+      "governing_total": 1
+    }
+  }
+}

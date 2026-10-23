@@ -1,0 +1,26 @@
+Loading Legal-KB (statute search)...
+{
+  "verdict": "PLAINTIFF",
+  "winner": "PLAINTIFF",
+  "score": {
+    "case_id": "001-169663_Belane_Nagy_v._Hungary",
+    "verdict": "PLAINTIFF",
+    "ground_truth": "PLAINTIFF",
+    "correct": true,
+    "advocate_rewards": {
+      "PLAINTIFF": {
+        "verdict": 1.0,
+        "alignment": 1.0,
+        "aligned": 1,
+        "governing_total": 1
+      },
+      "DEFENSE": {
+        "verdict": -1.0,
+        "alignment": 1.0,
+        "aligned": 1,
+        "governing_total": 1
+      }
+    }
+  },
+  "run_dir": "output/validation4/20261023T175152Z_legal_court_5p_0"
+}

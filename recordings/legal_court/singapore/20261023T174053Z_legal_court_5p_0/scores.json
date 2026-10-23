@@ -1,0 +1,29 @@
+{
+  "case_id": "2004_SGHC_171",
+  "verdict": "PLAINTIFF",
+  "ground_truth": "PLAINTIFF",
+  "correct": true,
+  "citation_alignment": {
+    "governing_total": 1,
+    "plaintiff_aligned": [
+      "s 304A of the Penal Code"
+    ],
+    "defense_aligned": [
+      "s 304A of the Penal Code"
+    ]
+  },
+  "advocate_rewards": {
+    "PLAINTIFF": {
+      "verdict": 1.0,
+      "alignment": 1.0,
+      "aligned": 1,
+      "governing_total": 1
+    },
+    "DEFENSE": {
+      "verdict": -1.0,
+      "alignment": 1.0,
+      "aligned": 1,
+      "governing_total": 1
+    }
+  }
+}

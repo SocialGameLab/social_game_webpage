@@ -1,0 +1,685 @@
+{
+  "verdict": "DEFENSE",
+  "advocates": {
+    "1": {
+      "role": "DEFENSE_ADVOCATE",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1 of the Convention",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1 of the Convention",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        }
+      ]
+    },
+    "2": {
+      "role": "PLAINTIFF_ADVOCATE",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1 of the Convention",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1 of the Convention",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1",
+          "verified": true,
+          "scope": "library"
+        }
+      ]
+    }
+  },
+  "jurors": {
+    "0": {
+      "model": "openai/openai/gpt-5.4",
+      "kb_searches": [
+        {
+          "keywords": "right to life medical treatment withdrawal of life-sustaining care procedural obligation investigation",
+          "law": "European Convention on Human Rights",
+          "n_hits": 6,
+          "top": [
+            "Article 2 § 1 of the European Convention on Human Rights",
+            "Article 8 § 1 of the European Convention on Human Rights",
+            "Article 2 § 2 of the European Convention on Human Rights"
+          ]
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1 of the Convention",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1",
+          "verified": true,
+          "scope": "library"
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1 gained more ground through the 30 August 2012 forensic report directly answering the disputed causation and treatment points."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1 more persuasively tied Article 2 to the autopsy, ICU record, and forensic report while directly answering P2's chart-gap point."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1 gained more this round because the autopsy/pathology evidence directly addressed causation, while P2's phone-log evidence mainly supported only the procedural complaint."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1 gained more this round by tying verified Article 2 standards to the autopsy/forensic record and the investigation steps, while P2 mainly sharpened the documentation-gap point."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1 gained more this round with the complete medical file directly supporting causation and timing, while P2's anaesthesiologist opinion mainly highlighted documentation gaps."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1 gained more ground by directly answering the anaesthesiologist point with the autopsy/forensic causation record while P2 mainly reiterated the documentation defects."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 0,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 0,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "reason": "P1 gained more this round because the witness interviews directly support restraint and palliative-care facts, while P2's Expert Committee minutes only indirectly attack review depth."
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1’s autopsy/forensic evidence and Article 2 application outweighed P2’s incomplete-protocol point, so the applicant did not meet the burden."
+        }
+      ]
+    },
+    "3": {
+      "model": "azure/anthropic/claude-opus-4-8",
+      "kb_searches": [
+        {
+          "keywords": "right to life positive obligation medical treatment effective investigation withdrawal of life-sustaining treatment",
+          "law": "European Convention on Human Rights",
+          "n_hits": 6,
+          "top": [
+            "Article 2 § 1 of the European Convention on Human Rights",
+            "Article 3 of the European Convention on Human Rights",
+            "Article 8 § 1 of the European Convention on Human Rights"
+          ]
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1 of the Convention",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1",
+          "verified": true,
+          "scope": "library"
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 0,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P1 ties the forensic report and autopsy directly to the Article 2 framework/investigation obligation, while P2's documentation-gap evidence raises doubts but does not rebut the forensic finding that death was caused by metastatic melanoma and feeding ceased only after brain-death findings."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1 correctly applies Article 2's positive/procedural obligations to the one-directional autopsy/forensic evidence and frames P2's chart defects as a paperwork irregularity, while P2 largely repeats prior points without rebutting the causation evidence."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2's telephone-log evidence newly supports a procedural-limb Article 2 claim, gaining ground this round, while P1's autopsy only reconfirms undisputed causation."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2 sharply distinguished cause-of-death from reliability of the brain-death determination and tied the anaesthesiologist opinion to the incomplete chart, but P1's substantive causation and effective-investigation record still carries the burden analysis this round."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "evidence_note": 0,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 2
+          },
+          "reason": "P2's independent anaesthesiologist opinion directly undermines the reliability of the brain-death determination underlying the 13 October feeding cessation, a procedural-limb point P1's causation-focused file does not answer."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P1 directly refuted the anaesthesiologist opinion as a record-keeping critique that cannot bridge the causation gap, grounded in autopsy and forensic evidence, while P2 largely repeated the documentation and 'information notice' points without countering the causation argument."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 0,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "This round was evidence-only; P1's witness interviews directly corroborate the justification for restraints and continued comfort care, consistent with the record, while P2's Expert Committee attendance point is a secondary procedural quibble that does not address causation or the brain-death documentation core."
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "Defense's autopsy, full ICU file and forensic report (P1 evidence rounds 1-5) establish death from terminal metastatic melanoma and effective investigation; plaintiff's documentation/paperwork criticisms never bridge the causation gap, so the burden under Article 2 § 1 is unmet."
+        }
+      ]
+    },
+    "4": {
+      "model": "nvidia/qwen/qwen3-next-80b-a3b-instruct",
+      "kb_searches": [
+        {
+          "keywords": "Article 2 § 1 right to life obligation to protect life when life-sustaining treatment withdrawn brain death documentation procedural duty",
+          "law": "Article 2 § 1 of the European Convention on Human Rights",
+          "n_hits": 0,
+          "top": []
+        },
+        {
+          "keywords": "Article 2 § 1 European Convention on Human Rights right to life positive obligation life-sustaining treatment withdrawal brain death documentation procedural investigation",
+          "law": "Article 2 § 1 of the European Convention on Human Rights",
+          "n_hits": 0,
+          "top": []
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "Article 2",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1 of the Convention",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 2 § 1",
+          "verified": true,
+          "scope": "library"
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 exposed critical documentation failures in the brain-death protocol and inadequate state response to the applicant’s complaint, directly undermining the State’s claim of compliance with Article 2’s procedural obligations."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 correctly identified that Article 2’s procedural obligation was breached by the State’s failure to document brain death properly and to treat the applicant’s complaint as a potential life-ending violation, which the defense ignored."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "reason": "P2’s evidence directly undermines the State’s procedural obligation under Article 2 by showing the emergency call was improperly logged as an 'information notice' despite a specific allegation of life-ending misconduct, which P1 failed to refute."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 correctly identified that incomplete brain-death documentation undermines the lawfulness of life-ending decisions under Article 2, directly countering P1's dismissal of procedural flaws as 'mere paperwork'."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2’s independent anaesthesiologist opinion directly undermines the reliability of the brain-death determination, a core legal prerequisite for withdrawing life-sustaining treatment under Article 2, and the State’s failure to document the required legal-medical sequence constitutes a procedural failure under Article 2 § 1."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 correctly tied the incomplete brain-death documentation and delayed criminal response to Article 2’s substantive and procedural obligations, while P1’s rebuttal failed to refute that these defects undermined the lawfulness of the life-ending decision."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2's evidence directly challenges the procedural legitimacy of the Expert Committee's review, which is central to the State's duty under Article 2 to ensure an effective investigation, and P1's evidence on witness statements does not rebut this specific procedural defect."
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "The State failed its positive obligation under Article 2 § 1 by not ensuring a reliable, properly documented brain-death determination before withdrawing nutrition, and its procedural duty by inadequately responding to the applicant’s immediate complaint, as shown by the unsigned neurological assessment, blank repeat-confirmation time, sparse sedation charting, and logging of the emergency call as an 'information notice' — all of which undermine the lawfulness of the life-ending decision and the State’s investigative response."
+        }
+      ]
+    }
+  },
+  "citation_alignment": {
+    "governing_total": 1,
+    "plaintiff_aligned": [
+      "Article 2 § 1 of the European Convention on Human Rights"
+    ],
+    "defense_aligned": [
+      "Article 2 § 1 of the European Convention on Human Rights"
+    ]
+  },
+  "citation_grounding": {
+    "total": 18,
+    "verified": 18,
+    "rate": 1.0,
+    "outside_library": 0
+  }
+}

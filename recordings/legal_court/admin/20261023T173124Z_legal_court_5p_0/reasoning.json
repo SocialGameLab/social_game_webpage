@@ -1,0 +1,653 @@
+{
+  "verdict": "PLAINTIFF",
+  "advocates": {
+    "1": {
+      "role": "DEFENSE_ADVOCATE",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "《劳动合同法实施条例》第二十一条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动保障监察条例》第十一条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动保障监察条例》第十八条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动合同法实施条例》第二十一条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动保障监察条例》第十八条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动合同法实施条例》第二十一条",
+          "verified": true
+        }
+      ]
+    },
+    "2": {
+      "role": "PLAINTIFF_ADVOCATE",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "《劳动保障监察条例》第十八条",
+          "verified": true
+        },
+        {
+          "cite": "《社会保险法》第五十八条第一款",
+          "verified": true
+        },
+        {
+          "cite": "《劳动合同法实施条例》第二十一条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动保障监察条例》第十八条",
+          "verified": true
+        },
+        {
+          "cite": "《社会保险法》第五十八条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动合同法实施条例》第二十一条",
+          "verified": true
+        }
+      ]
+    }
+  },
+  "jurors": {
+    "0": {
+      "model": "openai/openai/gpt-5.4",
+      "kb_searches": [
+        {
+          "keywords": "社会保险费补缴 责令限期缴纳 劳动监察 受理范围 社会保险费征收机关",
+          "law": "中华人民共和国社会保险法",
+          "n_hits": 6,
+          "top": [
+            "《中华人民共和国社会保险法》第六十三条第一款",
+            "《中华人民共和国社会保险法》第八十六条",
+            "《中华人民共和国社会保险法》第九十条"
+          ]
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "《劳动合同法实施条例》第二十一条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动保障监察条例》第十一条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动保障监察条例》第十八条",
+          "verified": true
+        },
+        {
+          "cite": "《社会保险法》第五十八条第一款",
+          "verified": true
+        },
+        {
+          "cite": "《社会保险法》第五十八条",
+          "verified": true
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2据收件回执和短信直击已提交生效判决仍被年龄排除。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2紧扣决定书理由与生效判决、10月18日短信反驳P1。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2考勤排班表更具体，较P1单方情况说明更能反映实际用工。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2据生效民事判决及社保法58条，正面击破P1援引实施条例21条。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "reason": "P2工资流水更直接反驳P1“劳务费”疑点，较P1核查函更切题。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2紧扣决定书与10月18日短信，反驳P1“复杂性”理由脱离原处分。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2签收通知更直接证明受管理，较P1档案材料更切题。"
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "原告凭生效民事判决及P2收件回执、工资考勤证据证明不予受理理由失实。"
+        }
+      ]
+    },
+    "3": {
+      "model": "azure/anthropic/claude-opus-4-8",
+      "kb_searches": [
+        {
+          "keywords": "劳动保障监察 超过法定退休年龄 补缴社会保险 受理范围",
+          "law": "劳动保障监察条例",
+          "n_hits": 6,
+          "top": [
+            "《劳动保障监察条例》第十条第四款",
+            "《劳动保障监察条例》第十一条第八款",
+            "《劳动保障监察条例》第二十七条第二款"
+          ]
+        },
+        {
+          "keywords": "用人单位未按时足额缴纳社会保险费 责令补缴",
+          "law": "中华人民共和国社会保险法",
+          "n_hits": 6,
+          "top": [
+            "《中华人民共和国社会保险法》第六十三条第一款",
+            "《中华人民共和国社会保险法》第六十条第一款",
+            "《中华人民共和国社会保险法》第八十六条"
+          ]
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "《劳动合同法实施条例》第二十一条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动保障监察条例》第十一条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动保障监察条例》第十八条",
+          "verified": true
+        },
+        {
+          "cite": "《社会保险法》第五十八条第一款",
+          "verified": true
+        },
+        {
+          "cite": "《社会保险法》第五十八条",
+          "verified": true
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "fallback": true,
+          "raw": "SEARCH: 超过法定退休年龄 劳动关系 劳务关系 社会保险补缴 劳动监察受理范围 | LAW: \n\n{\"plaintiff\": {\"legal_grounding\": 1, \"evidence\": 2, \"responsiveness\": 2, \"factual_consistency\": 2, \"logical_rigor\": 1},\n \"defense\": {\"legal_grounding\": 1, \"evidence\": 1, \"responsiveness\": 1, \"factual_consistency\": 1, \"logical_rigor\": 2},\n \"for_plaintiff\": true,\n \"reason\": \"P2出示生效判决已确认劳动关系，被告以年龄定性为劳务与生效判决相悖，其举证难证不予受理合法。\"}"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2指出决定书实以年龄否定劳动关系，单方说明不能对抗生效判决，直击核心。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2出示的考勤表、责任片区表含迟到扣款、请假审批等从属性管理证据，远胜被告单方《情况说明》。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2引《社会保险法》第五十八条精准击中既往欠缴监察义务，并指出第二十一条不消灭既往关系，强于P1。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2工资流水证明持续从属性用工，直击欠缴监察事项，证明力压过被告的参保核查函疑义。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2指出决定书真实理由是'年龄/劳务关系'否定既判力，戳中被诉行为核心缺陷，P1复杂性论证脱离决定书实际理由。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2内部通知签收页进一步证实从属性用工，强于P1档案户籍单对劳务关系的单薄支撑。"
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "被告负合法性举证责任，却以年龄否定既判力确认的劳动关系直接不予受理，不能证明行为合法。"
+        }
+      ]
+    },
+    "4": {
+      "model": "nvidia/qwen/qwen3-next-80b-a3b-instruct",
+      "kb_searches": [
+        {
+          "keywords": "用人单位未缴纳社会保险费的责令补缴依据",
+          "law": "中华人民共和国社会保险法",
+          "n_hits": 6,
+          "top": [
+            "《中华人民共和国社会保险法》第六十三条第一款",
+            "《中华人民共和国社会保险法》第八十六条",
+            "《中华人民共和国社会保险法》第九十条"
+          ]
+        },
+        {
+          "keywords": "用人单位未缴纳社会保险费的责令补缴依据",
+          "law": "《中华人民共和国社会保险法》第六十三条",
+          "n_hits": 0,
+          "top": []
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "《劳动合同法实施条例》第二十一条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动保障监察条例》第十一条",
+          "verified": true
+        },
+        {
+          "cite": "《劳动保障监察条例》第十八条",
+          "verified": true
+        },
+        {
+          "cite": "《社会保险法》第五十八条第一款",
+          "verified": true
+        },
+        {
+          "cite": "《社会保险法》第五十八条",
+          "verified": true
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "原告提交生效判决确认劳动关系，被告未依法审查即以年龄拒收，违反举证责任与法定职责。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "原告精准反驳被告以年龄否定劳动关系，且生效判决已确认用工关系，被告未依法审查核心证据。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "P2提交的考勤表证明劳动从属性，直接反驳被告以劳务关系为由的错误认定，且生效判决已确认劳动关系，被告未依法审查。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 0,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "原告精准援引《社会保险法》第五十八条，指出被告以年龄拒受理违反法定职责，且有效反驳被告对《劳动合同法实施条例》第二十一条的误用。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "P2以工资明细和银行流水直接反驳被告对劳动关系的否定，且援引《社会保险法》第五十八条确立用人单位补缴义务，逻辑闭环。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "原告精准指出被告以年龄否定劳动关系，违背生效判决确认的事实，且社保中心备注‘需依据裁判文书审核’恰被原告提交的判决满足，被告拒受理无法律依据。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "P2提交的内部通知与签名证明持续性从属用工，直接反驳被告“劳务关系”核心主张，且契合《社会保险法》第五十八条。"
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "原告援引《社会保险法》第六十三条，证明被告负有责令补缴法定职责，被告未援引该条且错误以年龄排除受理。"
+        }
+      ]
+    }
+  },
+  "citation_alignment": {
+    "governing_total": 1,
+    "plaintiff_aligned": [],
+    "defense_aligned": []
+  },
+  "citation_grounding": {
+    "total": 12,
+    "verified": 12,
+    "rate": 1.0
+  }
+}

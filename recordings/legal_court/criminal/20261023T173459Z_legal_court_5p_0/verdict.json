@@ -1,0 +1,12 @@
+{
+  "case_id": "2022_云28刑初32号",
+  "verdict": "PLAINTIFF",
+  "winner": "PLAINTIFF",
+  "roles": {
+    "0": "JUROR",
+    "1": "DEFENSE_ADVOCATE",
+    "2": "PLAINTIFF_ADVOCATE",
+    "3": "JUROR",
+    "4": "JUROR"
+  }
+}

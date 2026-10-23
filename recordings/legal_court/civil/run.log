@@ -1,0 +1,31 @@
+Loading Legal-KB (statute search)...
+Building prefix dict from the default dictionary ...
+Loading model from cache /var/folders/wn/bk1frgf14hl6mnkmcwqgddmc0000gq/T/jieba.cache
+Loading model cost 0.236 seconds.
+Prefix dict has been built successfully.
+[LLM fallback] Could not parse a legal JSON action from the LLM — picking a random legal action.
+{
+  "verdict": "DEFENSE",
+  "winner": "DEFENSE",
+  "score": {
+    "case_id": "2023_甘0802民初6761号",
+    "verdict": "DEFENSE",
+    "ground_truth": "DEFENSE",
+    "correct": true,
+    "advocate_rewards": {
+      "PLAINTIFF": {
+        "verdict": -1.0,
+        "alignment": 0.0,
+        "aligned": 0,
+        "governing_total": 3
+      },
+      "DEFENSE": {
+        "verdict": 1.0,
+        "alignment": 0.0,
+        "aligned": 0,
+        "governing_total": 3
+      }
+    }
+  },
+  "run_dir": "/Users/shuangl4/Desktop/social game/social_game_webpage/recordings/legal_court/civil/20261023T172753Z_legal_court_5p_0"
+}

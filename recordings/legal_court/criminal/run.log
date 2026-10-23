@@ -1,0 +1,30 @@
+Loading Legal-KB (statute search)...
+Building prefix dict from the default dictionary ...
+Loading model from cache /var/folders/wn/bk1frgf14hl6mnkmcwqgddmc0000gq/T/jieba.cache
+Loading model cost 0.244 seconds.
+Prefix dict has been built successfully.
+{
+  "verdict": "PLAINTIFF",
+  "winner": "PLAINTIFF",
+  "score": {
+    "case_id": "2022_云28刑初32号",
+    "verdict": "PLAINTIFF",
+    "ground_truth": "PLAINTIFF",
+    "correct": true,
+    "advocate_rewards": {
+      "PLAINTIFF": {
+        "verdict": 1.0,
+        "alignment": 0.167,
+        "aligned": 1,
+        "governing_total": 6
+      },
+      "DEFENSE": {
+        "verdict": -1.0,
+        "alignment": 0.0,
+        "aligned": 0,
+        "governing_total": 6
+      }
+    }
+  },
+  "run_dir": "/Users/shuangl4/Desktop/social game/social_game_webpage/recordings/legal_court/criminal/20261023T173459Z_legal_court_5p_0"
+}

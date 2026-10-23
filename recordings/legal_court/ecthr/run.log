@@ -1,0 +1,26 @@
+Loading Legal-KB (statute search)...
+{
+  "verdict": "DEFENSE",
+  "winner": "DEFENSE",
+  "score": {
+    "case_id": "001-176928_Roigas_v._Estonia",
+    "verdict": "DEFENSE",
+    "ground_truth": "DEFENSE",
+    "correct": true,
+    "advocate_rewards": {
+      "PLAINTIFF": {
+        "verdict": -1.0,
+        "alignment": 1.0,
+        "aligned": 1,
+        "governing_total": 1
+      },
+      "DEFENSE": {
+        "verdict": 1.0,
+        "alignment": 1.0,
+        "aligned": 1,
+        "governing_total": 1
+      }
+    }
+  },
+  "run_dir": "/Users/shuangl4/Desktop/social game/social_game_webpage/recordings/legal_court/ecthr/20261023T173800Z_legal_court_5p_0"
+}

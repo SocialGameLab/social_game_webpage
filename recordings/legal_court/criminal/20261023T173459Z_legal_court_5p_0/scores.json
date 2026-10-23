@@ -1,0 +1,27 @@
+{
+  "case_id": "2022_云28刑初32号",
+  "verdict": "PLAINTIFF",
+  "ground_truth": "PLAINTIFF",
+  "correct": true,
+  "citation_alignment": {
+    "governing_total": 6,
+    "plaintiff_aligned": [
+      "《中华人民共和国刑法》第三百八十九条第一款"
+    ],
+    "defense_aligned": []
+  },
+  "advocate_rewards": {
+    "PLAINTIFF": {
+      "verdict": 1.0,
+      "alignment": 0.167,
+      "aligned": 1,
+      "governing_total": 6
+    },
+    "DEFENSE": {
+      "verdict": -1.0,
+      "alignment": 0.0,
+      "aligned": 0,
+      "governing_total": 6
+    }
+  }
+}

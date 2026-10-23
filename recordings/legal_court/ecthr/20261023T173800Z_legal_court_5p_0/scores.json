@@ -1,0 +1,29 @@
+{
+  "case_id": "001-176928_Roigas_v._Estonia",
+  "verdict": "DEFENSE",
+  "ground_truth": "DEFENSE",
+  "correct": true,
+  "citation_alignment": {
+    "governing_total": 1,
+    "plaintiff_aligned": [
+      "Article 2 § 1 of the European Convention on Human Rights"
+    ],
+    "defense_aligned": [
+      "Article 2 § 1 of the European Convention on Human Rights"
+    ]
+  },
+  "advocate_rewards": {
+    "PLAINTIFF": {
+      "verdict": -1.0,
+      "alignment": 1.0,
+      "aligned": 1,
+      "governing_total": 1
+    },
+    "DEFENSE": {
+      "verdict": 1.0,
+      "alignment": 1.0,
+      "aligned": 1,
+      "governing_total": 1
+    }
+  }
+}

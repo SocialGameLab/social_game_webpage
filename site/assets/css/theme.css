@@ -17,6 +17,8 @@
   --evil: #b23f2b;
   --red-team: #b8382a;
   --blue-team: #2a64a8;
+  --plaintiff: #9a4a1f;
+  --defense: #35618f;
   --neutral-card: #c9bfa6;
   --assassin-card: #1b1b1b;
   --ok: #2f7d4f;
@@ -48,6 +50,8 @@
     --evil: #e2735d;
     --red-team: #e0675a;
     --blue-team: #6a9fe0;
+    --plaintiff: #e39a66;
+    --defense: #7fb0e0;
     --neutral-card: #6f6852;
     --assassin-card: #000;
     --ok: #5cbf86;
@@ -72,6 +76,8 @@
   --evil: #e2735d;
   --red-team: #e0675a;
   --blue-team: #6a9fe0;
+  --plaintiff: #e39a66;
+  --defense: #7fb0e0;
   --neutral-card: #6f6852;
   --assassin-card: #000;
   --ok: #5cbf86;

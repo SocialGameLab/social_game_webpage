@@ -45,6 +45,7 @@ tools/
   record_runs.py         play every run listed in content/ with the LLM in social-game-env's .env
   new_game.py            scaffold a game from templates/game/
   check_site.py          consistency check (runs in CI before every deploy)
+  pick_legal_cases.py    seeded, rule-based draw of the Legal Court cases to show
   build_single_file.py   inline everything into dist/match-room.html (for sharing as one file)
 .github/workflows/pages.yml   deploys site/ on push to main
 CLAUDE.md                conventions for extending the site
@@ -119,9 +120,12 @@ $ENV tools/record_runs.py werewolf && $ENV tools/build_data.py
 # 4. draw them in site/games/werewolf/view.js, and the board in view.css
 ```
 
-If `runners.play` cannot drive the game, add an engine next to `"generic"`
-and `"jubensha_qa"` in `ENGINES` in `tools/build_data.py`, and in
-`_command` in `tools/record_runs.py`.
+If `runners.play` cannot drive the game, add an engine next to `"generic"`,
+`"jubensha_qa"` and `"legal_court"` in `ENGINES` in `tools/build_data.py`, and
+in `_command` in `tools/record_runs.py`. Legal Court runs name the case to
+play with `case:` (a case directory under social-game-env's
+`configs/legal_court/`); the five shown were drawn with
+`tools/pick_legal_cases.py --seed 20261023`.
 
 ## Deploy
 
@@ -147,6 +151,22 @@ random-action fallbacks.
 | Jubensha QA 00023 魔幻酒吧 | 0 | 39% answer accuracy |
 | Jubensha QA 00046 殊途 | 0 | 37% |
 | Jubensha QA 00008 死岛 | 0 | 19% |
+
+Legal Court was recorded on 2026-10-23 with a different line-up: advocates
+`openai/openai/gpt-5.4`, jurors `openai/openai/gpt-5.4`,
+`azure/anthropic/claude-opus-4-8` and `nvidia/qwen/qwen3-next-80b-a3b-instruct`
+(the heterogeneous jury is part of the game's design), after the jury was
+given a per-set standard of decision (burden of proof / standard of review).
+One case per case set, drawn with `tools/pick_legal_cases.py --seed 20261023`:
+
+| Case | Real outcome | Jury verdict |
+|---|---|---|
+| 返还原物 (Chinese civil, 甘0802民初6761) | defence | defence 2–1 |
+| 社保 (Chinese administrative, 内0925行初2) | plaintiff | plaintiff 3–0 |
+| 行贿 (Chinese criminal, 云28刑初32) | prosecution | prosecution 3–0 |
+| Rõigas v. Estonia (ECtHR, Article 2) | no violation | State 2–1 |
+| PP v the accused [2004] SGHC 171 (Singapore, s 304A) | conviction | prosecution 3–0 |
+| Béláné Nagy v. Hungary (ECtHR, Article 1 of Protocol No. 1) · one more English case, drawn with seed 1 | violation | applicant 3–0 |
 
 ### Known caveats shown on the page
 

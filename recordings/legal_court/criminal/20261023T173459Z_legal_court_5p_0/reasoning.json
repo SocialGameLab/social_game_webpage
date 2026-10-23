@@ -1,0 +1,654 @@
+{
+  "verdict": "PLAINTIFF",
+  "advocates": {
+    "1": {
+      "role": "DEFENSE_ADVOCATE",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "《市场推广及客户维护费用管理办法》第8条",
+          "verified": false
+        },
+        {
+          "cite": "《中华人民共和国刑事诉讼法》第五十五条",
+          "verified": true
+        },
+        {
+          "cite": "《刑事诉讼法》第五十五条",
+          "verified": true
+        },
+        {
+          "cite": "《市场推广及客户维护费用管理办法（2011版）》第8条",
+          "verified": false
+        }
+      ]
+    },
+    "2": {
+      "role": "PLAINTIFF_ADVOCATE",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "《刑法》第三百八十九条第一款",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国刑法》第三百八十九条第一款",
+          "verified": true
+        },
+        {
+          "cite": "《刑法》第三百八十九条第一款",
+          "verified": true
+        }
+      ]
+    }
+  },
+  "jurors": {
+    "0": {
+      "model": "openai/openai/gpt-5.4",
+      "kb_searches": [
+        {
+          "keywords": "行贿罪 证明标准 行贿数额 情节严重 从轻处罚",
+          "law": "中华人民共和国刑法",
+          "n_hits": 6,
+          "top": [
+            "《中华人民共和国刑法》第三百九十条第二款",
+            "《中华人民共和国刑法》第三百九十条第一款",
+            "《中华人民共和国刑法》第十七条之一"
+          ]
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "《市场推广及客户维护费用管理办法》第8条",
+          "verified": false
+        },
+        {
+          "cite": "《刑法》第三百八十九条第一款",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国刑事诉讼法》第五十五条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国刑法》第三百八十九条第一款",
+          "verified": true
+        },
+        {
+          "cite": "《刑事诉讼法》第五十五条",
+          "verified": true
+        },
+        {
+          "cite": "《市场推广及客户维护费用管理办法（2011版）》第8条",
+          "verified": false
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2以银行流水+中心账册直接击破P1“会议费外观”证据。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2紧扣5月18日转账、未入账及理财去向反驳P1短信外观说，更具体有力。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2以门禁监控+访客登记+取现凭条更具体回应了P1对2013年10万元时间的质疑。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2紧扣P1对2013年10万元疑点，以门禁监控+供述+取现三证回应更强。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2以核销台账和王某笔录更具体击破P1的单位背景说。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2引刑法389并结合个人账户转账、无入账及规避流程记录更完整回应P1。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 0,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 0,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2以聊天记录+轨迹ETC餐单直接印证2017年交付，强于P1仅量刑情节材料。"
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2以转账、聊天、门禁取现链条坐实，P1仅对两笔制造疑点不足推翻全案。"
+        }
+      ]
+    },
+    "3": {
+      "model": "azure/anthropic/claude-opus-4-8",
+      "kb_searches": [
+        {
+          "keywords": "行贿罪 为谋取不正当利益 给予国家工作人员财物",
+          "law": "中华人民共和国刑法",
+          "n_hits": 6,
+          "top": [
+            "《中华人民共和国刑法》第三百八十九条第一款",
+            "《中华人民共和国刑法》第三百八十九条第三款",
+            "《中华人民共和国刑法》第三百九十一条第一款"
+          ]
+        },
+        {
+          "keywords": "行贿罪 为谋取不正当利益 给予国家工作人员财物 数额认定",
+          "law": "中华人民共和国刑法",
+          "n_hits": 6,
+          "top": [
+            "《中华人民共和国刑法》第三百八十九条第一款",
+            "《中华人民共和国刑法》第三百八十九条第三款",
+            "《中华人民共和国刑法》第一百六十四条第一款"
+          ]
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "《市场推广及客户维护费用管理办法》第8条",
+          "verified": false
+        },
+        {
+          "cite": "《刑法》第三百八十九条第一款",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国刑事诉讼法》第五十五条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国刑法》第三百八十九条第一款",
+          "verified": true
+        },
+        {
+          "cite": "《刑事诉讼法》第五十五条",
+          "verified": true
+        },
+        {
+          "cite": "《市场推广及客户维护费用管理办法（2011版）》第8条",
+          "verified": false
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2以银行转账、无入账、王某笔录及中心书面说明击穿P1的会务外观主张，所引389/390条经核实。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2以资金流向个人账户、次日转配偶理财、无入账三链锁定行贿故意，击穿P1会务混同抗辩。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2以门禁监控、访客登记及取现凭条锁定张某2两笔交付，证据链闭合，优于P1仅凭笔录时间差异的质疑。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2指出报销链非要件，以门禁、供述、同日取现三证闭合击穿P1对2013年时间摇摆的质疑。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P1所引管理办法第8条未在法律库中找到，且P2台账证据揭示“先挂销售维护”规避留痕，击穿会务外观。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2正确引用刑法389条并用资金流、台账、规避流程证据闭合主观故意；P1依赖的管理办法第8条未在法律库找到。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 0,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2航天钞聊天与轨迹证据直击交付事实，P1仅提量刑情节未动摇定罪。"
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "公诉方以资金流、门禁取现、航天钞聊天记录形成闭合证据链并正确援引第389条，辩方疑点仅动摇个别金额，整体未推翻多笔84万指控。"
+        }
+      ]
+    },
+    "4": {
+      "model": "nvidia/qwen/qwen3-next-80b-a3b-instruct",
+      "kb_searches": [
+        {
+          "keywords": "为谋取不正当利益向国家工作人员输送财物构成何罪",
+          "law": "中华人民共和国刑法",
+          "n_hits": 6,
+          "top": [
+            "《中华人民共和国刑法》第三百八十九条第一款",
+            "《中华人民共和国刑法》第三百八十九条第三款",
+            "《中华人民共和国刑法》第一百六十四条第一款"
+          ]
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "《市场推广及客户维护费用管理办法》第8条",
+          "verified": false
+        },
+        {
+          "cite": "《刑法》第三百八十九条第一款",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国刑事诉讼法》第五十五条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国刑法》第三百八十九条第一款",
+          "verified": true
+        },
+        {
+          "cite": "《刑事诉讼法》第五十五条",
+          "verified": true
+        },
+        {
+          "cite": "《市场推广及客户维护费用管理办法（2011版）》第8条",
+          "verified": false
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "原告方精准援引《刑法》第389条，以资金流向、中心书面否认及事后沟通证据链闭环，有效反驳辩方合理怀疑主张。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "原告方以资金流向、中心无入账、报销无凭证及回避正式流程等闭环证据，排除了合理怀疑，符合行贿罪构成要件。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "原告方以门禁、监控、取现凭条与供述形成完整证据链，直接回应并驳斥了被告对时间一致性的质疑。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "辩方指出2013年10万元指控存在时间证据矛盾，且公诉方未排除合理怀疑，符合刑诉法第55条证明标准要求。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "P2精准回应辩方关于报销制度的主张，以台账和财务人员证言证明该10万元系伪装报销，非合法业务支出。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "原告精准援引刑法第389条，以完整证据链证明刘畅规避流程、向个人输送利益，已排除合理怀疑。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "P2出示的短信、轨迹与消费单形成完整证据链，直接回应辩方对行贿主观故意的质疑。"
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "公诉机关对每笔行贿事实均提供客观证据链闭环，已排除合理怀疑，符合刑法第三百八十九条第一款构成要件。"
+        }
+      ]
+    }
+  },
+  "citation_alignment": {
+    "governing_total": 6,
+    "plaintiff_aligned": [
+      "《中华人民共和国刑法》第三百八十九条第一款"
+    ],
+    "defense_aligned": []
+  },
+  "citation_grounding": {
+    "total": 7,
+    "verified": 5,
+    "rate": 0.7142857142857143
+  }
+}

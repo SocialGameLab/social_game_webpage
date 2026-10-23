@@ -1,0 +1,638 @@
+{
+  "verdict": "PLAINTIFF",
+  "advocates": {
+    "1": {
+      "role": "DEFENSE_ADVOCATE",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "s 304A of the Penal Code",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A of the Penal Code",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A of the Penal Code",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A of the Penal Code",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A",
+          "verified": true,
+          "scope": "library"
+        }
+      ]
+    },
+    "2": {
+      "role": "PLAINTIFF_ADVOCATE",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "s 304A of the Penal Code",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A of the Penal Code",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A of the Penal Code",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A of the Penal Code",
+          "verified": true,
+          "scope": "library"
+        }
+      ]
+    }
+  },
+  "jurors": {
+    "0": {
+      "model": "openai/openai/gpt-5.4",
+      "kb_searches": [
+        {
+          "keywords": "causing death by rash or negligent act criminal negligence causation Singapore collision at sea",
+          "law": "Penal Code",
+          "n_hits": 0,
+          "top": []
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "s 304A of the Penal Code",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304",
+          "verified": true,
+          "scope": "library"
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 directly answered P1’s autopilot evidence by pointing to the earlier port turns and linked those facts to s 304A more persuasively this round."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 gained ground with specific RSN radar/ARPA data directly rebutting P1’s ambiguity point."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 squarely answered P1’s simulator report with s 304A causation and the RSN log/CPA evidence."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 gained ground with concrete standing orders and bridge-log noncompliance directly answering P1's causation theory."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 0,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 directly answered P1’s trust-training evidence with standing orders, ARPA data, and a correct s 304A causation analysis."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 gained ground with new transcript evidence that Goh reported port-side bearing and no visual check was ordered, directly undercutting P1's causation-doubt theory."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 directly answered P1's CPA-training evidence by tying the negligence to contradictory bearings, ignored standing orders, and the ARPA data."
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2’s ARPA logs, standing orders, and Goh transcript proved repeated unverified port turns remained a substantial cause despite P1’s ANL-manoeuvre point."
+        }
+      ]
+    },
+    "3": {
+      "model": "azure/anthropic/claude-opus-4-8",
+      "kb_searches": [
+        {
+          "keywords": "causing death by rash or negligent act",
+          "law": "Penal Code",
+          "n_hits": 0,
+          "top": []
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "s 304A of the Penal Code",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304",
+          "verified": true,
+          "scope": "library"
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2's rebuttal directly refuted the autopilot evidence by showing Courageous's own port turns from 11.30pm collapsed the CPA before the ANL responded, using specific log timings."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2's ARPA data report shows the ANL stayed on the port bow from 11.29pm and that Courageous' own port alterations collapsed the CPA, directly rebutting P1's 'ambiguous ANL manoeuvre' theory by locating fault before the ANL's turns."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 correctly applied s 304A's causation requirement and used RSN log data (20° starboard would open CPA to 0.8nm) to show the appellants' port turns remained an operating cause, directly rebutting the defense expert's 'ANL could have done more' theory."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2's standing-orders evidence shows a concrete breach of duty (no early CO call, no independent bearing check) directly establishing negligence, outweighing P1's causation argument since Courageous' negligence remained an operative cause."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 tied the standing orders and ARPA logs to s 304A causation concretely, while P1's character evidence about trust and prior incident-free turnarounds does not negate the proved repeated negligent port alterations as an operating cause."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 2
+          },
+          "reason": "P2's MPA transcript showing the radar plotter actually reported the ANL on the port side yet no visual bearing check was ordered directly rebuts P1's shared-causation doubt and confirms the appellants' negligence was an operating cause."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 effectively distinguished the training-records evidence by pointing to the active CPA alarm, contradictory bearings, unverified false premise and ARPA logs showing port turns drove CPA to zero while a 20-degree starboard turn would have opened it."
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2's ARPA logs (20° starboard would open CPA to 0.8nm), standing orders, and Goh's MPA interview establish the appellants' repeated port turns on a false bearing were an operating and substantial cause; the ANL's late imperfect response does not break causation, so s 304A is proved beyond reasonable doubt."
+        }
+      ]
+    },
+    "4": {
+      "model": "nvidia/qwen/qwen3-next-80b-a3b-instruct",
+      "kb_searches": [
+        {
+          "keywords": "causing death by rash or negligent act",
+          "law": "s 304A of the Penal Code",
+          "n_hits": 0,
+          "top": []
+        },
+        {
+          "keywords": "causing death by rash or negligent act",
+          "law": "s 304A of the Penal Code",
+          "n_hits": 0,
+          "top": []
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "s 304A of the Penal Code",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304A",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "s 304",
+          "verified": true,
+          "scope": "library"
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2 directly refuted P1's new evidence by showing the collision was caused by Courageous’s prior negligent port alterations, not ANL’s late maneuvers, and correctly applied s 304A to the established facts of repeated failure to verify bearing and persistent wrong-way steering."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 0,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "reason": "P1 correctly invoked s 304A’s requirement to exclude reasonable doubt that the ANL’s late, gradual starboard alterations materially contributed to the collision, undermining the Prosecution’s claim of sole criminal causation."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "reason": "P2 correctly applied s 304A to establish that the accused’s repeated negligent port alterations were an operating and substantial cause of death, and directly rebutted the defense’s causation theory by showing the ANL’s later actions did not break the chain of causation."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "P1 correctly invoked s 304A’s requirement to exclude reasonable doubt on causation and rebutted P2’s new evidence by showing ANL’s late, ambiguous manoeuvres created a concurrent operative cause, which P2 failed to address."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 0,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 0,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 correctly applied s 304A by establishing that the appellants’ repeated negligent port alterations, in breach of standing orders and despite clear radar evidence, remained a direct and substantial cause of death, and the defense’s anecdotal evidence does not rebut causation or negate gross negligence."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P1 correctly invoked s 304A’s beyond-reasonable-doubt standard and the requirement to exclude concurrent causation, and rebutted P2’s new evidence by showing it does not negate the reasonable doubt created by ANL’s ambiguous, incremental avoidance maneuvers."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2 directly refuted P1’s training records argument by showing the CPA alarm and contradictory bearings triggered a duty to verify and act correctly under s 304A, which P1 ignored."
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "fallback": true,
+          "raw": "SEARCH: causing death by rash or negligent act | LAW: Penal Code s 304A"
+        }
+      ]
+    }
+  },
+  "citation_alignment": {
+    "governing_total": 1,
+    "plaintiff_aligned": [
+      "s 304A of the Penal Code"
+    ],
+    "defense_aligned": [
+      "s 304A of the Penal Code"
+    ]
+  },
+  "citation_grounding": {
+    "total": 13,
+    "verified": 13,
+    "rate": 1.0,
+    "outside_library": 0
+  }
+}

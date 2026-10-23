@@ -1,0 +1,29 @@
+{
+  "case_id": "001-169663_Belane_Nagy_v._Hungary",
+  "verdict": "PLAINTIFF",
+  "ground_truth": "PLAINTIFF",
+  "correct": true,
+  "citation_alignment": {
+    "governing_total": 1,
+    "plaintiff_aligned": [
+      "Article 1 of Protocol No. 1 to the European Convention on Human Rights"
+    ],
+    "defense_aligned": [
+      "Article 1 of Protocol No. 1 to the European Convention on Human Rights"
+    ]
+  },
+  "advocate_rewards": {
+    "PLAINTIFF": {
+      "verdict": 1.0,
+      "alignment": 1.0,
+      "aligned": 1,
+      "governing_total": 1
+    },
+    "DEFENSE": {
+      "verdict": -1.0,
+      "alignment": 1.0,
+      "aligned": 1,
+      "governing_total": 1
+    }
+  }
+}

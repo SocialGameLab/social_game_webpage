@@ -37,6 +37,8 @@ def _command(engine: str, game_cfg: str | None, run: dict[str, str], out: Path) 
     if engine == "jubensha_qa":
         return ["uv", "run", "python", "-m", "jubensha_qa", "play", f"configs/jubensha_qa/{run['script']}",
                 "--seed", "0", "--output-root", str(out)]
+    if engine == "legal_court":
+        return ["uv", "run", "python", "-m", "legal_court", "play", run["case"], "--output-root", str(out)]
     return ["uv", "run", "python", "-c", GENERIC.format(config=game_cfg, out=str(out))]
 
 

@@ -1,0 +1,12 @@
+{
+  "case_id": "2023_甘0802民初6761号",
+  "verdict": "DEFENSE",
+  "winner": "DEFENSE",
+  "roles": {
+    "0": "JUROR",
+    "1": "DEFENSE_ADVOCATE",
+    "2": "PLAINTIFF_ADVOCATE",
+    "3": "JUROR",
+    "4": "JUROR"
+  }
+}

@@ -1,0 +1,626 @@
+{
+  "verdict": "PLAINTIFF",
+  "advocates": {
+    "1": {
+      "role": "DEFENSE_ADVOCATE",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        }
+      ]
+    },
+    "2": {
+      "role": "PLAINTIFF_ADVOCATE",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 14 of the Convention",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        }
+      ]
+    }
+  },
+  "jurors": {
+    "0": {
+      "model": "openai/openai/gpt-5.4",
+      "kb_searches": [
+        {
+          "keywords": "protection of property social security disability pension fair balance possessions Article 1 Protocol No. 1",
+          "law": "Article 1 of Protocol No. 1 to the European Convention on Human Rights",
+          "n_hits": 0,
+          "top": []
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 14 of the Convention",
+          "verified": true,
+          "scope": "library"
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2 gained ground with the expert no-improvement point plus evidence that no rehabilitation or allowance was ever implemented."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2 gained ground by tying the expert no-improvement finding and missing rehabilitation support to proportionality under A1P1."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "reason": "P2 gained ground with the court expert report directly rebutting P1's methodology point and showing no real medical improvement."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2 gained slight ground by tying the expert report and missing rehabilitation support to proportionality under A1P1."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "reason": "P2’s refusal-decision and employment records more directly supported disproportionality than P1’s preparatory materials supported justification."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2 gained ground by tying the verified A1P1/Article 14 theory to the expert report and missing rehabilitation support, while P1 mainly restated statutory ineligibility."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "reason": "P2 gained more ground this round by tying the 2001 award file and contribution record to an earned-possession theory."
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "reason": "P2’s expert report and no-rehabilitation evidence showed a disproportionate burden under A1P1 despite P1’s lawful-basis proof."
+        }
+      ]
+    },
+    "3": {
+      "model": "azure/anthropic/claude-opus-4-8",
+      "kb_searches": [
+        {
+          "keywords": "deprivation of social-security disability pension as possession fair balance proportionality",
+          "law": "Article 1 of Protocol No. 1 to the European Convention on Human Rights",
+          "n_hits": 0,
+          "top": []
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 14 of the Convention",
+          "verified": true,
+          "scope": "library"
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2's proportionality/fair-balance framing plus the rehabilitation-authority evidence showing 'rehabilitable on paper, unsupported in reality' gained more ground on the Article 1 Protocol 1 proportionality issue this round."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2 tied the expert report of 16 Feb 2011 (no real improvement) and the never-opened rehabilitation to a concrete fair-balance failure, directly undercutting P1's lawful-reform framing."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "reason": "P2's expert report directly rebuts the premise of P1's conversion circular by showing no actual medical improvement, making the plaintiff's evidence more probative this round."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2's fair-balance/excessive-burden argument ties the expert report, the unimplemented rehabilitation, and the foreseeable contribution shortfall into a coherent proportionality case, directly rebutting P1's 'mechanical application' framing."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "reason": "P2's insurance-day calculation sheet showing the 1,095-day rule operated retroactively against someone already excluded from the labour market directly demonstrates the excessive-burden/fair-balance flaw, while P1's legislative-aim materials only establish a legitimate general aim without rebutting the individual disproportion."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2 introduced the verified Article 14 discrimination angle (31 Dec 2011 grandfathering line) plus the fair-balance/foreseeable-gap argument, gaining ground this round while P1 only restated the statutory-conditions point."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2's 2001 pension dossier directly establishes the earned-possession character central to Article 1 Protocol 1, gaining more ground than P1's decision-sheet evidence which only restates the rehabilitation point."
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 2
+          },
+          "reason": "Plaintiff showed via the 16 Feb 2011 expert report and causation chain (pension stripped, rehabilitation never provided, then 1,095-day rule invoked against the self-created gap) that the fair balance under Article 1 of Protocol No. 1 was upset by an excessive individual burden."
+        }
+      ]
+    },
+    "4": {
+      "model": "nvidia/qwen/qwen3-next-80b-a3b-instruct",
+      "kb_searches": [
+        {
+          "keywords": "Article 1 of Protocol No. 1 protection of property social security disability pension withdrawal",
+          "law": "Article 1 of Protocol No. 1 to the European Convention on Human Rights",
+          "n_hits": 0,
+          "top": []
+        },
+        {
+          "keywords": "Article 1 of Protocol No. 1 protection of property social security disability pension withdrawal",
+          "law": "Article 1 of Protocol No. 1 to the European Convention on Human Rights",
+          "n_hits": 0,
+          "top": []
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "Article 1 of Protocol No. 1",
+          "verified": true,
+          "scope": "library"
+        },
+        {
+          "cite": "Article 14 of the Convention",
+          "verified": true,
+          "scope": "library"
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 effectively refuted P1’s claim of lawful reform by proving the State’s failure to provide rehabilitation despite deeming it feasible, thereby upsetting the fair balance required under Article 1 of Protocol No. 1."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 correctly identifies the disproportionate interference by showing the State terminated pension based on methodological change without real improvement, then denied re-entry due to contribution gaps created by its own failure to provide rehabilitation or allowance, breaching the fair balance under Article 1 of Protocol No. 1."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2's expert report directly refutes the Government's claim of medical improvement and shows the State's rehabilitation promise was unfulfilled, undermining the proportionality of the interference under Article 1 of Protocol No. 1."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 correctly identifies the disproportionate burden created by the State’s termination of pension based on methodological change without rehabilitation, then using contribution gaps it itself caused, thus upsetting the fair balance under Article 1 of Protocol No. 1."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 directly rebutted P1’s assertion of legitimate aim by showing the 1,095-day rule operated as a retroactive barrier against someone rendered unable to meet it due to the State’s prior termination of her pension and failure to provide rehabilitation, upsetting the fair balance under Article 1 of Protocol No. 1."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2 correctly invoked Article 14 in conjunction with Article 1 of Protocol No. 1 to expose the arbitrary distinction created by Hungary’s reform, which penalized the applicant for gaps in contributions directly caused by the State’s own termination of her pension and failure to implement rehabilitation, thereby upsetting the fair balance."
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2’s evidence directly undermines the State’s claim of lawful neutrality by showing the applicant’s pension was an earned right under the old system, and the 2011 rehabilitation recommendation was never implemented, making the 2012 denial under Act CXCI disproportionate and unjustified."
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "State upset fair balance by terminating pension without real improvement, then blocking re-entry via self-created contribution gap."
+        }
+      ]
+    }
+  },
+  "citation_alignment": {
+    "governing_total": 1,
+    "plaintiff_aligned": [
+      "Article 1 of Protocol No. 1 to the European Convention on Human Rights"
+    ],
+    "defense_aligned": [
+      "Article 1 of Protocol No. 1 to the European Convention on Human Rights"
+    ]
+  },
+  "citation_grounding": {
+    "total": 11,
+    "verified": 11,
+    "rate": 1.0,
+    "outside_library": 0
+  }
+}

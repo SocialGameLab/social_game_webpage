@@ -1,0 +1,617 @@
+{
+  "verdict": "DEFENSE",
+  "advocates": {
+    "1": {
+      "role": "DEFENSE_ADVOCATE",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "《中华人民共和国民事诉讼法》第六十七条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国民法典》第二百三十五条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国民事诉讼法》第六十七条",
+          "verified": true
+        },
+        {
+          "cite": "《民事诉讼法》第六十七条",
+          "verified": true
+        },
+        {
+          "cite": "《民法典》第二百三十五条",
+          "verified": true
+        }
+      ]
+    },
+    "2": {
+      "role": "PLAINTIFF_ADVOCATE",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "《中华人民共和国民法典》第二百四十条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国民法典》第二百三十五条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国民法典》第二百三十五条",
+          "verified": true
+        }
+      ]
+    }
+  },
+  "jurors": {
+    "0": {
+      "model": "openai/openai/gpt-5.4",
+      "kb_searches": [],
+      "citation_checks": [
+        {
+          "cite": "《中华人民共和国民事诉讼法》第六十七条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国民法典》第二百三十五条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国民法典》第二百四十条",
+          "verified": true
+        },
+        {
+          "cite": "《民事诉讼法》第六十七条",
+          "verified": true
+        },
+        {
+          "cite": "《民法典》第二百三十五条",
+          "verified": true
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1以施工协议收条直击物权证明不足，较P2录音更强。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1紧扣批复、录音与短信矛盾，较P2更能动摇返还原物基础。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1的村委会说明与批复更直接削弱P2申请表对权属的证明力。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1援引民诉法67条并结合施工协议、村证明直击举证不足，较P2仅补强出资链更占优。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1本轮银行流水更直接证明建房付款来源并削弱原告独占建房主张。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1据民法典235条及施工协议等直击权利人证明不足，更强。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "本轮P1以短信直击10万元缺证，较P2仅补强5万元更能削弱原告诉请。"
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": false,
+          "fallback": true,
+          "raw": "SEARCH: 农村宅基地建房返还原物 贫困户名义建房 证据责任 | LAW:"
+        }
+      ]
+    },
+    "3": {
+      "model": "azure/anthropic/claude-opus-4-8",
+      "kb_searches": [
+        {
+          "keywords": "返还原物请求权 所有权 物权保护",
+          "law": "中华人民共和国民法典",
+          "n_hits": 6,
+          "top": [
+            "《中华人民共和国民法典》第四百六十二条第二款",
+            "《中华人民共和国民法典》第一百九十六条第（二）项",
+            "《中华人民共和国民法典》第二百二十七条"
+          ]
+        },
+        {
+          "keywords": "返还原物请求权 物权确认",
+          "law": "中华人民共和国民法典",
+          "n_hits": 6,
+          "top": [
+            "《中华人民共和国民法典》第四百六十二条第二款",
+            "《中华人民共和国民法典》第一百九十六条第（二）项",
+            "《中华人民共和国民法典》第二百二十七条"
+          ]
+        },
+        {
+          "keywords": "返还原物请求权 权利人 物权归属证明",
+          "law": "中华人民共和国民法典",
+          "n_hits": 6,
+          "top": [
+            "《中华人民共和国民法典》第一百九十六条第（二）项",
+            "《中华人民共和国民法典》第四百六十二条第二款",
+            "《中华人民共和国民法典》第二百二十七条"
+          ]
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "《中华人民共和国民事诉讼法》第六十七条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国民法典》第二百三十五条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国民法典》第二百四十条",
+          "verified": true
+        },
+        {
+          "cite": "《民事诉讼法》第六十七条",
+          "verified": true
+        },
+        {
+          "cite": "《民法典》第二百三十五条",
+          "verified": true
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1以施工协议、收条及原告自认短信直击物权与10万元交付举证缺口，更贴合举证责任。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1精准指出名额申报≠排他物权且揭露原告自相矛盾的短信，攻击更致命。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 0,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 0,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "本轮P2出示申请表证明以原告名义申报获批，对返还请求的权属基础更有力。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 2
+          },
+          "reason": "P2以贷款合同及4.8万流水摘要“修房款”直接回击付款人论点，本轮更有力；但均未援引第235条物权依据。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P1资金混同流水削弱原告单一出资，且村委会证明宅基地归属，原告仍未证明房屋物权。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "P2引第240条属所有权总则未证权属，P1据第235条与67条点明原告未证物权归属，切中返还前提。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P1短信证据直接击穿原告10万元主张及整套返还诉求，P2贷款流水仅证部分出资，不足证物权。"
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": true,
+          "fallback": true,
+          "raw": "SEARCH: 返还原物 物权 所有权 确认 举证责任 | LAW:"
+        }
+      ]
+    },
+    "4": {
+      "model": "nvidia/qwen/qwen3-next-80b-a3b-instruct",
+      "kb_searches": [
+        {
+          "keywords": "农村宅基地使用权归属与扶贫建房名义申报的物权效力",
+          "law": "《中华人民共和国农村土地承包法》",
+          "n_hits": 6,
+          "top": [
+            "《中华人民共和国农村土地承包法》第四十七条第三款",
+            "《中华人民共和国农村土地承包法》第四十条第二款第（七）项",
+            "《中华人民共和国农村土地承包法》第四十七条第二款"
+          ]
+        }
+      ],
+      "citation_checks": [
+        {
+          "cite": "《中华人民共和国民事诉讼法》第六十七条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国民法典》第二百三十五条",
+          "verified": true
+        },
+        {
+          "cite": "《中华人民共和国民法典》第二百四十条",
+          "verified": true
+        },
+        {
+          "cite": "《民事诉讼法》第六十七条",
+          "verified": true
+        },
+        {
+          "cite": "《民法典》第二百三十五条",
+          "verified": true
+        }
+      ],
+      "votes": [
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "原告以自身名义申请扶贫与贷款、资金流向建房、被告自认使用原告名义和资金，构成物权主张的完整证据链。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "原告方精准援引被告自认录音，证明建房名义与资金均属原告，且反驳了施工协议名义混淆问题。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 0,
+            "responsiveness": 0,
+            "factual_consistency": 0,
+            "logical_rigor": 0
+          },
+          "reason": "P2提交的建房申请表直接证明原告以本人名义申请扶贫建房，回应了P1对权属不明的质疑。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2精准回应P1质疑，以贷款合同、银行流水与被告自认录音形成完整证据链，证明原告为建房名义人与资金来源。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 1,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "P2提交的微信记录直接印证原告出资建房目的，且与申请表、录音形成证据链，有力回应了被告对资金与权属的质疑。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 2,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 2,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "原告未能证明对房屋享有物权，仅证明名义申请与部分出资，未完成举证责任，依标准应判败诉。"
+        },
+        {
+          "phase": "JURY_POLL",
+          "for_plaintiff": true,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 1,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "defense": {
+            "legal_grounding": 1,
+            "evidence": 1,
+            "responsiveness": 1,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "reason": "原告出示贷款合同与资金流向证据，直接回应被告对出资的质疑，且与录音、申请表形成闭环。"
+        },
+        {
+          "phase": "VERDICT",
+          "for_plaintiff": false,
+          "plaintiff": {
+            "legal_grounding": 0,
+            "evidence": 1,
+            "responsiveness": 2,
+            "factual_consistency": 1,
+            "logical_rigor": 1
+          },
+          "defense": {
+            "legal_grounding": 0,
+            "evidence": 2,
+            "responsiveness": 2,
+            "factual_consistency": 2,
+            "logical_rigor": 2
+          },
+          "reason": "原告未证明对房屋享有物权，且未能举证交付10万元，举证责任未完成。"
+        }
+      ]
+    }
+  },
+  "citation_alignment": {
+    "governing_total": 3,
+    "plaintiff_aligned": [],
+    "defense_aligned": []
+  },
+  "citation_grounding": {
+    "total": 8,
+    "verified": 8,
+    "rate": 1.0
+  }
+}

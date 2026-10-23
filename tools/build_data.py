@@ -42,7 +42,7 @@ _DROP_FIELDS = {
 }
 
 # Content keys that only the build uses; they are not shipped to the page.
-_BUILD_ONLY = ("engine",)
+_BUILD_ONLY = ("engine",)  # per-run "case" paths are build-only too (see _build_run)
 
 ENV: Path  # social-game-env checkout, set in main()
 
@@ -168,10 +168,96 @@ def _jubensha_extras(game: dict[str, Any], run_root: Path, run_dir: Path, events
     }
 
 
+def _legal_court_marker(game: dict[str, Any]) -> str:
+    # legal_court writes summary.json at the end of play; scores.json follows once
+    # the verdict has been compared with the sealed outcome.
+    return "scores.json"
+
+
+_LEGAL_COURT_NAMES = {
+    # seat names by case set: who the two advocates stand for
+    "civil": ("Plaintiff", "Defence"),
+    "admin": ("Plaintiff", "Agency"),
+    "criminal": ("Prosecution", "Defence"),
+    "ecthr": ("Applicant", "State"),
+    "singapore": ("Prosecution", "Defence"),
+}
+
+
+def _legal_court_extras(game: dict[str, Any], run_root: Path, run_dir: Path, events: list, summary: dict) -> dict[str, Any]:
+    from legal_court.agent import _SEARCH_TOOL
+    from legal_court.data import load_case
+    from legal_court.runner import SPEC_PATH, GameConfig, build_instance, inject_private_evidence
+
+    run_meta = next(r for r in game["runs"] if (ROOT / r["path"]) == run_root)
+    case = load_case(ENV / run_meta["case"])
+    scores = json.loads((run_dir / "scores.json").read_text())
+    reasoning = json.loads((run_dir / "reasoning.json").read_text())
+    config = json.loads((run_dir / "config.json").read_text())
+    setup = next(e for e in events if e.get("event") == "setup")
+
+    # Seat names from roles: the engine's summary carries no assignments.
+    case_set = Path(run_meta["case"]).parent.name  # configs/legal_court/<set>/<case>
+    side_names = _LEGAL_COURT_NAMES.get(case_set, ("Plaintiff", "Defence"))
+    evidence = {"PLAINTIFF_ADVOCATE": list(case.plaintiff_evidence), "DEFENSE_ADVOCATE": list(case.defense_evidence)}
+    players, jurors = [], 0
+    for seat_key, role in sorted(setup["roles"].items(), key=lambda kv: int(kv[0])):
+        if role == "JUROR":
+            jurors += 1
+            name, team, knowledge = f"Juror {jurors}", "COURT", {}
+        else:
+            name = side_names[0] if role == "PLAINTIFF_ADVOCATE" else side_names[1]
+            team = "PLAINTIFF" if role == "PLAINTIFF_ADVOCATE" else "DEFENSE"
+            # the log's setup event holds the spec's placeholder evidence; the
+            # real items are injected after reset, so take them from the case
+            knowledge = {"evidence": evidence[role]}
+        players.append({"seat": int(seat_key), "name": name, "role": role, "team": team, "knowledge": knowledge})
+
+    # First prompt: the opening statement, with the evidence injected as in play.
+    cfg = GameConfig(seed=config["seed"], n_jurors=jurors, trial_rounds=summary["variables"]["trial_rounds"])
+    spec = load_game_spec(SPEC_PATH)
+    env = GenericEnv(spec, build_instance(case, cfg))
+    env.reset()
+    inject_private_evidence(env, case)
+    seat = env.agent_selection
+    obs = env.observe(seat)
+    prompt_text = build_discussion_prompt(obs, resolve_prompt_path(SPEC_PATH, spec, "discussion"), spec) + _SEARCH_TOOL
+
+    gt = case.ground_truth
+    return {
+        "players": players,
+        "case": {
+            "id": case.case_id,
+            "name": case.case_name,
+            "cause": summary["variables"].get("cause"),
+            "facts": summary["variables"].get("facts"),
+            "claim": summary["variables"].get("plaintiff_claim"),
+            "language": "zh" if any("\u4e00" <= ch <= "\u9fff" for ch in summary["variables"].get("facts", "")) else "en",
+            "rounds": summary["variables"]["trial_rounds"],
+        },
+        "result": {"winner": summary.get("winner"), "winners": [], "rewards": None, "variables": {}},
+        # Sealed: shown only behind the verdict button, never on the board.
+        "verdict": {
+            "verdict": scores["verdict"],
+            "ground_truth": scores["ground_truth"],
+            "correct": scores["correct"],
+            "court_opinion": gt.get("court_opinion"),
+            "governing_law": [s["cite"] for s in case.governing_law],
+            "citation_alignment": scores.get("citation_alignment"),
+            "advocate_rewards": scores.get("advocate_rewards"),
+            "jurors": {s: {"model": j.get("model"), "votes": j.get("votes", [])} for s, j in reasoning.get("jurors", {}).items()},
+            "advocates": {s: {"searches": len(a.get("kb_searches", [])),
+                              "citations": a.get("citation_checks", [])} for s, a in reasoning.get("advocates", {}).items()},
+        },
+        "prompt": {"seat": seat, "phase": obs.phase, "kind": "discussion", "text": prompt_text},
+    }
+
+
 Extras = Callable[[dict, Path, Path, list, dict], dict[str, Any]]
 ENGINES: dict[str, tuple[Callable[[dict], str], Extras]] = {
     "generic": (_generic_marker, _generic_extras),
     "jubensha_qa": (_jubensha_marker, _jubensha_extras),
+    "legal_court": (_legal_court_marker, _legal_court_extras),
 }
 
 
@@ -243,7 +329,8 @@ def main() -> None:
         if args.games and gid not in args.games:
             continue
         print(f"{gid}:")
-        runs = [r for r in (_build_run(game, meta) for meta in game.pop("runs", [])) if r is not None]
+        run_metas = game.pop("runs", [])
+        runs = [r for r in (_build_run({**game, "runs": run_metas}, meta) for meta in run_metas) if r is not None]
         for r in runs:
             print(f"  {r['id']}: {len(r['events'])} events from {r['source']}")
         shipped = {k: v for k, v in game.items() if k not in _BUILD_ONLY}

@@ -1,0 +1,37 @@
+/* Legal Court board: jury tally track, case file drawers, verdict panel. */
+
+.lc-case-name { font-weight: 700; font-size: 14px; }
+
+.lc-track { display: flex; gap: 4px; flex-wrap: wrap; }
+
+.lc-pip { min-width: 30px; height: 26px; padding: 0 6px; border-radius: 6px; display: grid; place-items: center; font-family: var(--font-mono); font-size: 11px; background: var(--surface-2); color: var(--ink-2); }
+
+.lc-pip--active { outline: 2px solid var(--brass); }
+
+.lc-pip--p { background: var(--plaintiff); color: #fff; }
+
+.lc-pip--d { background: var(--defense); color: #fff; }
+
+.lc-pip--tie { background: var(--ink); color: var(--paper); }
+
+.lc-pre { white-space: pre-wrap; }
+
+.lc-ev-tag { display: block; font-size: 12px; margin-bottom: 4px; }
+
+.lc-ev-text { white-space: pre-wrap; }
+
+.lc-held { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 12px; }
+
+.lc-held--played { color: var(--ink-2); text-decoration: line-through; }
+
+.lc-juror { margin-top: 10px; }
+
+.lc-table { border-collapse: collapse; font-size: 13px; width: 100%; }
+
+.lc-table th, .lc-table td { border-bottom: 1px solid var(--line); padding: 6px; vertical-align: top; text-align: left; }
+
+details.drawer > summary { cursor: pointer; font-weight: 700; font-size: 14px; }
+
+details.drawer[open] > summary { margin-bottom: 8px; }
+
+.verdict-btn { width: 100%; margin-top: 12px; }

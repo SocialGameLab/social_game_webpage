@@ -9,17 +9,6 @@ players: N players · teams     # eyebrow line above the title
 tagline: >-
   One or two sentences a newcomer can read in five seconds.
 
-# Paths inside social-game-env. Shown as "Source of truth" on the rules page;
-# `config` is also what tools/record_runs.py plays and build_data.py replays
-# to rebuild the first prompt.
-config: configs/__ID__.yaml
-spec: games/__ID__/__ID__.yaml
-rules_doc: doc/games/__ID___rules.md
-
-# How build_data.py and record_runs.py treat this game: "generic" for anything
-# runners.play can drive. Add a new engine to both tools only if it cannot.
-engine: generic
-
 setup:
   - What each seat is dealt, and what is public versus private.
 round:                         # numbered on the page
@@ -35,9 +24,10 @@ watch_for:
 # Optional: label for the run picker when there is more than one run.
 # run_label: Script
 
-# Each run: `path` is a directory under recordings/ that holds timestamped run
-# directories; the newest one with a summary.json is shown. With more than one
-# run, `label` and `note` appear in the run picker.
+# Runs come from social-game-env's demo/__ID__/ (recorded there with
+# `python -m runners demo record __ID__`). List them here to set their order,
+# and with more than one run, the `label` and `note` in the run picker. Omit
+# `runs:` to show every exported run. The rules page's spec, config and rule
+# doc paths come from demo/__ID__/demo.yaml too.
 runs:
   - id: __ID__
-    path: recordings/__ID__

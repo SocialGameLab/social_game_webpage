@@ -7,10 +7,6 @@ players: 2 players · point scores
 tagline: >-
   Two negotiators split a pool of books, hats and balls. Each knows only
   their own values, and no deal means zero for both.
-config: configs/bargaining_2p.yaml
-spec: games/bargaining/bargaining.yaml
-rules_doc: doc/games/bargaining_rules.md
-engine: generic
 setup:
   - A public pool of books, hats and balls (5–7 items) is drawn.
   - Each player gets private values that make the whole pool worth
@@ -36,4 +32,3 @@ watch_for:
   - The deal still lands at 6 and 8 points (14 of a possible 20).
 runs:
   - id: bargaining
-    path: recordings/bargaining

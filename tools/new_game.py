@@ -45,7 +45,8 @@ def main() -> None:
         site.write_text(text.rstrip("\n") + f"\n  - {args.id}\n", encoding="utf-8")
         print(f"added {args.id} to content/site.yaml")
 
-    print("\nNext: fill in the copy, record a run, rebuild the data, then draw the board in view.js.")
+    print("\nNext: fill in the copy, add demo/<id>/demo.yaml in social-game-env and record a run there,\n"
+          "rebuild the data, then draw the board in view.js.")
 
 
 if __name__ == "__main__":

@@ -9,14 +9,16 @@ the contract for keeping the structure consistent as it grows.
 - **No build step, no framework, no modules.** Plain `<script>` files sharing
   the `window.MatchRoom` namespace, so `site/index.html` also opens from
   `file://`. Don't introduce npm, bundlers, ES modules or `fetch()` for data.
-- **Only `site/` is published.** Everything else (content, recordings, tools)
-  is source.
-- **`site/data/` is generated.** Never hand-edit it. Change `content/` or
-  `recordings/`, then run `tools/build_data.py`. Commit the regenerated data
-  with the change that caused it, because Pages serves the committed files.
-- **Python tools run in social-game-env's environment**
-  (`uv run --project ../social_game_env python tools/...`). They import its
-  engine; don't vendor or copy engine code into this repo.
+- **Only `site/` is published.** Everything else (content, tools) is source.
+- **`site/data/` is generated.** Never hand-edit it. Change `content/`, or the
+  runs in social-game-env's `demo/`, then run `tools/build_data.py`. Commit the
+  regenerated data with the change that caused it, because Pages serves the
+  committed files.
+- **Runs come from social-game-env's `demo/` bundles**, never from its engine.
+  That repo records them and owns the `run.json` format (its
+  `demo/README.md`); `build_data.py` reads them and checks `schema_version`.
+  Don't import the engine here or copy engine code into this repo. Tools run
+  with `uv run --project ../social_game_env python tools/...` for PyYAML.
 
 ## Where things go
 
@@ -27,7 +29,9 @@ the contract for keeping the structure consistent as it grows.
 | How one game's events, seats and board look | `site/games/<id>/view.js` + `view.css` | `app.js` / `ui.js` |
 | Something every game needs | `site/assets/js/ui.js` (a helper) or `app.js` (page behavior) | copy-paste across views |
 | Colors | tokens in `site/assets/css/theme.css`, light **and** both dark blocks | hex values in game CSS |
-| A game that `runners.play` can't drive | a new entry in `ENGINES` (`tools/build_data.py`) and `_command` (`tools/record_runs.py`) | `if game_id == ...` branches |
+| Which runs exist, how they're played, a game's spec/config/rule-doc paths | social-game-env `demo/<id>/demo.yaml` (and `ENGINES` in its `src/runners/demo.py`) | this repo |
+| Which runs a page shows, their order, labels and notes | `runs:` in `content/games/<id>.yaml` | `build_data.py` |
+| Game-specific run data (verdicts, briefings…) | the engine's `extras` in social-game-env; it lands on the run as-is | `if game_id == ...` branches in `build_data.py` |
 
 Navigation must scale with the catalog. The masthead holds one grouped game
 menu, never a tab per game. The home gallery is the place to browse, and it
@@ -47,8 +51,9 @@ that leaves the existing games unchanged.
    social-game-env.
 2. Fill in `content/games/<id>.yaml`. The field reference is
    `templates/game/content.yaml`.
-3. Record and build: `tools/record_runs.py <id>`, then `tools/build_data.py`.
-   Recording calls the LLM and costs money, so ask before running it.
+3. Record in social-game-env (`demo/<id>/demo.yaml`, then
+   `uv run python -m runners demo record <id>`), then run `tools/build_data.py`
+   here. Recording calls the LLM and costs money, so ask before running it.
 4. Draw the game in `view.js`. Unhandled events render as raw JSON, so work
    through them until none are left.
 

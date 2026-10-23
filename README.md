@@ -25,7 +25,6 @@ to system fonts.
 content/                 hand-written copy (edit these)
   site.yaml              site title, home-page copy, optional source-repo link, game order
   games/<id>.yaml        one file per game: rules summary, "watch for" notes, runs to show
-recordings/<id>/…        raw runs from social-game-env (game_log.jsonl, summary.json, …)
 site/                    the published page (GitHub Pages serves this folder)
   index.html
   assets/css/            theme.css (tokens, dark mode) · base · layout · room · home
@@ -41,8 +40,7 @@ site/                    the published page (GitHub Pages serves this folder)
     <id>.js              one game's copy and runs
 templates/game/          starting files for a new game
 tools/
-  build_data.py          recordings + content → site/data/
-  record_runs.py         play every run listed in content/ with the LLM in social-game-env's .env
+  build_data.py          social-game-env demo/ bundles + content → site/data/
   new_game.py            scaffold a game from templates/game/
   check_site.py          consistency check (runs in CI before every deploy)
   build_single_file.py   inline everything into dist/match-room.html (for sharing as one file)
@@ -80,22 +78,27 @@ Use the `MatchRoom.ui` helpers (`bubble`, `card`, `sys`, `chapterHead`,
 
 ## Workflow
 
-All Python tools run in social-game-env's environment, since they use its
-engine. They expect that repo checked out next to this one
-(`../social_game_env`), or pass `--env /path/to/social_game_env`.
+The recorded runs live in social-game-env, not here. That repo plays them and
+exports each one as a bundle under its `demo/` folder, in a fixed format
+(`run.json` plus the event log; see its `demo/README.md`). This repo only reads
+those bundles, so it never imports the engine. The tools expect social-game-env
+checked out next to this one (`../social_game_env`), or pass
+`--demo /path/to/social_game_env/demo`.
 
 ```bash
-ENV="uv run --project ../social_game_env python"
+# in social-game-env: record (calls the LLM), or just re-export after an engine change
+uv run python -m runners demo record [game ...]
+uv run python -m runners demo export
 
-$ENV tools/record_runs.py                  # record every run (calls the LLM); or name some: avalon scripts_00023
-$ENV tools/build_data.py                   # rebuild site/data/ from recordings/ and content/ (no model calls)
+# here: rebuild site/data/ from demo/ and content/ (no model calls)
+uv run --project ../social_game_env python tools/build_data.py
 python3 tools/build_single_file.py         # optional: dist/match-room.html
 ```
 
-`build_data.py` picks the newest *finished* run directory under each run's
-`path`: the newest one with a `summary.json`, or a `scores.json` for Jubensha
-QA, which is judged after play. It also rebuilds the first prompt each game
-sent an agent, from the same seed.
+`build_data.py` checks the bundles' `schema_version`, and stops if it is one it
+does not know. The first prompt shown on each rules page, the players and the
+result all come from `run.json`; this repo only slims the event log and merges
+in the page copy.
 
 ### Change the copy
 
@@ -104,24 +107,28 @@ run `build_data.py`.
 
 ### Add a run to an existing game
 
-Add an entry under `runs:` in the game's content file (Jubensha also needs
-`script:`), record it, and rebuild. With more than one run, a picker appears
-above the lens.
+Add the run to `demo/<id>/demo.yaml` in social-game-env and record it there.
+Then add its `id` (with a `label` and `note`) under `runs:` in the game's
+content file here, and rebuild. With more than one run, a picker appears above
+the lens.
 
 ### Add a new game
 
 ```bash
 python3 tools/new_game.py werewolf "Werewolf"   # creates content, view.js, view.css; adds it to site.yaml
-# 1. fill in content/games/werewolf.yaml (config, spec, rules, watch_for)
-# 2. record and build
-$ENV tools/record_runs.py werewolf && $ENV tools/build_data.py
-# 3. open the page: events you have not drawn yet show as raw JSON, so you can see what the log holds
-# 4. draw them in site/games/werewolf/view.js, and the board in view.css
+# 1. fill in content/games/werewolf.yaml (rules, watch_for, runs)
+# 2. in social-game-env: write demo/werewolf/demo.yaml, then record
+uv run python -m runners demo record werewolf
+# 3. here: build
+uv run --project ../social_game_env python tools/build_data.py
+# 4. open the page: events you have not drawn yet show as raw JSON, so you can see what the log holds
+# 5. draw them in site/games/werewolf/view.js, and the board in view.css
 ```
 
-If `runners.play` cannot drive the game, add an engine next to `"generic"`
-and `"jubensha_qa"` in `ENGINES` in `tools/build_data.py`, and in
-`_command` in `tools/record_runs.py`.
+If `runners.play` cannot drive the game, add an engine to `ENGINES` in
+social-game-env's `src/runners/demo.py`. Game-specific data goes in the
+run's `extras`, which `build_data.py` copies onto the run unchanged, so this
+repo needs no change beyond the view.
 
 ## Deploy
 

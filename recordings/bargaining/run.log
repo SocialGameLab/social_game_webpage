@@ -1,9 +1,0 @@
-Game start -- bargaining, 2 players, seed 42
-
---- Game over ---
-Winner: None
-Final state: {'pool': {'book': 1, 'hat': 3, 'ball': 2}, 'turn': 2, 'max_turns': 10, 'proposer': 0, 'last_offer': {'book': 1, 'hat': 1, 'ball': 2}, 'last_offerer': 1, 'mode': 'semi_competitive', 'discount': False, 'gamma': 0.9, 'outcome': 'AGREED', 'n_players': 2}
-Roles: {0: 'NEGOTIATOR', 1: 'NEGOTIATOR'}
-Rewards: {0: 6.0, 1: 8.0}
-Total time: 18.6s
-Log: demo/games/bargaining/20261019T194801Z_bargaining_2p_42

@@ -8,10 +8,6 @@ tagline: >-
   Each agent plays a character in a scripted murder mystery, with secrets
   to protect, and must answer the script's questions about what really
   happened.
-config: configs/jubensha_qa.yaml
-spec: games/jubensha_qa/jubensha_qa.yaml
-rules_doc: doc/games/jubensha_qa.md
-engine: jubensha_qa
 setup:
   - Every seat secretly gets one character with a private brief (secrets,
     a personal timeline, relationships and motives).
@@ -42,23 +38,17 @@ watch_for:
 run_label: Script
 runs:
   - id: scripts_00023
-    path: recordings/jubensha_qa/Scripts_00023
-    script: Scripts_00023
     label: 魔幻酒吧 · The Magic Bar
     note: >-
       London, 1920s. A gang boss is found shot with his eyes removed,
       inside a locked room. 7 players, 8 questions.
   - id: scripts_00046
-    path: recordings/jubensha_qa/Scripts_00046
-    script: Scripts_00046
     label: 殊途 · Divergent Paths
     note: >-
       A xianxia mystery on Shu Mountain: a sect killing, a twin who is
       not who she claims, and two sworn brothers in disguise.
       6 players, 10 questions.
   - id: scripts_00008
-    path: recordings/jubensha_qa/Scripts_00008
-    script: Scripts_00008
     label: 死岛 · Death Island
     note: >-
       An art auction on a private island, where one guest is far older

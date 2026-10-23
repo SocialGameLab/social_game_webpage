@@ -6,8 +6,9 @@ Standard library only, so CI can run it without social-game-env. Checks that
 every game in the manifest has its content file, view.js, view.css and data
 file; that each data file matches its game id; that every JS file parses
 (when node is installed); and that the manifest lists every game in
-content/site.yaml. It cannot tell whether site/data/ is stale relative to
-recordings/, because that needs the engine; rebuild before committing.
+content/site.yaml. When social-game-env is checked out next to this repo, it
+also checks that every run shown still exists in its demo/index.json. It
+cannot tell whether a run's data is stale; rebuild before committing.
 """
 
 from __future__ import annotations
@@ -21,6 +22,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
+DEMO_INDEX = ROOT.parent / "social_game_env" / "demo" / "index.json"
 
 
 def _payload(path: Path, call: str) -> dict:
@@ -53,6 +55,18 @@ def main() -> int:
             game = _payload(data, "MatchRoom.addData")
             if game.get("id") != gid:
                 errors.append(f"{gid}: data file holds id {game.get('id')!r}")
+
+    # CI has no social-game-env checkout; locally, catch runs dropped from demo/.
+    if DEMO_INDEX.exists():
+        exported = {gid: {r["id"] for r in g["runs"]} for gid, g in json.loads(DEMO_INDEX.read_text(encoding="utf-8"))["games"].items()}
+        for gid in ids:
+            data = SITE / "data" / f"{gid}.js"
+            if data.exists():
+                for run in _payload(data, "MatchRoom.addData")["runs"]:
+                    if run["id"] not in exported.get(gid, set()):
+                        errors.append(f"{gid}: run {run['id']!r} is not in social_game_env/demo/index.json")
+    else:
+        print("social_game_env/demo not found next to this repo; skipped run checks")
 
     node = shutil.which("node")
     if node:

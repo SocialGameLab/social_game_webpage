@@ -5,6 +5,8 @@ works. For each game it explains the rules and replays recorded matches played
 by LLM agents. The lens switch lets you watch through one player's eyes: events
 that player could not see are blacked out.
 
+**Live site: https://socialgamelab.github.io/social_game_webpage/**
+
 The site is plain HTML, CSS and JavaScript with no build step and no framework.
 Only `site/` is published.
 

@@ -1,0 +1,22 @@
+# Subset Sum: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: puzzle_subset_sum
+title: Subset Sum
+kind: Puzzles
+players: 1 player · one answer
+tagline: >-
+  Pick items from a list of numbers that add up to exactly the target.
+view: moves
+setup:
+  - A list of 6 to 9 numbers from 1 to 30 and a target are drawn from the run's seed, with a hidden subset planted to hit the target.
+round:
+  - The agent replies with the 1-based indices of the items it picks.
+win:
+  - Any subset that sums to the target scores 1, not only the planted one, and anything else scores 0.
+agents:
+  - The agent gets the puzzle as one text prompt, shown on this page.
+  - It answers once in plain text, with no retries and no feedback.
+watch_for:
+  - Whether the one answer is right, and the grader's note when it is not.
+runs:
+  - id: puzzle_subset_sum

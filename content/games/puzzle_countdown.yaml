@@ -1,0 +1,22 @@
+# Countdown: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: puzzle_countdown
+title: Countdown
+kind: Puzzles
+players: 1 player · one answer
+tagline: >-
+  Reach a three-digit target from six numbers, using each at most once.
+view: moves
+setup:
+  - Six numbers from the standard Countdown pool (1 to 10, 25, 50, 75, 100) and a target from 100 to 999 are drawn from the run's seed, and the target is always reachable.
+round:
+  - The agent writes one arithmetic expression that uses each number at most once, not necessarily all of them.
+win:
+  - The answer scores 1 when it parses, uses only the given numbers and equals the target, and 0 otherwise.
+agents:
+  - The agent gets the puzzle as one text prompt, shown on this page.
+  - It answers once in plain text, with no retries and no feedback.
+watch_for:
+  - Whether the one answer is right, and the grader's note when it is not.
+runs:
+  - id: puzzle_countdown

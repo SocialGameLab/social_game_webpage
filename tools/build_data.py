@@ -43,7 +43,7 @@ _DROP_FIELDS = {
 }
 
 # Facts about a game that come from social-game-env's demo index, not page copy.
-_ENV_FIELDS = ("spec", "config", "rules_doc")
+_ENV_FIELDS = ("spec", "config", "rules_doc", "env_id")
 
 
 def _read_json(path: Path) -> Any:

@@ -1,0 +1,22 @@
+# Maze: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: puzzle_maze
+title: Maze
+kind: Puzzles
+players: 1 player · one answer
+tagline: >-
+  Find a path from S to G through a maze drawn in characters.
+view: moves
+setup:
+  - A maze is carved from the run's seed and drawn with `#` walls, `.` open cells, `S` and `G`.
+round:
+  - The agent replies with one string of U, D, L and R moves.
+win:
+  - The path is walked one cell per move, and it scores 1 only when it never hits a wall and ends on G.
+agents:
+  - The agent gets the puzzle as one text prompt, shown on this page.
+  - It answers once in plain text, with no retries and no feedback.
+watch_for:
+  - Whether the one answer is right, and the grader's note when it is not.
+runs:
+  - id: puzzle_maze

@@ -1,0 +1,49 @@
+/* Kind "moves": OpenSpiel games and puzzles, one move per turn. */
+
+.mv-view {
+  margin: 0;
+  max-height: 340px;
+  overflow: auto;
+  padding: 10px;
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.35;
+  white-space: pre;
+}
+
+.mv-move { font-family: var(--font-mono); font-size: 0.95em; }
+
+.mv-fb {
+  margin-left: 4px;
+  padding: 0 5px;
+  border-radius: 4px;
+  background: var(--brass-soft);
+  color: var(--brass);
+  font-size: 11px;
+}
+
+.mv-list { margin: 0; padding-left: 2.6em; display: grid; gap: 3px; }
+
+.mv-list li { display: list-item; }
+
+.mv-chess {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  width: min(100%, 320px);
+  aspect-ratio: 1;
+  border: 1px solid var(--line);
+}
+
+.mv-sq { display: grid; place-items: center; background: var(--surface); }
+
+.mv-sq--dark { background: var(--line); }
+
+.mv-pc { font-size: clamp(18px, 6vw, 30px); line-height: 1; }
+
+.mv-pc--w { color: var(--paper); -webkit-text-stroke: 1px var(--ink); }
+
+.mv-pc--b { color: var(--ink); }
+
+.mv-raw { margin-top: 8px; }

@@ -1,0 +1,22 @@
+# Game 24: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: puzzle_game24
+title: Game 24
+kind: Puzzles
+players: 1 player · one answer
+tagline: >-
+  Combine four numbers with + − × ÷ to make exactly 24.
+view: moves
+setup:
+  - Four numbers from 1 to 13 are drawn from the run's seed, always with at least one solution.
+round:
+  - The agent writes one arithmetic expression that uses each number exactly once.
+win:
+  - The answer scores 1 when it parses, uses exactly the four numbers and equals 24, and 0 otherwise.
+agents:
+  - The agent gets the puzzle as one text prompt, shown on this page.
+  - It answers once in plain text, with no retries and no feedback.
+watch_for:
+  - Whether the one answer is right, and the grader's note when it is not.
+runs:
+  - id: puzzle_game24

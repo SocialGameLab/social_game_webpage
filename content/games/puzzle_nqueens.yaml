@@ -1,0 +1,22 @@
+# N-Queens: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: puzzle_nqueens
+title: N-Queens
+kind: Puzzles
+players: 1 player · one answer
+tagline: >-
+  Place N queens on an N×N board so that no two attack each other.
+view: moves
+setup:
+  - The run's seed picks N from 4 to 8, and every such N has a solution.
+round:
+  - The agent gives one column per row, top to bottom.
+win:
+  - The answer scores 1 when no two queens share a row, column or diagonal, and 0 otherwise.
+agents:
+  - The agent gets the puzzle as one text prompt, shown on this page.
+  - It answers once in plain text, with no retries and no feedback.
+watch_for:
+  - Whether the one answer is right, and the grader's note when it is not.
+runs:
+  - id: puzzle_nqueens

@@ -1,0 +1,23 @@
+# Tower of Hanoi: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: puzzle_hanoi
+title: Tower of Hanoi
+kind: Puzzles
+players: 1 player · one answer
+tagline: >-
+  Move a stack of disks from peg A to peg C, never putting a larger disk on a smaller one.
+view: moves
+setup:
+  - A stack of disks sits on peg A, largest at the bottom; the run's seed picks 3 to 6 disks.
+round:
+  - The agent writes the whole sequence of moves at once, each as `<from> <to>`.
+win:
+  - The moves are replayed one by one, and the answer scores 1 only when every move is legal and the stack ends on peg C.
+  - Any legal solution counts, not only the shortest.
+agents:
+  - The agent gets the puzzle as one text prompt, shown on this page.
+  - It answers once in plain text, with no retries and no feedback.
+watch_for:
+  - Whether the one answer is right, and the grader's note when it is not.
+runs:
+  - id: puzzle_hanoi

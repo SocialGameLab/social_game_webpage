@@ -113,11 +113,19 @@
     return repo ? `<a href="${esc(`${repo.replace(/\/$/, "")}/blob/${site().source_branch || "main"}/${path}`)}">${code}</a>` : code;
   }
 
+  // Only the sources a game has: GameSpec games name a rule doc, spec and config;
+  // games recorded through a training env name the env id instead.
+  function sources(g) {
+    const refs = [["", g.rules_doc], ["spec ", g.spec], ["config ", g.config]].filter(([, p]) => p).map(([k, p]) => `${k}${sourceRef(p)}`);
+    if (g.env_id) refs.push(`env <code>${esc(g.env_id)}</code>`);
+    return refs.length ? `<p class="sources">Source of truth: ${refs.join(" · ")}</p>` : "";
+  }
+
   function rulesView(g) {
     const r = g.runs.length ? run() : null;
     const prompt = r && r.prompt;
     const promptHead = prompt
-      ? `<strong>First prompt sent to ${esc(ui.seatLabel(r, prompt.seat))}</strong>, ${esc(title(prompt.phase))} phase${r.label ? ` in ${esc(r.label)}` : ""}. Rebuilt offline from the recorded run's seed ${esc(r.seed)}.`
+      ? `<strong>First prompt sent to ${esc(ui.seatLabel(r, prompt.seat))}</strong>, ${esc(title(prompt.phase))} phase${r.label ? ` in ${esc(r.label)}` : ""}. From the recorded run, seed ${esc(r.seed)}.`
       : "No recorded run yet.";
     return `
       <div class="rules">
@@ -125,7 +133,7 @@
           <section><h2>Setup</h2>${list(g.setup)}</section>
           <section><h2>Each round</h2>${list(g.round, true)}</section>
           <section><h2>How it ends</h2>${list(g.win)}</section>
-          <p class="sources">Source of truth: ${sourceRef(g.rules_doc)} · spec ${sourceRef(g.spec)} · config ${sourceRef(g.config)}</p>
+          ${sources(g)}
         </div>
         <div>
           <section><h2>What an agent sees</h2>

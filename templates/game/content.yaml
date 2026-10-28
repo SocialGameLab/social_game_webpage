@@ -10,7 +10,7 @@ tagline: >-
   One or two sentences a newcomer can read in five seconds.
 
 # Optional: draw this game with a shared view instead of site/games/__ID__/.
-#   view: rounds        a kind in site/kinds/ (rounds, deals, clues, table, race),
+#   view: rounds        a kind in site/kinds/ (rounds, deals, clues, table, race, moves),
 #   view_options: {}    plus that kind's options, listed at the top of its view.js
 #   view_from: avalon   or reuse another game's view as is
 # With either set, the game needs no view.js or view.css of its own.

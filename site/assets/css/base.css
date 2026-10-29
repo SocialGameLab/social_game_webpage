@@ -38,3 +38,6 @@ code {
 .team--EVIL { color: var(--evil); }
 .team--RED { color: var(--red-team); }
 .team--BLUE { color: var(--blue-team); }
+.team--PLAINTIFF { color: var(--plaintiff); }
+.team--DEFENSE { color: var(--defense); }
+.team--COURT { color: var(--ink-2); }

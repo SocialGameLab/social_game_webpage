@@ -20,10 +20,11 @@ win:
 agents:
 - Each turn the agent gets a text rendering of its view of the state and every legal move with its number
   and label.
-- It answers with one JSON action naming a move; a reply that still fails to parse after retries plays
+- The prompt names the game but gives no rules or payoffs, so the agent has to know them already.
+- It answers with one JSON action naming a move; a reply that is rejected or missing after retries plays
   the lowest legal move, flagged as a fallback.
 watch_for:
-- This run lasts 56 moves and ends with P0 and P2 ahead (P0 +32, P1 -90, P2 +32, P3 -90).
+- This run lasts 56 moves and ends with returns of P0 +32, P1 -90, P2 +32, P3 -90.
 - Every move came from a parsed reply, with no fallbacks.
 runs:
 - id: openspiel_spades

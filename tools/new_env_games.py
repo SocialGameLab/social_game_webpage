@@ -32,6 +32,7 @@ _NUM = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six"}
 _INFO = {
     "perfect_information": "Every player sees the whole state.",
     "imperfect_information": "Each player sees only its own view of the state, so part of it stays hidden from them.",
+    "one_shot": "Each player chooses without seeing the others' choices, and all choices are revealed together.",
 }
 _CHANCE = {
     "deterministic": "There is no chance: the same moves always lead to the same state.",
@@ -49,12 +50,16 @@ _UTILITY = {
     "general_sum": ("general-sum", "Each player has its own return, so players can do well or badly together."),
     "identical": ("cooperative", "All players share one return, so they win or lose together."),
 }
+_KIND_INFO = {"perfect_information": "perfect information", "one_shot": "one-shot"}
+_INFO_WORD = {"perfect_information": "no hidden information", "one_shot": "one hidden choice each"}
+# Win or loss only reads true when one player's gain is another's loss.
+_WINNER_UTILITIES = ("zero_sum", "constant_sum")
 
 
 def _kind(about: dict[str, Any]) -> str:
     if about["players"] == 1 or about["dynamics"] == "mean_field":
         return "OpenSpiel · single player"
-    return "OpenSpiel · perfect information" if about["information"] == "perfect_information" else "OpenSpiel · hidden information"
+    return f"OpenSpiel · {_KIND_INFO.get(about['information'], 'hidden information')}"
 
 
 def _signed(v: float) -> str:
@@ -67,46 +72,76 @@ def _outcome(rec: dict[str, Any]) -> str:
     returns = ", ".join(f"P{s} {_signed(v)}" for s, v in sorted(rewards.items()))
     if len(rewards) == 1:
         return f"a return of {_signed(rewards[0])}"
-    if res.get("winners"):
+    if len(set(rewards.values())) == 1:
+        return f"level returns ({returns})"
+    if res.get("winners") and rec["about"]["utility"] in _WINNER_UTILITIES:
         who = " and ".join(f"P{s}" for s in res["winners"])
         return f"{who} ahead ({returns})"
-    return f"level returns ({returns})"
+    return f"returns of {returns}"
+
+
+def _length(rec: dict[str, Any]) -> str:
+    """Simultaneous rounds log one move per player, so name the rounds too."""
+    turns, n = rec["turns"], rec["about"]["players"]
+    moves = f"{turns} move{'s' if turns != 1 else ''}"
+    if rec["about"]["dynamics"] == "simultaneous" and n > 1:
+        rounds = turns // n
+        return f"{rounds} round{'s' if rounds != 1 else ''} ({moves})"
+    return moves
+
+
+def _params(about: dict[str, Any]) -> str:
+    """Parameters short enough to read in a sentence: no grids, no local paths."""
+    shown = []
+    for k, v in sorted(about.get("params", {}).items()):
+        if k == "players" or "\n" in str(v):
+            continue
+        shown.append(f"`{k}={Path(str(v)).name if k == 'filename' else v}`")
+    return ", ".join(shown)
 
 
 def content_for(gid: str, rec: dict[str, Any]) -> dict[str, Any]:
     about, ex = rec["about"], rec
     n = about["players"]
     short = rec["env_id"].split(":", 1)[1]
-    params = ", ".join(f"`{k}={v}`" for k, v in sorted(about.get("params", {}).items()) if k != "players")
+    params = _params(about)
     pay_word, pay_line = _UTILITY.get(about["utility"], (about["utility"].replace("_", "-"), "Each player gets its own return."))
-    players = "1 player" if n == 1 else f"{n} players"
-    info_word = "no hidden information" if about["information"] == "perfect_information" else "hidden information"
-    watch = [f"This run lasts {ex['turns']} move{'s' if ex['turns'] != 1 else ''} and ends with {_outcome(rec)}."]
+    solo = n == 1 or about["dynamics"] == "mean_field"
+    if solo:
+        pay_line = "The agent is scored on its own return."
+    players = "1 player" if solo else f"{n} players · {pay_word}"
+    size = "single-player" if solo else f"{_NUM.get(n, n)}-player, {pay_word}"
+    info_word = _INFO_WORD.get(about["information"], "hidden information")
+    dynamics = "sequential" if n == 1 and about["dynamics"] == "simultaneous" else about["dynamics"]
+    info_line = ("The agent sees only its own position, and a fixed baseline stands in for the population."
+                 if about["dynamics"] == "mean_field" else _INFO.get(about["information"], "Each player sees its own view of the state."))
+    agents = ["Each turn the agent gets a text rendering of its view of the state and every legal move with its number and label."]
+    if rec["prompt"]["text"].startswith("You are playing the game:") and "\nRules: " not in rec["prompt"]["text"]:
+        agents.append("The prompt names the game but gives no rules or payoffs, so the agent has to know them already.")
+    agents.append("It answers with one JSON action naming a move; a reply that is rejected or missing after retries plays the lowest legal move, flagged as a fallback.")
+    watch = [f"This run lasts {_length(rec)} and ends with {_outcome(rec)}."]
     if ex["truncated"]:
         watch.append("It hit the 3000-move safety stop before the game ended.")
-    watch.append(f"{ex['fallbacks']} move{'s' if ex['fallbacks'] != 1 else ''} fell back because the reply did not parse." if ex["fallbacks"]
+    watch.append(f"{ex['fallbacks']} move{'s' if ex['fallbacks'] != 1 else ''} fell back to the lowest legal move because no valid reply arrived." if ex["fallbacks"]
                  else "Every move came from a parsed reply, with no fallbacks.")
     return {
         "id": gid,
         "title": about["long_name"],
         "kind": _kind(about),
-        "players": f"{players} · {pay_word}",
-        "tagline": f"{about['long_name']} from OpenSpiel: a {_NUM.get(n, n)}-player, {pay_word} game with {info_word}.",
+        "players": players,
+        "tagline": f"{about['long_name']} from OpenSpiel: a {size} game with {info_word}.",
         "view": "moves",
         "setup": [
             f"The game is OpenSpiel's `{short}`{f' with {params}' if params else ''}.",
-            _INFO.get(about["information"], "Each player sees its own view of the state."),
+            info_line,
             _CHANCE.get(about["chance"], "Chance events are drawn from the run's seed."),
         ],
         "round": [
-            _DYNAMICS.get(about["dynamics"], "A player picks one of its legal moves."),
+            _DYNAMICS.get(dynamics, "A player picks one of its legal moves."),
             "The state updates, and play goes on until the game reaches a terminal state.",
         ],
         "win": [pay_line, "The final returns come straight from OpenSpiel."],
-        "agents": [
-            "Each turn the agent gets a text rendering of its view of the state and every legal move with its number and label.",
-            "It answers with one JSON action naming a move; a reply that still fails to parse after retries plays the lowest legal move, flagged as a fallback.",
-        ],
+        "agents": agents,
         "watch_for": watch,
         "runs": [{"id": r} for r in rec["_run_ids"]],
     }

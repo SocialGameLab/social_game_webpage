@@ -18,13 +18,13 @@ win:
 agents:
 - Each turn the agent gets a text rendering of its view of the state and every legal move with its number
   and label.
-- The prompt names the game but gives no rules or payoffs, so the agent has to know them already.
 - It answers with one JSON action naming a move; a reply that is rejected or missing after retries plays
   the lowest legal move, flagged as a fallback.
 watch_for:
-- This run lasts 7 moves and ends with returns of P0 +69, P1 +60.
+- This run lasts 3 moves and ends with returns of P0 +85, P1 +50.
 - Every move came from a parsed reply, with no fallbacks.
-- 'Labels don''t say whose share a proposal gives, and accept reads `Proposal: Agreement reached!`.'
+- 'The prompt says a proposal is what the proposer keeps, but the move labels don''t, and accept reads
+  `Proposal: Agreement reached!`.'
 - Utterances are numbers with no agreed meaning, so this isn't free talk.
 runs:
 - id: openspiel_negotiation

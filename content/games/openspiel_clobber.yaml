@@ -23,7 +23,7 @@ agents:
 - It answers with one JSON action naming a move; a reply that is rejected or missing after retries plays
   the lowest legal move, flagged as a fallback.
 watch_for:
-- This run lasts 19 moves and ends with P0 ahead (P0 +1, P1 -1).
+- This run lasts 14 moves and ends with P1 ahead (P0 -1, P1 +1).
 - Every move came from a parsed reply, with no fallbacks.
 runs:
 - id: openspiel_clobber

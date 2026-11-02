@@ -140,7 +140,6 @@ games:
   - openspiel_dark_hex_ir
   - openspiel_deep_sea
   - openspiel_efg_game
-  - openspiel_goofspiel
   - openspiel_kuhn_poker
   - openspiel_mfg_crowd_modelling_2d
   - openspiel_tic_tac_toe
@@ -208,7 +207,6 @@ games:
   - openspiel_oware
   - openspiel_pathfinding
   - openspiel_pentago
-  - openspiel_phantom_go
   - openspiel_phantom_ttt
   - openspiel_phantom_ttt_ir
   - openspiel_pig
@@ -217,7 +215,6 @@ games:
   - openspiel_repeated_game
   - openspiel_repeated_leduc_poker
   - openspiel_repeated_poker
-  - openspiel_restricted_nash_response
   - openspiel_sheriff
   - openspiel_shogi
   - openspiel_skat

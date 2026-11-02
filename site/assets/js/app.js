@@ -127,6 +127,8 @@
     const promptHead = prompt
       ? `<strong>First prompt sent to ${esc(ui.seatLabel(r, prompt.seat))}</strong>, ${esc(title(prompt.phase))} phase${r.label ? ` in ${esc(r.label)}` : ""}. From the recorded run, seed ${esc(r.seed)}.`
       : "No recorded run yet.";
+    // A hidden-information prompt holds its seat's private view, so it follows the lens.
+    const showPrompt = prompt && (!r.events.some((e) => e._visibility === "private" || e.view_audience) || ui.canSee({ _visibility: "private", _audience: [prompt.seat] }, state.lens));
     return `
       <div class="rules">
         <div>
@@ -140,7 +142,7 @@
             ${list(g.agents)}
             <div class="prompt-card" style="margin-top:14px">
               <div class="prompt-card__head">${promptHead}</div>
-              ${prompt ? `<pre class="prompt-text">${esc(prompt.text)}</pre>` : ""}
+              ${showPrompt ? `<pre class="prompt-text">${esc(prompt.text)}</pre>` : prompt ? `<p class="small">This prompt holds ${esc(ui.seatLabel(r, prompt.seat))}'s private view, so the current lens hides it.</p>` : ""}
             </div>
           </section>
           <section><h2>Watch for</h2>${list(g.watch_for)}</section>

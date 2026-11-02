@@ -11,6 +11,7 @@ setup:
   - Six numbers from the standard Countdown pool (1 to 10, 25, 50, 75, 100) and a target from 100 to 999 are drawn from the run's seed, and the target is always reachable.
 round:
   - The agent writes one arithmetic expression that uses each number at most once, not necessarily all of them.
+  - Every step of the sum must stay a positive whole number, so division must be exact.
 win:
   - The answer scores 1 when it parses, uses only the given numbers and equals the target, and 0 otherwise.
 agents:

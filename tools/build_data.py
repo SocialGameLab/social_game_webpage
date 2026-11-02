@@ -42,6 +42,14 @@ _DROP_FIELDS = {
     "briefing": ("background", "clues"),  # moved onto run.briefing
 }
 
+# Raw game parameters can hold local paths, and no page reads them.
+def _public_extras(extras: dict[str, Any]) -> dict[str, Any]:
+    about = extras.get("about")
+    if not isinstance(about, dict):
+        return extras
+    return {**extras, "about": {k: v for k, v in about.items() if k != "params"}}
+
+
 # Facts about a game that come from social-game-env's demo index, not page copy.
 _ENV_FIELDS = ("spec", "config", "rules_doc", "env_id")
 
@@ -83,7 +91,7 @@ def _build_run(demo: Path, gid: str, meta: dict[str, Any]) -> dict[str, Any] | N
         "players": rec["players"],
         "events": _slim(_read_jsonl(bundle / rec["events_file"])),
         **({"result": rec["result"]} if rec["result"] is not None else {}),
-        **rec["extras"],
+        **_public_extras(rec["extras"]),
         "prompt": rec["prompt"],
     }
 

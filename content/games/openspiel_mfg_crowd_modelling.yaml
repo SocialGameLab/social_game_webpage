@@ -3,23 +3,23 @@
 id: openspiel_mfg_crowd_modelling
 title: Mean Field Crowd Modelling
 kind: OpenSpiel · single player
-players: 1 player · general-sum
-tagline: 'Mean Field Crowd Modelling from OpenSpiel: a one-player, general-sum game with no hidden information.'
+players: 1 player
+tagline: 'Mean Field Crowd Modelling from OpenSpiel: a single-player game with no hidden information.'
 view: moves
 setup:
 - The game is OpenSpiel's `mfg_crowd_modelling` with `horizon=10`, `size=10`.
-- Every player sees the whole state.
+- The agent sees only its own position, and a fixed baseline stands in for the population.
 - Chance events such as deals or dice rolls are drawn from the run's seed.
 round:
 - One representative agent picks a move for its population at each step.
 - The state updates, and play goes on until the game reaches a terminal state.
 win:
-- Each player has its own return, so players can do well or badly together.
+- The agent is scored on its own return.
 - The final returns come straight from OpenSpiel.
 agents:
 - Each turn the agent gets a text rendering of its view of the state and every legal move with its number
   and label.
-- It answers with one JSON action naming a move; a reply that still fails to parse after retries plays
+- It answers with one JSON action naming a move; a reply that is rejected or missing after retries plays
   the lowest legal move, flagged as a fallback.
 watch_for:
 - This run lasts 10 moves and ends with a return of +27.7259.

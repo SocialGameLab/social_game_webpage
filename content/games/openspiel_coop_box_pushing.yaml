@@ -23,7 +23,7 @@ agents:
 - It answers with one JSON action naming a move; a reply that is rejected or missing after retries plays
   the lowest legal move, flagged as a fallback.
 watch_for:
-- This run lasts 100 rounds (200 moves) and ends with level returns (P0 -610, P1 -610).
+- This run lasts 100 rounds (200 moves) and ends with level returns (P0 -415, P1 -415).
 - Every move came from a parsed reply, with no fallbacks.
 runs:
 - id: openspiel_coop_box_pushing

@@ -17,13 +17,11 @@ win:
 agents:
 - Each turn the agent gets a text rendering of its view of the state and every legal move with its number
   and label.
-- The prompt names the game but gives no rules or payoffs, so the agent has to know them already.
 - It answers with one JSON action naming a move; a reply that is rejected or missing after retries plays
   the lowest legal move, flagged as a fallback.
 watch_for:
-- This run lasts 1000 rounds (2000 moves) and ends with returns of P0 +7, P1 +5.
-- 31 moves fell back to the lowest legal move because no valid reply arrived.
-- In this run nobody moved for about the first 270 rounds, and fire makes up 57% of all moves.
-- 'Moves 1091 to 1121 are fallbacks: no reply arrived, so each played the lowest legal move, a left turn.'
+- This run lasts 1000 rounds (2000 moves) and ends with returns of P0 +105, P1 +72.
+- Every move came from a parsed reply, with no fallbacks.
+- '`move forward` is the most common move at 539, and `fire` makes up 15% of all moves.'
 runs:
 - id: openspiel_laser_tag

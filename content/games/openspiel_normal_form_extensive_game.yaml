@@ -19,7 +19,7 @@ agents:
 - It answers with one JSON action naming a move; a reply that is rejected or missing after retries plays
   the lowest legal move, flagged as a fallback.
 watch_for:
-- This run lasts 1 round (2 moves) and ends with level returns (P0 0, P1 0).
+- This run lasts 1 round (2 moves) and ends with P1 ahead (P0 -1, P1 +1).
 - Every move came from a parsed reply, with no fallbacks.
 - The wrapper's labels are internal text ending in `action = 0`, 1 or 2, so agents never see the words
   rock, paper or scissors.

@@ -17,14 +17,13 @@ win:
 agents:
 - Each turn the agent gets a text rendering of its view of the state and every legal move with its number
   and label.
-- The prompt names the game but gives no rules or payoffs, so the agent has to know them already.
 - It answers with one JSON action naming a move; a reply that is rejected or missing after retries plays
   the lowest legal move, flagged as a fallback.
 watch_for:
-- This run lasts 55 moves and ends with returns of P0 -31, P1 -20, P2 0.
+- This run lasts 53 moves and ends with returns of P0 -80, P1 0, P2 0.
 - Every move came from a parsed reply, with no fallbacks.
-- In the bidding phase, the state shows the hand as bare card numbers such as `0,1,6,7`, so an agent can't
-  read its cards.
+- The raw state on this board gives the hand as bare card numbers such as `0,1,6,7`, while the prompt
+  names each card.
 - A score of 0 can still come out on top, so read the returns and not the order.
 runs:
 - id: openspiel_tarok

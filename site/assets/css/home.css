@@ -121,6 +121,16 @@
 
 .game-card__watch:hover { text-decoration: underline; }
 
+/* Games in the env's eval split, never used for training. */
+.split-badge {
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--brass-soft);
+  color: var(--brass);
+  font-weight: 700;
+}
+
 @media (max-width: 760px) {
   .search { flex: 1; min-width: 0; }
 }

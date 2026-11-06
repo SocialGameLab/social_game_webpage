@@ -33,6 +33,7 @@ the contract for keeping the structure consistent as it grows.
 | Colors | tokens in `site/assets/css/theme.css`, light **and** both dark blocks | hex values in game CSS |
 | Which runs exist, how they're played, a game's spec/config/rule-doc paths | social-game-env `demo/<id>/demo.yaml` (and `ENGINES` in its `src/runners/demo.py`) | this repo |
 | Which runs a page shows, their order, labels and notes | `runs:` in `content/games/<id>.yaml` | `build_data.py` |
+| Whether a game is training or held out for eval | social-game-env `splits/v1.yaml`, which `build_data.py` copies onto cards | a `split:` field in content files |
 | Game-specific run data (verdicts, briefings…) | the engine's `extras` in social-game-env; it lands on the run as-is | `if game_id == ...` branches in `build_data.py` |
 
 Navigation must scale with the catalog. The masthead holds one grouped game

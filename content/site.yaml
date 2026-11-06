@@ -34,7 +34,8 @@ home:
         such as private roles, whispers or a spymaster's key, is blacked out.
   note: >-
     Each recording is one match with one model and one seed. It shows how the
-    agents behave, but it is not a benchmark score.
+    agents behave, but it is not a benchmark score. Games marked Held out are
+    in social-game-env's eval split, so training never uses them.
 
 # Order of games on the home page and in the game menu. Each id needs
 # content/games/<id>.yaml and site/games/<id>/view.js.

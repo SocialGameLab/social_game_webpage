@@ -118,6 +118,7 @@
   function sources(g) {
     const refs = [["", g.rules_doc], ["spec ", g.spec], ["config ", g.config]].filter(([, p]) => p).map(([k, p]) => `${k}${sourceRef(p)}`);
     if (g.env_id) refs.push(`env <code>${esc(g.env_id)}</code>`);
+    if (g.split) refs.push(`${g.split.split === "eval" ? "held out for eval" : "training"} split <code>${esc(g.split.version)}</code>, family <code>${esc(g.split.family)}</code>`);
     return refs.length ? `<p class="sources">Source of truth: ${refs.join(" · ")}</p>` : "";
   }
 

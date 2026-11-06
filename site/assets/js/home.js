@@ -7,13 +7,17 @@
   const MR = window.MatchRoom;
   const { esc, inline } = MR.util;
 
-  const filter = { kind: "all", q: "" }; // survives leaving and returning to the home page
+  const filter = { kind: "all", split: "all", q: "" }; // survives leaving and returning to the home page
 
   // Search and kind chips earn their space only once the gallery is long.
   const SEARCH_FROM = 7;
 
+  // The env's train/eval split, when the manifest carries one.
+  const SPLITS = [["all", "All games"], ["train", "Training"], ["eval", "Held out"]];
+
   function matches(g) {
     if (filter.kind !== "all" && g.kind !== filter.kind) return false;
+    if (filter.split !== "all" && g.split !== filter.split) return false;
     const q = filter.q.trim().toLowerCase();
     return !q || [g.title, g.kind, g.tagline, g.players].join(" ").toLowerCase().includes(q);
   }
@@ -22,7 +26,7 @@
     const runs = g.runs || 0;
     return `
       <article class="game-card">
-        <div class="eyebrow">${esc(g.kind)}</div>
+        <div class="eyebrow">${esc(g.kind)}${g.split === "eval" ? ` <span class="split-badge" title="In the eval split: training never uses this game">Held out</span>` : ""}</div>
         <h3 class="game-card__title"><a href="#${esc(g.id)}.rules">${esc(g.title)}</a></h3>
         <p class="game-card__tagline">${esc(g.tagline)}</p>
         <div class="game-card__foot">
@@ -42,12 +46,16 @@
     const { site, games } = MR.manifest;
     const home = site.home || {};
     const kinds = [...new Set(games.map((g) => g.kind))];
+    const splitChips = games.some((g) => g.split) ? `
+        <div class="lens" role="group" aria-label="Filter by train/eval split">
+          ${SPLITS.map(([s, label]) => `<button class="chip-btn" type="button" data-split="${s}" aria-pressed="${filter.split === s}">${label} <span class="muted">${s === "all" ? games.length : games.filter((g) => g.split === s).length}</span></button>`).join("")}
+        </div>` : "";
     const tools = games.length >= SEARCH_FROM ? `
       <div class="toolbar gallery__tools">
         <input type="search" id="game-search" class="search" placeholder="Search games" aria-label="Search games" value="${esc(filter.q)}">
         <div class="lens" role="group" aria-label="Filter by kind">
           ${["all", ...kinds].map((k) => `<button class="chip-btn" type="button" data-kind="${esc(k)}" aria-pressed="${filter.kind === k}">${k === "all" ? "All" : esc(k)}</button>`).join("")}
-        </div>
+        </div>${splitChips}
       </div>` : "";
     app.innerHTML = `
       <section class="hero">
@@ -75,10 +83,11 @@
       document.getElementById("gallery-grid").innerHTML = gridHtml(MR.manifest.games);
     });
     app.addEventListener("click", (ev) => {
-      const chip = ev.target.closest("[data-kind]");
+      const chip = ev.target.closest("[data-kind], [data-split]");
       if (!chip) return;
-      filter.kind = chip.dataset.kind;
-      app.querySelectorAll("[data-kind]").forEach((b) => b.setAttribute("aria-pressed", String(b === chip)));
+      const key = "kind" in chip.dataset ? "kind" : "split";
+      filter[key] = chip.dataset[key];
+      app.querySelectorAll(`[data-${key}]`).forEach((b) => b.setAttribute("aria-pressed", String(b === chip)));
       document.getElementById("gallery-grid").innerHTML = gridHtml(MR.manifest.games);
     });
   }

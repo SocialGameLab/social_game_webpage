@@ -1,0 +1,53 @@
+# Market Impact Trading: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_market_impact
+title: Market Impact Trading
+kind: Markets and trading
+players: 1 player · 396 trading days
+tagline: >-
+  One trader runs a billion-dollar portfolio of five real stocks, where its
+  own large trades push prices against it and every trade has a cost.
+view: moves
+page_link: {label: Chart replay, href: "eco/index.html#eco_market_impact"}
+setup:
+  - The trader replays real daily closes of five stocks, shown only as S01
+    to S05, from 2024-06-03 to 2025-12-31, starting with $1 billion in cash.
+  - The portfolio is long only, each position is capped at 40% of the
+    portfolio's value, and no order may exceed 10% of the day's volume.
+  - Every trade pays a 0.05% half-spread plus an impact cost that grows with
+    the order's share of the day's volume and the stock's volatility.
+  - Each trade also moves the stock's price, a shift that halves every 5
+    trading days, and cash earns the T-bill rate.
+round:
+  - The trader sees its portfolio and log return so far, and for each stock
+    the close, recent return, volatility, volume, its holding, its cap and
+    its own price impact.
+  - It plays `trade` with an order fraction from -1 to 1 for each stock, a
+    share of the position cap to buy or sell.
+  - The orders execute at the next close, sells before buys, and a buy the
+    cash cannot cover is skipped but still moves the price.
+  - Cash earns a day's interest, and the old price impact decays.
+win:
+  - The game ends after the last decision, here the 396th.
+  - The reward is the log return `ln(final value / 1,000,000,000)`, clipped
+    to [-1, 1], so costs, impact and interest all count.
+  - Ordering +1 on every stock every day returns +52.16% for a reward of
+    0.4198, and there is no opponent.
+agents:
+  - Each day the agent gets a text prompt with the rules and cost model, its
+    portfolio, the stock table, the last execution and the legal action with
+    a JSON schema.
+  - It never sees ticker names, dates, the benchmark, or the next close and
+    its volume.
+  - It answers with one JSON action, `trade` with `orders`, a map from stock
+    labels to fractions.
+watch_for:
+  - The model held the five stocks at near-equal weights and traded on 82
+    days, ending at +47.2% for a reward of 0.387.
+  - It paid $15.6M in trading costs, 156.2 bp of its starting capital, while
+    the scripted +1-every-day policy paid 21.8 bp and ended at +52.2%.
+  - 41 buys were refused for lack of cash, yet their price impact still
+    applied and added about $6.33M to the value of its holdings on those
+    days.
+runs:
+  - id: eco_market_impact

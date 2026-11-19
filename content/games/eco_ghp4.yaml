@@ -8,6 +8,7 @@ tagline: >-
   Game 4 of Goeree, Holt and Palfrey (2003), a matching-pennies game with
   big, uneven payoffs that make risk matter.
 view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_ghp4"}
 setup:
   - P0 picks the row and P1 the column of the same 2×2 game, played for 8
     rounds.
@@ -39,5 +40,11 @@ watch_for:
     in rounds 2, 3, 7 and 8, collecting 370 whenever P1 sticks to A.
   - P1 pulls ahead 1100 to 590 with B in rounds 3 and 4 (370 each), but P0's
     B plays in rounds 7 and 8 win it the match 1690 to 1670.
+run_label: Recording
 runs:
   - id: eco_ghp4
+    label: gpt-6-luna
+    note: Recorded with azure/o_series/gpt-6-luna, like the other games on this site.
+  - id: eco_ghp4_deepseek
+    label: DeepSeek
+    note: Recorded with deepseek-flash; the Chart replay draws this run.

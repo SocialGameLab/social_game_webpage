@@ -8,6 +8,7 @@ tagline: >-
   Game 1 of Selten and Chmura (2008), a lopsided matching-pennies game where
   P0 wants to match and P1 wants to differ.
 view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_sc1"}
 setup:
   - P0 picks the row and P1 the column of the same 2×2 game, played for 8
     rounds.
@@ -41,5 +42,11 @@ watch_for:
     72.
   - The talk is the same deal restated each round, with P1 adding that it
     would switch to B if P0 ever played A; nobody tests it.
+run_label: Recording
 runs:
   - id: eco_sc1
+    label: gpt-6-luna
+    note: Recorded with azure/o_series/gpt-6-luna, like the other games on this site.
+  - id: eco_sc1_deepseek
+    label: DeepSeek
+    note: Recorded with deepseek-flash; the Chart replay draws this run.

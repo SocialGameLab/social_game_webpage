@@ -8,6 +8,7 @@ tagline: >-
   Everyone picks an effort from 1 to 7, but the group is only as good as
   its laziest member.
 view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_min_effort"}
 setup:
   - Four identical players play 10 rounds.
   - Each round every player picks a whole-number effort from 1 to 7.
@@ -33,5 +34,11 @@ watch_for:
     each.
   - The messages are near-identical restatements of "I'll choose 7 again"
     from round 2 on.
+run_label: Recording
 runs:
   - id: eco_min_effort
+    label: gpt-6-luna
+    note: Recorded with azure/o_series/gpt-6-luna, like the other games on this site.
+  - id: eco_min_effort_deepseek
+    label: DeepSeek
+    note: Recorded with deepseek-flash; the Chart replay draws this run.

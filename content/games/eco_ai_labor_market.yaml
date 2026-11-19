@@ -1,0 +1,56 @@
+# AI Labor Market: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_ai_labor_market
+title: AI Labor Market
+kind: Economics experiments
+players: 8 players · 100 rounds
+tagline: >-
+  Workers on a gig platform either bid for jobs or train a skill each round.
+  Clients pick by reputation and price, so every worker is tempted to
+  undercut the rest.
+view: moves
+page_link: {label: Chart replay, href: "eco/index.html#eco_ai_labor_market"}
+setup:
+  - Eight seats, P0 to P7, compete with two scripted workers, a Specialist
+    and a Greedy bidder, on a gig platform for 100 rounds.
+  - A catalog of 16 jobs covers 4 skills with posted budgets around $10,
+    $8, $6 and $4, and each round a random subset is listed.
+  - Each worker has a hidden skill per type, 0.4 at the start, and a public
+    reputation per skill shown out of 5 stars.
+  - Workers go by market names drawn at random, so nobody can tell which
+    agents are scripted.
+round:
+  - Every worker plays `bid` with up to 5 job-and-price pairs, most
+    preferred first, or `train` on one skill, all at once.
+  - Clients score each bidder by reputation and by price relative to the
+    budget, and a matching gives each worker at most 3 jobs.
+  - A matched worker delivers a quality drawn from its hidden skill, is paid
+    its bid in full, and its reputation moves toward that quality.
+  - Training raises the hidden skill and publishes a benchmark score, and a
+    worker that bid and won nothing is trained on the skill of its first
+    bid.
+win:
+  - The game ends after 100 rounds, though the rules tell workers the market
+    may close after any round with about a 1% chance.
+  - Each worker's reward is `earnings / 896 - 1`, clipped to [-1, 1], where
+    $896 is an equal share of all the money the market is expected to post.
+  - The highest reward is recorded as the winner.
+agents:
+  - Each round the agent gets a text prompt with the rules, its market name,
+    the last 10 rounds of filled jobs with winners and reputations, the
+    leaderboard of total earnings, its own last 10 rounds and record, its
+    reputations, its note from last round and the listings.
+  - Bids are sealed, so it never sees other workers' prices, hidden skills
+    or notes, or which agents are scripted.
+  - It answers with one JSON action, `bid` with a list of `job` and `price`
+    entries or `train` with a `skill`, plus an optional `note` that only it
+    sees next round.
+watch_for:
+  - The eight model workers undercut each other, so winning bids fell from
+    64% of the posted budget in rounds 1 to 10 to 8% in rounds 91 to 100.
+  - The model workers took $2,645 of the $2,678 earned, yet all payments
+    came to only 30% of the $9,070 posted, against about 54% in the paper.
+  - P7 earned most with $463.09 (reward -0.483) and P1 least with $205.66,
+    while the scripted Specialist and Greedy earned $19.42 and $12.98.
+runs:
+  - id: eco_ai_labor_market

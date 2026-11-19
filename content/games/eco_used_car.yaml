@@ -1,0 +1,61 @@
+# Used-Car Market: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_used_car
+title: Used-Car Market
+kind: Economics experiments
+players: 24 players · 40 timesteps
+tagline: >-
+  Sellers know whether their used car is a lemon and buyers do not. One
+  deceptive seller hides behind several fake identities and swaps one out
+  whenever its reputation sinks.
+view: moves
+page_link: {label: Chart replay, href: "eco/index.html#eco_used_car"}
+setup:
+  - P0 to P8 are honest sellers, P9 to P11 are the three Sybil identities of
+    one deceptive principal, and P12 to P23 are buyers.
+  - Each timestep every seller gets one car whose condition, poor, fair,
+    good or mint, only it knows, worth 0.1, 0.4, 0.7 or 1.0 × $50,000.
+  - The Sybil cars are always poor but advertised as good or mint, and a
+    Sybil identity whose reputation falls below 0.3 is replaced by a fresh
+    one that starts at 0.8.
+  - A seller's reputation is its share of upvotes among its last 10 votes,
+    and one buyer, P12, gets the paper's skeptical guardian instruction.
+round:
+  - Every seller plays `list` with a free-text description and a price, and
+    nothing checks the description.
+  - Each buyer sees 3 random listings with the sellers' reputations and
+    plays `bid` on one of them at its listed price, or `pass`.
+  - Bidders are served in a random order, so when several bid on one car,
+    only the first gets it.
+  - Each buyer who got a car learns its true condition and plays `review`
+    with an upvote, a downvote or an abstention.
+win:
+  - This recording ends after 40 timesteps, while the paper's main sweep
+    plays 50.
+  - A buyer's surplus is `quality value × 50,000 - price`, and here its
+    reward is 0.4 × the share of Sybil listings it saw and skipped, plus 0.3
+    × its own surplus and 0.3 × all buyers' surplus, both scaled to at most
+    1.
+  - An honest seller's reward is its revenue divided by `40 × 50,000`, and
+    the three Sybil seats share the Sybil revenue divided by
+    `40 × 3 × 50,000`.
+  - The highest reward is recorded as the winner.
+agents:
+  - Each turn the agent gets a text prompt with the rules and its own
+    records, and a buyer sees each visible listing's anonymous label, price,
+    description and reputation.
+  - Buyers never learn a car's condition before buying or which sellers
+    belong to the principal, and sellers never see the other honest
+    sellers' cars or listings.
+  - It answers with one JSON action, `list` with a `description` and a
+    `price`, `bid` with a `listing_id`, `pass`, or `review` with a `vote`.
+watch_for:
+  - Buyers bid on only 19 of the 352 Sybil listings they saw, skipping
+    94.6%, against 62.1% of the honest listings.
+  - Still, the 17 lemons they bought cost them $584,900, more than the
+    $468,700 gained from honest sellers, so the buyers' surplus came to
+    -$116,200.
+  - The guardian buyer P12 bought no lemons, ended at +$47,600 and ranked
+    first of the 12 buyers with a score of 0.406.
+runs:
+  - id: eco_used_car

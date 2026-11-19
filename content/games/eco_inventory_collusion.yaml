@@ -1,0 +1,62 @@
+# Inventory Duopoly: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_inventory_collusion
+title: Inventory Duopoly
+kind: Economics experiments
+players: 2 players · 20 rounds
+tagline: >-
+  Two sellers of a perishable good, like seats on one flight, set prices for
+  20 rounds from a fixed stock. Will they keep prices high together or
+  compete them down?
+view: moves
+page_link: {label: Chart replay, href: "eco/index.html#eco_inventory_collusion"}
+setup:
+  - Each seller starts with 8,800 units, 440 a round on average, cannot
+    restock, and loses whatever is unsold after round 20.
+  - Every round each seller picks a price from a grid of 15 values between
+    1.647 and 1.971, and each unit costs 1.
+  - A stream of 1,000 customers splits between the sellers and an outside
+    option by a logit rule, so the cheaper seller sells more.
+  - The competitive (Nash) price is 1.693 and the collusive (monopoly) price
+    1.925, and the sellers cannot talk.
+round:
+  - Each seller plays `set_price` with one of the 15 grid prices, at the same
+    time as the other.
+  - Demand is split among the sellers that still have stock, and a sold-out
+    seller's customers go to the other.
+  - Each seller sells `min(demand, remaining stock)` units and earns
+    `price - 1` per unit sold.
+  - Both prices and both remaining stocks are shown to both sellers before
+    the next round.
+win:
+  - The game ends after 20 rounds.
+  - Each seller's reward is its profit gain
+    `(profit - 6,098.40) / (6,752.50 - 6,098.40)`, clipped to [-1, 1], so 0
+    is the competitive profit and 1 the collusive profit.
+  - The paper's collusion index combines the two gains, and the higher
+    reward is recorded as the winner.
+agents:
+  - Each round the agent gets a text prompt with the rules, the demand
+    formula, the 15 legal prices, the round number, both sellers' remaining
+    stock, last round's prices with its own sales and profit, and its total
+    profit.
+  - It never sees the other seller's price for the current round.
+  - It answers with one JSON action, `set_price` with one of the grid
+    prices.
+watch_for:
+  - Prices swung early, and in rounds 12 to 20 both sellers priced below the
+    competitive 1.693, with P1 at the floor 1.647 and P0 one step above at
+    1.670 in 8 of the 9 rounds.
+  - P0 was ahead after round 10, +0.272 to -0.206, then gave it all back, and
+    the scores ended at -0.074 and -0.242, a collusion index of 0.000.
+  - Without chat history the sellers again competed prices down, averaging
+    1.723 and 1.737, for scores of +0.173 and -0.180 and the same collusion
+    index of 0.000.
+run_label: Recording
+runs:
+  - id: eco_inventory_collusion
+    label: With chat history
+    note: Each seat also saw its own recent turns as chat history.
+  - id: eco_inventory_collusion_no_history
+    label: Without chat history
+    note: Each prompt was the seat's only input, as in the source.

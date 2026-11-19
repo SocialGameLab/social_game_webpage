@@ -1,0 +1,62 @@
+# MarketSim: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_marketsim_talk
+title: MarketSim
+kind: Markets and trading
+players: 4 players · 3 days · 23 decisions
+tagline: >-
+  Four fund managers steer their own crowds of trader agents through three
+  days of a simulated stock market hit by a tariff shock. Before each
+  decision they can post a public market comment.
+view: moves
+page_link: {label: Chart replay, href: "eco/index.html#eco_marketsim_talk"}
+setup:
+  - One stock trades for three days in a continuous double auction, and ten
+    institutions each have a fund manager and 295 trader agents.
+  - Four managers are seats, P0 to P3, and six are scripted, among 12,000
+    noise traders, 100 value investors, 50 momentum traders and 4 market
+    makers.
+  - Each institution starts with $29,500,000 and 100,000 shares, and each
+    seat gets a style line, such as an event-driven fund.
+  - In this recording a sweeping tariff announcement lands before the open
+    of day 2, and retaliation before the open of day 3.
+round:
+  - Each manager publishes a short public commentary with `post`, which the
+    other managers read.
+  - Each manager sends `guide` with an indicative price in cents and weights
+    over the strategies `value`, `momentum`, `macd`, `imbalance` and `hold`.
+  - Each of its traders draws a strategy from the weights and places small
+    limit orders until the next decision.
+  - Decisions come before the open, every 4,000 seconds of trading and at
+    every intraday news release.
+win:
+  - The game ends after the close of day 3.
+  - A manager's surplus rate is its gain from trading, its cash and shares
+    at the closing mid against what its starting position is worth, divided
+    by its starting cash.
+  - Its reward is the surplus rate divided by 5%, clipped to [-1, 1], so
+    keeping the starting position scores 0, and the highest reward is
+    recorded as the winner.
+agents:
+  - Each stage the agent gets a text prompt with the rules, its
+    institution's style and account, the order book and today's trades, the
+    news released since its last decision, the other managers' posts and
+    the legal action with a JSON schema.
+  - It never sees other institutions' accounts or guidance, or the size of a
+    news shock, which is described only in words.
+  - It answers with one JSON action, `post` with a `text`, or `guide` with a
+    `price` and `weights`.
+watch_for:
+  - Over the three days the price fell from $153.25 to $141.08.
+  - P3 and P1 scored best, at 0.7011 and 0.6899, P0 scored 0.2520, and P2
+    lost heavily at -0.9795.
+  - Without chat history the price ended at $158.70 instead, and P0 and P1
+    both reached the top score of 1.0000.
+run_label: Recording
+runs:
+  - id: eco_marketsim_talk
+    label: With chat history
+    note: Each seat also saw its own recent turns as chat history.
+  - id: eco_marketsim_talk_no_history
+    label: Without chat history
+    note: Each prompt was the seat's only input, as in the source.

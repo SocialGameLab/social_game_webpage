@@ -1,0 +1,54 @@
+# AgenticPay: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_agenticpay
+title: AgenticPay
+kind: Negotiation
+players: 2 players · 4 rounds
+tagline: >-
+  A buyer and a seller, each with a private price limit, negotiate the total
+  price of one product for up to 20 rounds. A deal closes when both name the
+  same price, and earlier deals score more.
+view: deals
+view_options: {offer_events: [message]}
+page_link: {label: Chart replay, href: "eco/index.html#eco_agenticpay"}
+setup:
+  - One of 13 tasks is drawn, from a used smartphone to a business
+    acquisition, and its product description and market context are public.
+  - The buyer privately knows its maximum price, and the seller privately
+    knows its minimum price and its initial asking price.
+  - There is no accept move, so a side accepts by stating the other side's
+    price.
+  - Nobody can quit, and the only way to end without a deal is the round
+    limit.
+round:
+  - The buyer sends one message, a public `talk` text with either one total
+    price (`offer`) or no new price (`hold`).
+  - The seller replies the same way.
+  - After the seller's message, a deal closes if the two latest prices are
+    equal, and otherwise the next round starts.
+win:
+  - The game ends at the first deal or after 20 rounds without one.
+  - A deal inside the zone in round t gives each side `0.99^(t-1) × (30 + 55
+    × its share of the zone + 15)` points.
+  - A timeout or a deal outside the zone gives both sides -2.61 points.
+  - Each side's reward is its points divided by 100, and no winner is named.
+agents:
+  - Each turn the agent gets a text prompt with the rules, its role, its
+    private limit and instructions, the public product and market context,
+    the whole dialogue so far, and the legal actions.
+  - The prompt states each side's goal in words, never the scoring formula
+    or its weights.
+  - It never sees the other side's limit.
+  - It answers with one JSON action, `offer` with a `talk` text and a price,
+    or `hold` with a `talk` text.
+watch_for:
+  - The seller's private initial ask and the buyer's private maximum were
+    both $150, so the zone ran from $80 to $150 under a public list price of
+    $180.
+  - The deal closed at $135 in round 4 of 20, giving the seller 79% of the
+    zone (85.59 points, reward 0.856) and the buyer 21% (55.10 points,
+    reward 0.551).
+  - Both scores carry the late-deal discount of ×0.970 for closing in round
+    4.
+runs:
+  - id: eco_agenticpay

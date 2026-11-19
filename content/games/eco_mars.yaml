@@ -1,0 +1,55 @@
+# MarS Order Execution: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_mars
+title: MarS Order Execution
+kind: Markets and trading
+players: 1 player · 4 decisions
+tagline: >-
+  One trader must buy a large block of shares within five minutes, in a
+  market whose other orders come from a generative model that reacts to its
+  trades. Buying fast pushes the price up, and waiting risks running out of
+  time.
+view: moves
+page_link: {label: Chart replay, href: "eco/index.html#eco_mars"}
+setup:
+  - The trader has a private mandate to buy a fixed number of shares of one
+    synthetic stock between 10:00 and 10:05, here 22,900 shares.
+  - A scripted noise trader builds the first 30 minutes of the session, and
+    during the window every other order comes from the MarS generative
+    model, which reads the last 1024 orders, the trader's included.
+  - Prices are whole units with a tick of 100, about 10 bps, and volumes
+    come in lots of 100 shares.
+  - The benchmark is the arrival price, the mid price when the window opens.
+round:
+  - Every 15 seconds of market time the trader sees the clock, its mandate
+    and fills, its working order, the order book and the latest trades.
+  - It plays `wait`, `cancel` its working order, or `buy` with a `price` and
+    a `volume`, which first cancels the working order.
+  - A buy order that reaches the asks trades at once at their prices, and
+    the rest rests in the book.
+  - The background market runs on for 15 seconds, and once the mandate is
+    filled the trader stops deciding.
+win:
+  - The window closes at 10:05 after 20 rounds of 15 seconds.
+  - The cost is the shortfall of the fills against the arrival price in
+    bps, with unfilled shares counted as bought at the closing mid plus
+    1,000 bps of the arrival price.
+  - The reward is `-cost_bps / 1000`, clipped to [-1, 1], and there is no
+    opponent.
+agents:
+  - Each round the agent gets a text prompt with the rules, its mandate and
+    fills, its working order, the order book, the last price, the last
+    round's trades and the legal actions with a JSON schema.
+  - It never sees the background model's state, and other orders appear
+    only as anonymous volume in the book.
+  - It answers with one JSON action, `wait`, `cancel`, or `buy` with a
+    `price` and a `volume`.
+watch_for:
+  - The trader quoted the full 22,900 shares at once in its first decision,
+    and most of it filled early.
+  - It needed only four decisions, and by the last one it had 88.2% of the
+    mandate filled at an average of +56.9 bps above the arrival mid.
+  - Its final score was -0.061, where buying everything at the arrival price
+    would score 0.
+runs:
+  - id: eco_mars

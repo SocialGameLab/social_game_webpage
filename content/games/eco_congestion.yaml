@@ -1,0 +1,46 @@
+# Congestion Game: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_congestion
+title: Congestion Game
+kind: Economics experiments
+players: 2 players · 8 rounds
+tagline: >-
+  Two drivers each pick one of two roads, and a shared road is slow. Both do
+  best on different roads, but each would rather have the faster one.
+view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_congestion"}
+setup:
+  - P0 is the row player and P1 the column player, and each round both pick
+    road `A` or road `B`.
+  - In this recording's table, a driver alone on road A gets 9 and alone on
+    road B gets 8, while a shared road pays 5 each on A and 4 each on B.
+  - Each driver would rather be the one alone on road A, and nothing says
+    who should give way.
+  - The payoff table, past choices and scores are public, and in this
+    recording the players cannot talk.
+round:
+  - Each player privately submits `A` or `B` with `choose`.
+  - The two choices are revealed together, and each player's payoff from
+    the table is added to its score.
+win:
+  - The game ends after 8 rounds.
+  - Each player's reward is its own cumulative payoff, and the higher total
+    is recorded as the winner.
+  - The pure equilibria are `AB` and `BA`, and in the mixed equilibrium each
+    driver takes road A with probability 5/8 and expects 6.5 a round.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the payoff table,
+    both scores, the past choices and the legal action.
+  - The other player's road for the round stays hidden until both have
+    chosen.
+  - It answers with one JSON action, `choose` with `A` or `B`.
+watch_for:
+  - Both drivers took road A in rounds 1 and 2, and from round 3 P1 gave way
+    and took road B, so P0 won 64 to 58.
+  - Splitting in 6 of 8 rounds earned the pair 122 of 136 (89.7%), against
+    104 expected from random play at the mixed equilibrium.
+  - From round 2 each prompt's private info also showed the driver's own
+    road from the previous round as `pending`, a leftover the engine does
+    not clear and the prompt does not explain.
+runs:
+  - id: eco_congestion

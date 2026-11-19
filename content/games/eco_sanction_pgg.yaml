@@ -1,0 +1,58 @@
+# Sanctioned Public Goods: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_sanction_pgg
+title: Sanctioned Public Goods
+kind: Economics experiments
+players: 7 players · 15 rounds
+tagline: >-
+  Seven players choose each round between a group whose members can punish
+  or reward each other and one where they cannot, then decide how much to
+  give to their group's shared project.
+view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_sanction_pgg"}
+setup:
+  - Each round every player gets 20 tokens for the project and a second 20
+    tokens, which members of the sanctioning group may spend on sanctions.
+  - A project pays each member `1.6 × members' total contribution / number
+    of members`.
+  - Players never talk and never see seats, only anonymous agent numbers
+    that are redrawn every round.
+  - Everyone sees the anonymous records of the last five rounds.
+round:
+  - Each player privately joins the Sanctioning Institution (`SI`) or the
+    Sanction-Free Institution (`SFI`) with `choose_institution`.
+  - Each player privately puts 0 to 20 tokens into its institution's
+    project with `contribute`.
+  - SI members see each other's contributions by agent number and may each
+    assign up to 20 tokens with `sanction`, where a punishment token costs 1
+    and takes 3 from the target and a reward token costs 1 and gives 1.
+  - SFI members simply keep their second 20 tokens, and the round's
+    anonymous record is published.
+win:
+  - The game ends after 15 rounds.
+  - A round pays `20 - contribution + project share`, plus the second 20
+    tokens minus the tokens spent on sanctions, plus 1 per reward token and
+    minus 3 per punishment token received.
+  - Each player's reward is `earnings / 600 - 1`, clipped to [-1, 1], where
+    600 is what a player earns when nobody contributes.
+  - Everyone contributing everything earns 52 a round against 40 when nobody
+    does, and the top earner is listed as the winner.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the anonymous
+    records of the last five rounds, the SI contributions during the
+    sanction stage, its own number, record, score and rank, and the legal
+    actions.
+  - It never sees seat names, the other players' totals or ranks, or who
+    sanctioned whom.
+  - It answers with one JSON action, `choose_institution`, `contribute` with
+    an amount, or `sanction` with `punish` and `reward` lists.
+watch_for:
+  - All seven players chose the SI in every round and contributed all 20 in
+    rounds 1 to 13.
+  - In round 14 P5 contributed nothing while the other six gave 20, earning
+    67.43 against their 47.43, and nobody punished it, as not one sanction
+    token was used in 105 sanction decisions.
+  - In round 15, the last, all seven contributed nothing, so P5 finished on
+    783.43 (reward 0.306) and the other six on 763.43 (0.272).
+runs:
+  - id: eco_sanction_pgg

@@ -1,0 +1,52 @@
+# Regime Trading with Impact: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_trading_impact
+title: Regime Trading with Impact
+kind: Markets and trading
+players: 2 players · 10 rounds
+tagline: >-
+  Two traders share a market that switches between bull and bear regimes.
+  Trading the same way in the same round moves the price against both, so
+  when the regime flips, who trades first?
+view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_trading_impact"}
+setup:
+  - Two traders start with no position at a price of 100 and play 10
+    rounds.
+  - The market is in a bull or a bear regime that stays the same each round
+    with probability 0.8.
+  - In a bull regime the price rises 2 with probability 0.7 and otherwise
+    falls 2, a bear regime is the reverse, and in this recording both
+    traders are told the true regime.
+  - Each unit of position changed costs a fee of 0.5, plus a market-impact
+    cost that grows with the two traders' combined order.
+round:
+  - Each trader sends one public, non-binding message with `talk`.
+  - Each trader secretly picks a target position from -2 to +2 with
+    `set_position` or `flat`, and the two are revealed together.
+  - The price moves, and each trader earns `position × price change - 0.5 ×
+    |own change| - 0.125 × own change × (own change + other's change)`.
+  - The next regime is drawn, the same as before with probability 0.8.
+win:
+  - The game ends after 10 rounds.
+  - Each trader's reward is its own total P&L, which can be negative, and
+    the higher total is recorded as the winner.
+  - Trading the same way as the other trader in the same round costs both
+    more, while opposite orders net out.
+agents:
+  - Each turn the agent gets a text prompt with the rules and
+    probabilities, the regime signal, the price and recent changes, both
+    traders' positions and P&L, the messages so far, and the legal actions.
+  - The other trader's position for the round stays hidden until both are
+    revealed.
+  - It answers with one JSON action, `talk` with a message, or
+    `set_position` with a `position`, or `flat`.
+watch_for:
+  - P0 ended at +10.5 and P1 at +11.25, together +21.75, while the joint
+    optimum replayed on the same price path makes +24.25.
+  - In rounds 1, 9 and 10 both traded the same way, which cost each of them
+    1.375 extra in impact.
+  - P0 traded more, paying 7.5 in fees and 8 in impact against P1's 2.5 and
+    2.25.
+runs:
+  - id: eco_trading_impact

@@ -8,6 +8,7 @@ tagline: >-
   Four players choose how many tokens to put in a shared pot. The pot pays
   everyone, so each player is tempted to keep their tokens and free-ride.
 view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_public_goods"}
 setup:
   - Each round every player holds 10 tokens.
   - Every token put into the group account pays 0.3 to each of the four
@@ -35,5 +36,11 @@ watch_for:
     100 each.
   - Watch the talk turn in round 3, when P1, P2 and P3 cite the MPCR of 0.3
     and stop promising, and P0 joins them a round later.
+run_label: Recording
 runs:
   - id: eco_public_goods
+    label: gpt-6-luna
+    note: Recorded with azure/o_series/gpt-6-luna, like the other games on this site.
+  - id: eco_public_goods_deepseek
+    label: DeepSeek
+    note: Recorded with deepseek-flash; the Chart replay draws this run.

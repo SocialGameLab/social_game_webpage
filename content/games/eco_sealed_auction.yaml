@@ -8,6 +8,7 @@ tagline: >-
   Three bidders each know only what the item is worth to them. The highest
   sealed bid wins and pays what it bid.
 view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_sealed_auction"}
 setup:
   - Each round one item is auctioned among three bidders.
   - Each bidder gets a new private value for the item, drawn from 10, 20,
@@ -35,5 +36,11 @@ watch_for:
   - P0 won six rounds at price 0 and finished with 420 against 129 for P2
     and 90 for P1; `run.log` also shows an LLM fallback, so at least one bid
     was random.
+run_label: Recording
 runs:
   - id: eco_sealed_auction
+    label: gpt-6-luna
+    note: Recorded with azure/o_series/gpt-6-luna, like the other games on this site.
+  - id: eco_sealed_auction_deepseek
+    label: DeepSeek
+    note: Recorded with deepseek-flash; the Chart replay draws this run.

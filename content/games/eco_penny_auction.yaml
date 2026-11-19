@@ -1,0 +1,61 @@
+# Penny Auction: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_penny_auction
+title: Penny Auction
+kind: Economics experiments
+players: 3 players · 3 rounds
+tagline: >-
+  Every bid costs a fee and raises the price by a few cents, and the last
+  bidder standing buys the item. The fees can add up to far more than the
+  item is worth.
+view: moves
+page_link: {label: Chart replay, href: "eco/index.html#eco_penny_auction"}
+setup:
+  - Three bidders compete for one item, here a game controller worth
+    $20.00.
+  - Every registered bid costs its bidder a non-refundable $0.75 fee and
+    raises the price by $0.15.
+  - The auction opens with one bid already registered for a bidder drawn at
+    random, who pays its fee and leads.
+  - Bidders go by letters drawn at random each game, and the auction is
+    stopped after 134 registered bids at the latest.
+round:
+  - Every bidder except the current leader decides, at the same time, to
+    `bid` or `pass`.
+  - If anyone bids, one of those bids is drawn at random and registered, so
+    only that bidder pays the fee and becomes the leader.
+  - If nobody bids, the auction ends and the leader buys the item at the
+    current price.
+win:
+  - The auction ends after a round with no bid, or after 134 registered
+    bids.
+  - A bidder's net money is the item's value minus the final price if it
+    won, minus all its fees, and its reward is that net divided by the
+    value, clipped to [-1, 1].
+  - In the paper's equilibrium every bid is worth zero on average, and on
+    this item the auction lasts 22.2 bids on average.
+  - The leader at the end buys the item, and the top reward is recorded as
+    the winner.
+agents:
+  - Each round the agent gets a text prompt with the rules, the item, fee
+    and increment, its own letter, the price and the leader, what its own
+    bid would earn now, its own bids and fees so far, and the last
+    registered bids.
+  - It never sees the other bidders' choices in the round or their fees.
+  - It answers with one JSON action, `bid` or `pass`, with an empty
+    payload.
+watch_for:
+  - The game placed the opening bid for Bidder B (P0), both other bidders
+    bid in round 2, and Bidder C (P2) was drawn as the new leader at $0.30.
+  - Both non-leaders passed in round 3, so Bidder C bought the controller
+    for $0.30 after 2 bids and netted +$18.95, a score of 0.948.
+  - The auctioneer took only $1.80, 0.09 × the item's value, and the
+    recording without chat history ended exactly the same way.
+run_label: Recording
+runs:
+  - id: eco_penny_auction
+    label: With chat history
+    note: Each seat also saw its own recent turns as chat history.
+  - id: eco_penny_auction_no_history
+    label: Without chat history
+    note: Each prompt was the seat's only input, as in the source.

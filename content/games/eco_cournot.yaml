@@ -8,6 +8,7 @@ tagline: >-
   Two firms secretly choose how much to produce, and the more they make
   together, the lower the price both get.
 view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_cournot"}
 setup:
   - Two identical firms each make goods at a unit cost of 10.
   - Each round a firm can produce any whole quantity from 0 to 90.
@@ -34,5 +35,11 @@ watch_for:
     simply endorsed 30.
   - The `run.log` shows an LLM fallback, so at least one move was a random
     legal move because a reply could not be parsed.
+run_label: Recording
 runs:
   - id: eco_cournot
+    label: gpt-6-luna
+    note: Recorded with azure/o_series/gpt-6-luna, like the other games on this site.
+  - id: eco_cournot_deepseek
+    label: DeepSeek
+    note: Recorded with deepseek-flash; the Chart replay draws this run.

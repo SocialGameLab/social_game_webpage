@@ -1,0 +1,59 @@
+# Gossip and Donation: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_gossip_reciprocity
+title: Gossip and Donation
+kind: Economics experiments
+players: 9 players · 36 rounds
+tagline: >-
+  Each round one player decides whether to pay 1 so that a stranger gains
+  5. The two never meet again, so help can only come back through what the
+  receiver tells everyone else.
+view: rounds
+view_options: {round_events: [donation]}
+page_link: {label: Chart replay, href: "eco/index.html#eco_gossip_reciprocity"}
+setup:
+  - Nine players each start with 10 units, and each round pairs two players
+    who never meet again, one as donor and one as recipient.
+  - Every pair meets once, so the game has 36 rounds, and each player is
+    donor 4 times and recipient 4 times, switching role every time.
+  - Only the paired players see the pairing and the donor's choice.
+  - In the recording, players are told the game goes on indefinitely and to
+    maximize their payoff discounted by 0.99 per interaction, with a standing
+    hint about equilibrium play.
+round:
+  - The two paired players privately learn who they are paired with and
+    both current stocks.
+  - The donor plays `donate`, either cooperating (it pays 1 and the
+    recipient gains 5) or defecting (nothing moves).
+  - The recipient plays `gossip`, picking a tone (praising, neutral,
+    mocking, complaint or criticism) and writing a public message of up to
+    150 words about the donor.
+  - The message joins a public pool that every player can read for the rest
+    of the game, while the tone stays hidden.
+win:
+  - The game ends after 36 rounds, even when the players were told it goes
+    on indefinitely.
+  - Each player's reward is `(final stock - 10) / 20`, where 20 is the most
+    a player can gain.
+  - If every donor cooperates, every player ends with 26 and a reward of
+    0.8, and the richest players are recorded as the winners.
+  - With a known last round, defecting every time is the only subgame-perfect
+    equilibrium.
+agents:
+  - Each turn the agent gets a text prompt with the rules, its own stock,
+    its private pairing and donation records, its own earlier
+    justifications, the public message pool and the legal actions.
+  - It never sees the round number, the tones, the other players' stocks or
+    another pair's donation, except through the messages.
+  - It answers with one JSON action, `donate` with `cooperate` true or false
+    or `gossip` with a tone and a message, each with a private
+    `justification` that no other player sees.
+watch_for:
+  - Every donor cooperated in all 36 rounds, a cooperation rate of 100%,
+    where the paper's eight models ranged from 60% to 100% in this setting.
+  - All 36 messages praised the donor, and every one fit the donor's choice.
+  - The stocks were furthest apart after round 14, P2 at 27 and P8 at 9,
+    purely from the order of the pairs, and every player ended at 26 for a
+    reward of 0.800.
+runs:
+  - id: eco_gossip_reciprocity

@@ -1,0 +1,54 @@
+# Pirate Game: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_pirate_game
+title: Pirate Game
+kind: Negotiation
+players: 10 players · 1 round
+tagline: >-
+  Ten pirates must split 100 gold coins. The most senior proposes a split,
+  and if fewer than half accept, the proposer goes overboard and the next
+  pirate tries.
+view: rounds
+view_options: {round_events: [vote_result]}
+page_link: {label: Chart replay, href: "eco/index.html#eco_pirate_game"}
+setup:
+  - Ten pirates share 100 gold coins, and seat order is seniority, with P0
+    the most senior.
+  - Each pirate's rank, status and offered share are public, but every vote
+    is secret.
+  - Each pirate wants first to stay aboard, then as many coins as possible,
+    and then, if it costs nothing, to see others thrown overboard.
+round:
+  - The most senior pirate aboard plays `propose`, one whole number of coins
+    per pirate aboard, adding up to 100.
+  - Every other pirate aboard votes `accept` or `reject` in secret, and the
+    proposer counts as accepting.
+  - Only the number of accepting pirates is announced, and the plan passes if
+    they are at least half of those aboard.
+  - If the plan fails, the proposer is thrown overboard with nothing and the
+    next most senior pirate proposes.
+win:
+  - The game ends when a plan passes, which with ten pirates takes at most 9
+    rounds.
+  - A pirate aboard at the end scores `coins / 100 + 0.001 × pirates thrown
+    overboard`, and a pirate thrown overboard scores -1.
+  - In the backward-induction solution, the first proposer keeps 96 coins and
+    gives one each to the third, fifth, seventh and ninth pirates.
+  - The pirates with the most coins are the winners.
+agents:
+  - Each turn the agent gets a text prompt with the rules and goals, the
+    public state with the pirates aboard and the current proposal, each
+    pirate's rank, status and offer, the recent public events and the legal
+    actions.
+  - A voter sees only its own votes, never another pirate's.
+  - It answers with one JSON action, `propose` with a list of shares or
+    `vote` with `accept` or `reject`.
+watch_for:
+  - P0 proposed exactly the backward-induction split, keeping 96 of 100 coins
+    and giving one coin each to P2, P4, P6 and P8.
+  - The plan passed in round 1 with 5 of 10 votes, the bare minimum, as the
+    four pirates offered a coin accepted and the other five rejected.
+  - All 9 votes followed the paper's voter rule, so the paper's score S8 was
+    100.0, where the paper's default model averaged 71.6.
+runs:
+  - id: eco_pirate_game

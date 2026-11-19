@@ -1,0 +1,47 @@
+# FinRL Daily Trading: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_finrl_daily
+title: FinRL Daily Trading
+kind: Markets and trading
+players: 1 player · 348 trading days
+tagline: >-
+  One trader replays real daily prices of one stock and decides each day how
+  much of its portfolio to keep in it. It never learns the stock's name or
+  the date.
+view: moves
+page_link: {label: Chart replay, href: "eco/index.html#eco_finrl_daily"}
+setup:
+  - The trader replays real dividend-adjusted closes of one stock, here AAPL
+    from 2025-06-02 to 2026-10-19, starting with $1,000,000 in cash.
+  - Each day it may hold 0, 25, 50, 75 or 100% of the portfolio's value in
+    the stock, and the rest stays in cash, which earns nothing.
+  - Trades are whole shares at the day's close with a 0.1% fee, with no
+    short selling or borrowing, and the trader cannot move the price.
+round:
+  - The trader sees the last 20 closing prices, the stock's current weight
+    in its portfolio and the level it holds.
+  - It plays `set_position` with one of the five levels.
+  - A new level trades at today's close, while the level already held makes
+    no trade, so holding 100% every day is exactly buy-and-hold.
+win:
+  - The game ends after the decision on the last trading day, with the
+    portfolio valued at that close, and there is no opponent.
+  - The reward is the log return `ln(final value / 1,000,000)`, clipped to
+    [-1, 1].
+  - On this rising window buy-and-hold is the best fixed level and scores
+    0.535, while staying in cash scores 0.
+agents:
+  - Each day the agent gets a text prompt with the rules, the 20 closes, its
+    current weight and level, and the legal action with a JSON schema.
+  - It never sees the ticker, any date, how many days are left or any later
+    price.
+  - It answers with one JSON action, `set_position` with a `percent`.
+watch_for:
+  - The model ended +52.1% (reward 0.419) against +70.7% for buy-and-hold,
+    holding 79% of the portfolio in the stock on average.
+  - It traded on 102 of the 348 days and paid $68,441 in fees, holding 100%
+    on 243 days and only cash on 44.
+  - Its worst drawdown was shallower, -11.5% against -13.8% for buy-and-hold,
+    but its Sharpe ratio was lower, 1.54 against 1.74.
+runs:
+  - id: eco_finrl_daily

@@ -1,0 +1,50 @@
+# Regime Trading: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_trading_regime
+title: Regime Trading
+kind: Markets and trading
+players: 1 player · 10 rounds
+tagline: >-
+  One trader picks a position each round in a market that switches between
+  bull and bear regimes. Every trade costs a fee, so how big a bet should it
+  take, and when should it switch?
+view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_trading_regime"}
+setup:
+  - One trader starts with no position at a price of 100 and plays 10
+    rounds.
+  - The market is in a bull or a bear regime and stays in it each round with
+    probability 0.8.
+  - In a bull regime the price rises 2 with probability 0.7 and otherwise
+    falls 2, and a bear regime is the reverse.
+  - In this recording the trader is told the true regime before each round.
+round:
+  - The trader sees the regime signal, the price, the last three price
+    changes, its position and its total P&L.
+  - It picks a target position from -2 (short) to +2 (long) with
+    `set_position`, or closes it with `flat`.
+  - The price moves, and the round pays `position × price change - 0.5 ×
+    units of position changed`.
+  - The next regime is drawn, the same as before with probability 0.8.
+win:
+  - The game ends after 10 rounds, and there is no opponent.
+  - The reward is the total P&L, which can be negative.
+  - Every rule and probability is stated, so the best policy for any risk
+    attitude can be computed exactly, and the risk-neutral optimum expects
+    +11.4 before the game.
+agents:
+  - Each round the agent gets a text prompt with the rules and
+    probabilities, the regime signal, the price and recent changes, its
+    position and P&L, and the legal actions.
+  - The true regime itself stays hidden, and only the signal is shown.
+  - It answers with one JSON action, `set_position` with a `position`, or
+    `flat`.
+watch_for:
+  - The trader went long +2 in round 1 and reversed to -2 in round 9 when
+    the regime flipped, matching the risk-neutral optimum in all 10 rounds.
+  - Its choices are optimal only for a risk aversion τ below 0.083, so the
+    model acted risk-neutral.
+  - Four of the 10 price moves went against the regime, in rounds 4, 5, 9
+    and 10, so it made +5.0 where +13.0 was expected given these regimes.
+runs:
+  - id: eco_trading_regime

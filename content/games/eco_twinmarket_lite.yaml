@@ -1,0 +1,59 @@
+# TwinMarket: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_twinmarket_lite
+title: TwinMarket
+kind: Markets and trading
+players: 4 players · 20 trading days
+tagline: >-
+  Four investors trade ten sector indices among 96 rule-based investors, with
+  one call auction per index each day. They can also write public posts that
+  the others read the next day.
+view: moves
+page_link: {label: Chart replay, href: "eco/index.html#eco_twinmarket_lite"}
+setup:
+  - Four seats, P0 to P3, and 96 rule-based investors trade 10 industry
+    indices, here for 20 trading days.
+  - Each seat starts with 10,000,000 yuan in cash and holdings, and P0 and P2
+    are told to invest as fundamental investors, P1 and P3 as technical
+    ones.
+  - Each index has one call auction a day, and the price that executes the
+    most volume becomes the close, within 10% of the previous close.
+  - There is no short selling, borrowing or fee, and shares bought today can
+    be sold from the next day.
+round:
+  - Each seat sees its account, every index's market data up to yesterday's
+    close with a published intrinsic value, two indices the system
+    recommends, and yesterday's posts.
+  - It plays `hold` or `trade` with orders on the indices it holds or was
+    recommended, each with a side, a size in percent of its assets and a
+    limit price, plus an optional public post.
+  - The rule-based investors add their orders, and each index's auction sets
+    the close and fills the matching orders at that price.
+  - Posts and trade summaries reach the other investors the next day.
+win:
+  - The game ends after the last trading day, here day 20.
+  - Each seat's reward is `final account value / 10,000,000 - 1`, clipped
+    to [-1, 1], with holdings valued at the last closes.
+  - The highest reward is recorded as the winner.
+agents:
+  - Each day the agent gets a text prompt with the rules, its account,
+    holdings and style, the market data, its recommendations, yesterday's
+    posts and the legal actions with a JSON schema.
+  - It never sees other investors' accounts, styles or orders, or future
+    intrinsic values.
+  - It answers with one JSON action, `hold` with a `post`, or `trade` with a
+    list of `orders` and a `post`.
+watch_for:
+  - The two fundamental-style seats gained, P2 with a score of 0.1325 and P0
+    with 0.0551, while the two technical-style seats lost, P1 at -0.0222 and
+    P3 at -0.0275.
+  - Without chat history the order was the same, with scores of 0.1184 for
+    P2, 0.0500 for P0, -0.0778 for P1 and -0.0915 for P3.
+run_label: Recording
+runs:
+  - id: eco_twinmarket_lite
+    label: With chat history
+    note: Each seat also saw its own recent turns as chat history.
+  - id: eco_twinmarket_lite_no_history
+    label: Without chat history
+    note: Each prompt was the seat's only input, as in the source.

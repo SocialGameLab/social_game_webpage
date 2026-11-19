@@ -1,0 +1,63 @@
+# Talk Is Cheap: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_grounding_negotiation
+title: Talk Is Cheap
+kind: Negotiation
+players: 2 players · 4 rounds
+tagline: >-
+  Two agents buy wood, stone and gold from one shared pool to run their own
+  secret projects. They can talk first, but if their orders together exceed
+  the supply, the round is annulled and both get nothing.
+view: moves
+page_link: {label: Chart replay, href: "eco/index.html#eco_grounding_negotiation"}
+setup:
+  - Each round the pool holds 10 wood, 10 stone and 6 gold at fixed unit
+    prices, and each agent has a budget of 18 and may buy at most 2 kinds
+    of resource.
+  - Each agent holds three private projects, and each project needs a fixed
+    mix of resources per run and pays a fixed number of points per run.
+  - P0 is Agent A and speaks first, and P1 is Agent B.
+  - Unspent budget is worthless, and nothing carries over between rounds.
+round:
+  - The agents take turns sending cheap-talk messages with `say`, up to 5
+    each, and either may lock in its order early with `submit`.
+  - The other side is told that an agent has locked in, but never what it
+    ordered.
+  - After the talk, any agent that has not locked in submits its order in
+    secret.
+  - If the two orders together exceed the supply of any resource, the round
+    is annulled, and otherwise each agent's resources run its projects for
+    points.
+  - Each agent then sees its own result and the other's order, but never the
+    other's points.
+win:
+  - The game ends after exactly 4 rounds.
+  - Each agent's score is the mean over rounds of its points divided by the
+    joint optimum, the most both could earn together that round.
+  - The two scores add up to the pair's efficiency, and an annulled round
+    scores 0 for both.
+  - The higher score is recorded as the winner.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the supply, prices
+    and budget, its own projects, its running total, the messages so far and
+    the legal actions with a JSON schema.
+  - It never sees the other agent's projects or points, or the other's order
+    before the round resolves.
+  - It answers with one JSON action, `say` with a message or `submit` with a
+    `purchase` and the `runs` for each project.
+watch_for:
+  - The orders settled in round 2, with P0 buying 6 stone and P1 1 wood + 4
+    stone, and never changed, so every round paid 27 of the 29 points
+    possible and nothing was overdrawn.
+  - P0 took 18 points and P1 9 in every round, so P0 scored 0.621 and P1
+    0.310, a joint efficiency of 93.1%.
+  - Without chat history, the larger share alternated between the two
+    agents, so both scored 0.466 at the same 93.1% efficiency.
+run_label: Recording
+runs:
+  - id: eco_grounding_negotiation
+    label: With chat history
+    note: Each seat also saw its own recent turns as chat history.
+  - id: eco_grounding_negotiation_no_history
+    label: Without chat history
+    note: Each prompt was the seat's only input, as in the source.

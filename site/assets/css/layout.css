@@ -146,6 +146,10 @@ main {
 
 .view-switch button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgb(0 0 0 / 0.12); }
 
+/* A game's own extra page (content `page_link`), such as the eco chart replays. */
+.view-switch__link { padding: 8px 18px; border-radius: 999px; font-weight: 700; font-size: 14px; color: var(--ink-2); text-decoration: none; }
+.view-switch__link:hover { background: var(--surface); color: var(--ink); }
+
 .rule { border: 0; border-top: 1px solid var(--line); margin: 24px 0; }
 
 /* ------------------------------------------------------------------ */

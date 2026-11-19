@@ -27,6 +27,10 @@ agents:
 watch_for:
   - The one or two moments in the recorded run worth pointing out.
 
+# Optional: a button beside "Watch the match" that opens a page of this game's
+# own inside site/, such as the eco chart replays.
+# page_link: {label: Chart replay, href: "eco/index.html#__ID__"}
+
 # Optional: label for the run picker when there is more than one run.
 # run_label: Script
 

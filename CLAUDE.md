@@ -10,8 +10,9 @@ the contract for keeping the structure consistent as it grows.
   the `window.MatchRoom` namespace, so `site/index.html` also opens from
   `file://`. Don't introduce npm, bundlers, ES modules or `fetch()` for data.
 - **Only `site/` is published.** Everything else (content, tools) is source.
-- **`site/data/` is generated.** Never hand-edit it. Change `content/`, or the
-  runs in social-game-env's `demo/`, then run `tools/build_data.py`. Commit the
+- **`site/data/` and `site/eco/data/` are generated.** Never hand-edit them. Change `content/`, or the
+  runs in social-game-env's `demo/`, then run `tools/build_data.py` (for
+  `site/eco/data/`, the builders in `tools/eco_charts/`). Commit the
   regenerated data with the change that caused it, because Pages serves the
   committed files.
 - **Runs come from social-game-env's `demo/` bundles**, never from its engine.
@@ -35,6 +36,8 @@ the contract for keeping the structure consistent as it grows.
 | Which runs a page shows, their order, labels and notes | `runs:` in `content/games/<id>.yaml` | `build_data.py` |
 | Whether a game is training or held out for eval | social-game-env `splits/v1.yaml`, which `build_data.py` copies onto cards | a `split:` field in content files |
 | Game-specific run data (verdicts, briefings…) | the engine's `extras` in social-game-env; it lands on the run as-is | `if game_id == ...` branches in `build_data.py` |
+| A button from a game's page to a page of its own inside `site/` (the eco chart replays) | `page_link:` in its content file | per-game buttons in `app.js` |
+| The eco chart replays' data | `tools/eco_charts/` (builders, then `to_site.py`) | hand edits in `site/eco/data/` |
 
 Navigation must scale with the catalog. The masthead holds one grouped game
 menu, never a tab per game. The home gallery is the place to browse, and it

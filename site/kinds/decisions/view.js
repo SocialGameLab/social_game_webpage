@@ -37,6 +37,26 @@
     return (end ? rest.slice(0, end.index) : rest).trim();
   }
 
+  /* Lines a seat saw at every one of its decisions (its role, the task, the scoring rules). The board folds them
+   * away so that it opens on what changed: the clock, prices, the book, the account. */
+  function sameEveryTime(r, seat) {
+    r._dcSame = r._dcSame || {};
+    if (!r._dcSame[seat]) {
+      const views = r.events.filter((e) => e.event === "move" && e.actor === seat && typeof e.view === "string").map((e) => new Set(stateOf(e.view).split("\n")));
+      r._dcSame[seat] = views.length > 1 ? new Set([...views[0]].filter((l) => views.every((v) => v.has(l)))) : new Set();
+    }
+    return r._dcSame[seat];
+  }
+
+  function seenHtml(r, e) {
+    const lines = stateOf(e.view).split("\n").filter((l) => l.trim());
+    const same = sameEveryTime(r, e.actor);
+    const fresh = lines.filter((l) => !same.has(l));
+    const fixed = lines.filter((l) => same.has(l));
+    return `<pre class="dc-view">${esc(fresh.join("\n")) || "(nothing changed)"}</pre>${fixed.length
+      ? `<details class="dc-same small"><summary>Same at every decision: role, task and rules (${fixed.length} line${fixed.length > 1 ? "s" : ""})</summary><pre class="dc-view">${esc(fixed.join("\n"))}</pre></details>` : ""}`;
+  }
+
   const short = (v) => (typeof v === "number" ? String(+v.toFixed(4)) : typeof v === "object" ? JSON.stringify(v) : String(v));
   const chip = (k, v) => `<span class="dc-chip">${k ? `<span class="kv__k">${esc(title(k))}</span> ` : ""}${esc(v)}</span>`;
 
@@ -120,7 +140,7 @@
       const all = r._dcMoves || (r._dcMoves = r.events.filter((e) => e.event === "move"));
       const cta = link && last ? `<a class="dc-cta" href="${esc(`${link.href}${r.id.endsWith("_no_history") ? ".nohist" : ""}.s${all.indexOf(last)}`)}">See decision ${esc(last.turn)} in the ${esc(link.label)} →</a>` : "";
       const seen = !last ? "" : canReadView(last)
-        ? `<pre class="dc-view">${esc(stateOf(last.view)) || "(empty)"}</pre>`
+        ? seenHtml(r, last)
         : `<p class="muted small">This lens cannot see what ${esc(ui.shortName(r, last.actor))} saw.</p>`;
       return [
         ui.endBanner(r),

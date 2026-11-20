@@ -46,6 +46,12 @@
 
 .dc-cta:hover { filter: brightness(1.12); }
 
+.dc-same { margin-top: 8px; }
+
+.dc-same summary { cursor: pointer; color: var(--ink-2); }
+
+.dc-same .dc-view { margin-top: 6px; }
+
 .dc-view {
   margin: 0;
   max-height: 52vh;

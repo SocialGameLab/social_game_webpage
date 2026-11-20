@@ -617,7 +617,10 @@ def build(src, calls=None):
             verb = f"keeps {money(p)}"
         buy_txt = ("orders no stock" if row["bought"] == 0 and (ask or 0) == 0 else
                    f"orders {row['bought']} units of stock" + (f" (asked {ask:,}, cash covers {row['bought']})" if ask is not None and row["bought"] < ask else ""))
-        head = f"Day {d} {DOT} {verb} {DOT} {buy_txt}" + (f" {DOT} no stock" if row["offer"] <= 1e-9 else "")
+        rv = re.search(r"Competitor prices yesterday: (.*)", e.get("view") or "")
+        rp = [float(x) for x in re.findall(r"\$(\d+(?:\.\d+)?)", rv.group(1))] if rv else []
+        seen = (f"rivals at {money(min(rp))}" + (f"–{money(max(rp))}" if max(rp) > min(rp) else "") + f" yesterday {DOT} ") if rp else ""
+        head = f"Day {d} {DOT} {seen}{verb} {DOT} {buy_txt}" + (f" {DOT} no stock" if row["offer"] <= 1e-9 else "")
         if row.get("sold") is not None:  # what that day's consumers bought from it
             head += f" {DOT} sells {row['sold']:,.2f} units, profit {money(row['profit'], True)}"
         st = {"seat": s, "x": d - 1, "head": head, "kind": kind, "act": en(e.get("move") or ""),

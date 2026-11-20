@@ -641,6 +641,9 @@ def build(bundle_dir, calls=None):
         sold_out_now = st_start == 0 and not P["unlimited_inventory"]
         if sold_out_now:
             head += " (sold out)"
+        rivals = [v for k, v in enumerate(prev["prices"]) if k != s and v is not None] if prev else []
+        if rivals:
+            head = head.replace(f"Round {r} {DOT} ", f"Round {r} {DOT} rival was at {', '.join(p3(v) for v in rivals)} {DOT} ", 1)
         cur = byround.get(r)
         if cur and cur.get("sold") and cur["sold"][s] is not None:  # the round's market result for this seller
             head += f" {DOT} sells {cur['sold'][s]:,} units, profit {cur['profit'][s]:,.2f}"

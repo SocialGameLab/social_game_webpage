@@ -60,6 +60,11 @@ def usd(v, signed=False):
     return ("−" if v < 0 else "+" if signed and v > 0 else "") + f"${abs(v):,.2f}"
 
 
+def usd_short(v):
+    """Large cash amounts in millions: −$1.89M."""
+    return ("−" if v < 0 else "") + f"${abs(v) / 1e6:,.2f}M" if abs(v) >= 1e6 else usd(v)
+
+
 def sgn(v, d=1, unit="%"):
     return ("+" if v > 0 else "−" if v < 0 else "") + f"{abs(v):.{d}f}{unit}"
 
@@ -107,7 +112,8 @@ def build_eco_investorbench():
 
     def ib_head(i):
         x = days[i]; side = "long" if x["action"] == "buy" else "short"
-        h = f"{x['date']} · day {x['day']} · close {x['close']:.2f} · goes {side} for the next day"
+        h = (f"{x['date']} · day {x['day']} · close {x['close']:.2f}" + (f", 3-day momentum {x['momentum']}%" if x["momentum"] is not None else "")
+             + (f", {len(x['news'])} news item{'s' if len(x['news']) != 1 else ''}" if x["news"] else ", no news") + f" · goes {side} for the next day")
         if i + 1 < n and days[i + 1]["pos_ret"] is not None:
             h += f"; that day the {side} position returned {days[i + 1]['pos_ret']}%, {days[i + 1]['cum']}% in all"
         return h
@@ -182,7 +188,7 @@ def build_eco_liquidation_2p():
         if fr is None or holdv[k][rd] is None:
             continue
         q, px, left = sold[k][rd], execp[k][rd], holdv[k][rd + 1] if rd + 1 < xn else None
-        stp["head"] = (f"Round {rd} · sells {fr * 100:.1f}% of its {holdv[k][rd]:,.0f} shares" + (f": {q:,.0f} shares" if q else "")
+        stp["head"] = (f"Round {rd}" + (f" · price ${price[rd]:,.4f}" if price[rd] is not None else "") + f" · sells {fr * 100:.1f}% of its {holdv[k][rd]:,.0f} shares" + (f": {q:,.0f} shares" if q else "")
                        + (f" at ${px:,.4f}" if px is not None else "") + (f" · {left:,.0f} left" if left is not None else ""))
     write("eco_liquidation_2p", {"seatNames": ["Trader 1", "Trader 2"], "spark": holdv[0],
         "name": "Two-trader liquidation", "title": f"Two traders unloading 500,000 shares each (up to {R} rounds)",
@@ -222,15 +228,16 @@ def build_eco_abides():
         steps.append({"seat": 0, "x": i, "head": f"{lab[-1]} · decision {i + 1}", "kind": k, "act": s["act"], "state": S, "thinking": s["thinking"],
                       "book": dict(bk, last=last[-1], unit="$") if bk else None})
     close_at = (re.search(r"until the close at (\d\d:\d\d)", st[0]["state"]) or [None, None])[1]
+    mkt = lambda i: (f"last ${last[i]:,.2f}" if last[i] is not None else "no trade yet") + (f", bid ${bb[i]:,.2f} / ask ${ba[i]:,.2f}" if bb[i] and ba[i] else "")
     for i, stp in enumerate(steps):
         k = aid(stp["act"])["action_id"]
         if i + 1 < xn and None not in (shares[i], shares[i + 1], cash[i], cash[i + 1], prof[i + 1]):
             ds, dc = shares[i + 1] - shares[i], cash[i + 1] - cash[i]
             did = (f"buys {ds:,.0f} shares at ${-dc / ds:,.2f}" if ds > 0 else f"sells {-ds:,.0f} shares at ${dc / -ds:,.2f}" if ds < 0
                    else "holds" if k == "hold" else f"{k} order not filled")
-            stp["head"] = f"{lab[i]} · {did} · now {shares[i + 1]:,.0f} shares, cash {usd(cash[i + 1])}, profit {usd(prof[i + 1], True)}"
+            stp["head"] = f"{lab[i]} · {mkt(i)} · {did} · now {shares[i + 1]:,.0f} shares, cash {usd_short(cash[i + 1])}, profit {usd(prof[i + 1], True)}"
         elif k != "hold":
-            stp["head"] = f"{lab[i]} · {k} order " + ("sent at the close, so it is not filled" if lab[i] == close_at else "sent as the game ends")
+            stp["head"] = f"{lab[i]} · {mkt(i)} · {k} order " + ("sent at the close, so it is not filled" if lab[i] == close_at else "sent as the game ends")
     cnt = {k: sum(aid(s["act"])["action_id"] == k for s in st) for k in ("buy", "sell", "hold")}
     pr = [v for v in prof if v is not None]
     # The exchange never checks cash (as in ABIDES-Gym), so buys run on unlimited credit; say how far this run went.
@@ -280,7 +287,7 @@ def build_eco_mars():
                       "thinking": s["thinking"], "book": dict(bk, last=num(lp.group(1)) if lp else None, unit="", mine=p.get("price")) if bk else None})
     for j, stp in enumerate(steps):
         p = aid(stp["act"]).get("payload", {})
-        h = f"Round {stp['x']} of {RN} · bids for {p.get('volume', 0):,} shares at {p.get('price', 0):,}"
+        h = f"Round {stp['x']} of {RN}" + (f" · mid {mid[stp['x']]:+.1f} bps against arrival" if mid[stp["x"]] is not None else "") + f" · bids for {p.get('volume', 0):,} shares at {p.get('price', 0):,}"
         m = re.search(r"Filled so far: ([\d,]+) shares \(([\d.]+)%\) at average price ([\d,]+(?:\.\d+)?) \(([+-]?[\d.]+) bps", steps[j + 1]["state"]) if j + 1 < len(steps) else None
         if m:
             h += f" · by the next decision {m.group(1)} shares ({m.group(2)}%) are filled, average {m.group(3)} ({m.group(4)} bps against arrival)"
@@ -320,7 +327,7 @@ def build_eco_twinmarket_lite():
         k, x = stp["seat"], stp["x"]; orders = aid(stp["act"]).get("payload", {}).get("orders") or []
         did = ", ".join(f"{o.get('side', '?')}s {o.get('index', '?')} ({o.get('percent', 0):g}% of its assets, limit {o.get('price', 0):g})" for o in orders) or "holds"
         now, nxt = ret[k][x], ret[k][x + 1] if x + 1 < xn else None
-        stp["head"] = f"Day {x + 1} of {D} · {did}" + (f" · its return {now:+.2f}%" + (f" → {nxt:+.2f}% the next day" if nxt is not None else "") if now is not None else "")
+        stp["head"] = f"Day {x + 1} of {D}" + (f" · index {idx[x]:.4f}" if idx[x] is not None else "") + f" · {did}" + (f" · its return {now:+.2f}%" + (f" → {nxt:+.2f}% the next day" if nxt is not None else "") if now is not None else "")
     write("eco_twinmarket_lite", {"seatNames": [f"Investor {k + 1}" for k in range(4)], "spark": idx,
         "name": "TwinMarket", "title": f"TwinMarket: 4 model investors among 96 simulated ones, {D} trading days",
         "lede": "A hundred investors trade ten sector indices. Four are played by the model, each with its own style (value, trend-following and so on). After each close they see their account, every index's price, moving averages and the system's recommendations, and decide what to buy or sell.",
@@ -367,7 +374,7 @@ def build_eco_marketsim_talk():
         stage = "public comment" if m.group(5) == "communication" else (
             "guidance: target price " + (f"${g_['price'] / 100:,.2f}" if isinstance(g_.get("price"), (int, float)) else "none")
             + ("; strategy weights " + ", ".join(f"{a} {b:g}" for a, b in (g_.get("weights") or {}).items()) if g_.get("weights") else ""))
-        steps.append({"seat": s["seat"], "x": x, "head": f"Day {m.group(1)}, decision {m.group(3)} ({m.group(4)}) · {stage}",
+        steps.append({"seat": s["seat"], "x": x, "head": f"Day {m.group(1)}, decision {m.group(3)} ({m.group(4)})" + (f" · last trade ${lastp[x]:,.2f}" if lastp[x] is not None else "") + f" · {stage}",
                       "kind": aid(s["act"])["action_id"], "act": s["act"], "state": S, "thinking": s["thinking"], "book": dict(bk, last=lastp[x], unit="$") if bk else None})
     first = next(v for v in lastp if v is not None); lastv = [v for v in lastp if v is not None][-1]
     write("eco_marketsim_talk", {"seatNames": [f"Manager {k + 1}" for k in range(4)], "spark": lastp,
@@ -404,7 +411,8 @@ def build_eco_qfinzero():
             side = str(p.get("side", "")).lower(); marks.append({"x": b, "sym": p.get("symbol"), "kind": "buy" if side.startswith("b") else "sell"})
         if k == "submit_order":
             did = (f"sends a {str(p.get('order_type', '')).lower()} order to {str(p.get('side', '')).lower()} {p.get('qty', 0):,} {p.get('symbol', '')}"
-                   + (f" at ${p['limit_price']:,.2f}" if p.get("limit_price") else ""))
+                   + (f" at ${p['limit_price']:,.2f}" if p.get("limit_price") else "")
+                   + (f" (last close ${ohlc[p['symbol']][b][3]:,.2f})" if (ohlc.get(p.get("symbol")) or [None] * xn)[b] else ""))
         elif k == "cancel_order":
             did = f"cancels order {p.get('order_id', '')}"
         elif k == "advance":

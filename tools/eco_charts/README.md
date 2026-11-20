@@ -42,7 +42,9 @@ python3 tools/eco_charts/to_site.py /tmp/eco/*.json
 ```
 
 For another game's run without chat history, run its builder on the `<game>_no_history` bundle into a separate
-folder and save the result as `<game>__no_history.json`.
+folder and save the result as `<game>__no_history.json`; `to_site.py` adds the line saying the run had no chat
+history. The chart replay opens at a decision with `#<game>[.nohist].s<index>`, which the Match Room's `decisions`
+view links to.
 
 The published data was built from the runs together with the model-call logs saved at recording time (the optional
 `CALLS` argument of the builders); those logs hold the reasoning, which this site leaves out, so they are not in

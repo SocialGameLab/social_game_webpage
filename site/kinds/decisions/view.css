@@ -30,6 +30,22 @@
 
 .dc-fb { padding: 0 5px; border-radius: 4px; background: var(--brass-soft); color: var(--brass); font-size: 11px; }
 
+/* The way into the chart replay at this decision: the brightest thing on the board. */
+.dc-cta {
+  display: block;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--brass);
+  color: var(--paper);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+}
+
+.dc-cta:hover { filter: brightness(1.12); }
+
 .dc-view {
   margin: 0;
   max-height: 52vh;

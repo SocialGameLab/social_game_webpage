@@ -63,6 +63,19 @@ def clean(page: dict) -> dict:
     return page
 
 
+NO_HISTORY_NOTE = ("This run was recorded without chat history: each prompt was the seat\u2019s only input, as the source "
+                   "specifies. The other run of this game gave each seat its own recent turns as chat history. ")
+
+
+def mark_no_history(page: dict) -> dict:
+    """A second recording without chat history says so in its header line and at the start of its footnote."""
+    if "no chat history" not in page.get("eyebrow", ""):
+        page["eyebrow"] = page.get("eyebrow", "") + " · no chat history"
+    if not page.get("foot", "").startswith(NO_HISTORY_NOTE.split(":")[0]):
+        page["foot"] = NO_HISTORY_NOTE + page.get("foot", "")
+    return page
+
+
 def _read(src: Path) -> dict:
     text = src.read_text(encoding="utf-8")
     if src.suffix == ".js":  # a data file already in site/eco/data
@@ -77,7 +90,10 @@ def main() -> None:
     for arg in sys.argv[1:]:
         src = Path(arg)
         key = src.stem
-        body = json.dumps(clean(_read(src)), ensure_ascii=False, separators=(",", ":"))
+        page = clean(_read(src))
+        if key.endswith("__no_history"):
+            page = mark_no_history(page)
+        body = json.dumps(page, ensure_ascii=False, separators=(",", ":"))
         out = DATA / f"{key}.js"
         out.write_text(f'window.__REPLAY_DATA__ = window.__REPLAY_DATA__ || {{}};\nwindow.__REPLAY_DATA__["{key}"] = {body};\n', encoding="utf-8")
         print(f"wrote {out.relative_to(DATA.parents[2])} ({out.stat().st_size / 1024:.0f} KB)")

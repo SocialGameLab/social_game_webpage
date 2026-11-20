@@ -55,6 +55,11 @@ def f(x, d=2):
     return None if x is None else round(x, d)
 
 
+def usd(v, signed=False):
+    """−$1,234.50, or +$1,234.50 when signed (profits)."""
+    return ("−" if v < 0 else "+" if signed and v > 0 else "") + f"${abs(v):,.2f}"
+
+
 def sgn(v, d=1, unit="%"):
     return ("+" if v > 0 else "−" if v < 0 else "") + f"{abs(v):.{d}f}{unit}"
 
@@ -96,8 +101,16 @@ def build_eco_investorbench():
         g = lambda pat: (re.search(pat, S) or [None, None])[1]
         days.append({"date": g(r"Date: (\d{4}-\d\d-\d\d)"), "day": int(g(r"Trading day (\d+) of")), "close": float(g(r"Adjusted close today: (\d+(?:\.\d+)?)")),
                      "momentum": g(r"past 3 trading days is ([+-]\d+(?:\.\d+)?)%"), "news": re.findall(r"^\d+\. (.*)$", S, re.M),
-                     "action": json.loads(s["act"])["action_id"], "thinking": ""})
+                     "action": json.loads(s["act"])["action_id"], "thinking": "",
+                     "pos_ret": g(r"it returned ([+-]?\d+(?:\.\d+)?)% today"), "cum": g(r"Your cumulative return so far: ([+-]?\d+(?:\.\d+)?)%")})
     n = len(days); close = [x["close"] for x in days]
+
+    def ib_head(i):
+        x = days[i]; side = "long" if x["action"] == "buy" else "short"
+        h = f"{x['date']} · day {x['day']} · close {x['close']:.2f} · goes {side} for the next day"
+        if i + 1 < n and days[i + 1]["pos_ret"] is not None:
+            h += f"; that day the {side} position returned {days[i + 1]['pos_ret']}%, {days[i + 1]['cum']}% in all"
+        return h
     r = [0.0] + [math.log(close[i] / close[i - 1]) * 100 for i in range(1, n)]
     held = [0] + [1 if days[i - 1]["action"] == "buy" else -1 for i in range(1, n)]
     model, acc = [], 0.0
@@ -124,7 +137,7 @@ def build_eco_investorbench():
             {"title": "Cumulative return", "sub": "The model's long/short calls against buy and hold, in percentage points of log return.", "height": 220, "fmt": "pct", "zero": True,
              "lines": [{"name": "Buy and hold", "color": "hold", "dash": True, "v": hold, "end": True}, {"name": "Model", "color": "ink", "v": model, "end": True, "area": True}]}],
         "kinds": {"buy": ["Long ▲ buy", "c1"], "sell": ["Short ▼ sell", "c2"]},
-        "steps": [{"seat": 0, "x": i, "head": f"{x['date']} · day {x['day']}", "kind": x["action"], "act": json.dumps({"action_id": x["action"], "payload": {}}),
+        "steps": [{"seat": 0, "x": i, "head": ib_head(i), "kind": x["action"], "act": json.dumps({"action_id": x["action"], "payload": {}}),
                    "state": f"Date: {x['date']}. Adjusted close: {x['close']:.2f}. Momentum (3 days): {x['momentum']}%.\n" + "\n".join(f"{k + 1}. {t}" for k, t in enumerate(x["news"])),
                    "thinking": x["thinking"]} for i, x in enumerate(days)]})
 
@@ -164,6 +177,13 @@ def build_eco_liquidation_2p():
             if holdv[k][i] is None: holdv[k][i] = holdv[k][i - 1]
             if sold[k][i] is None and i < xn - 1 and holdv[k][i + 1] is not None:
                 sold[k][i] = max(0.0, holdv[k][i] - holdv[k][i + 1]) or None
+    for stp in steps:
+        k, rd = stp["seat"], stp["x"]; fr = aid(stp["act"]).get("payload", {}).get("fraction")
+        if fr is None or holdv[k][rd] is None:
+            continue
+        q, px, left = sold[k][rd], execp[k][rd], holdv[k][rd + 1] if rd + 1 < xn else None
+        stp["head"] = (f"Round {rd} · sells {fr * 100:.1f}% of its {holdv[k][rd]:,.0f} shares" + (f": {q:,.0f} shares" if q else "")
+                       + (f" at ${px:,.4f}" if px is not None else "") + (f" · {left:,.0f} left" if left is not None else ""))
     write("eco_liquidation_2p", {"seatNames": ["Trader 1", "Trader 2"], "spark": holdv[0],
         "name": "Two-trader liquidation", "title": f"Two traders unloading 500,000 shares each (up to {R} rounds)",
         "lede": "Each trader must sell a 500,000-share block. Every round both decide at the same time what fraction of their remaining shares to sell. Selling fast pushes the execution price down, and part of that impact stays in the price; holding exposes the trader to price risk. Score = 1 − cost ÷ the cost of dumping the whole block in round one.",
@@ -201,6 +221,16 @@ def build_eco_abides():
         if k in ("buy", "sell") and last[-1] is not None: marks.append({"x": i, "y": last[-1], "kind": k})
         steps.append({"seat": 0, "x": i, "head": f"{lab[-1]} · decision {i + 1}", "kind": k, "act": s["act"], "state": S, "thinking": s["thinking"],
                       "book": dict(bk, last=last[-1], unit="$") if bk else None})
+    close_at = (re.search(r"until the close at (\d\d:\d\d)", st[0]["state"]) or [None, None])[1]
+    for i, stp in enumerate(steps):
+        k = aid(stp["act"])["action_id"]
+        if i + 1 < xn and None not in (shares[i], shares[i + 1], cash[i], cash[i + 1], prof[i + 1]):
+            ds, dc = shares[i + 1] - shares[i], cash[i + 1] - cash[i]
+            did = (f"buys {ds:,.0f} shares at ${-dc / ds:,.2f}" if ds > 0 else f"sells {-ds:,.0f} shares at ${dc / -ds:,.2f}" if ds < 0
+                   else "holds" if k == "hold" else f"{k} order not filled")
+            stp["head"] = f"{lab[i]} · {did} · now {shares[i + 1]:,.0f} shares, cash {usd(cash[i + 1])}, profit {usd(prof[i + 1], True)}"
+        elif k != "hold":
+            stp["head"] = f"{lab[i]} · {k} order " + ("sent at the close, so it is not filled" if lab[i] == close_at else "sent as the game ends")
     cnt = {k: sum(aid(s["act"])["action_id"] == k for s in st) for k in ("buy", "sell", "hold")}
     pr = [v for v in prof if v is not None]
     # The exchange never checks cash (as in ABIDES-Gym), so buys run on unlimited credit; say how far this run went.
@@ -248,6 +278,13 @@ def build_eco_mars():
         p = aid(s["act"]).get("payload", {})
         steps.append({"seat": 0, "x": rd, "head": f"Round {rd} of {RN} · bids for {p.get('volume', 0):,} at {p.get('price', 0):,}", "kind": "buy", "act": s["act"], "state": S,
                       "thinking": s["thinking"], "book": dict(bk, last=num(lp.group(1)) if lp else None, unit="", mine=p.get("price")) if bk else None})
+    for j, stp in enumerate(steps):
+        p = aid(stp["act"]).get("payload", {})
+        h = f"Round {stp['x']} of {RN} · bids for {p.get('volume', 0):,} shares at {p.get('price', 0):,}"
+        m = re.search(r"Filled so far: ([\d,]+) shares \(([\d.]+)%\) at average price ([\d,]+(?:\.\d+)?) \(([+-]?[\d.]+) bps", steps[j + 1]["state"]) if j + 1 < len(steps) else None
+        if m:
+            h += f" · by the next decision {m.group(1)} shares ({m.group(2)}%) are filled, average {m.group(3)} ({m.group(4)} bps against arrival)"
+        stp["head"] = h
     mand = re.search(r"buy ([\d,]+) shares by the close", st[0]["state"])
     fl = [v for v in fill if v is not None]; av = [v for v in avg if v is not None]
     write("eco_mars", {"spark": fill,
@@ -279,6 +316,11 @@ def build_eco_twinmarket_lite():
         m = re.search(r"cumulative return ([+-]?[\d.]+)%", S); ret[s["seat"]][dd - 1] = float(m.group(1)) if m else None
         k = aid(s["act"])["action_id"]
         steps.append({"seat": s["seat"], "x": dd - 1, "head": f"Day {dd} of {D}", "kind": k, "act": s["act"], "state": S, "thinking": s["thinking"]})
+    for stp in steps:
+        k, x = stp["seat"], stp["x"]; orders = aid(stp["act"]).get("payload", {}).get("orders") or []
+        did = ", ".join(f"{o.get('side', '?')}s {o.get('index', '?')} ({o.get('percent', 0):g}% of its assets, limit {o.get('price', 0):g})" for o in orders) or "holds"
+        now, nxt = ret[k][x], ret[k][x + 1] if x + 1 < xn else None
+        stp["head"] = f"Day {x + 1} of {D} · {did}" + (f" · its return {now:+.2f}%" + (f" → {nxt:+.2f}% the next day" if nxt is not None else "") if now is not None else "")
     write("eco_twinmarket_lite", {"seatNames": [f"Investor {k + 1}" for k in range(4)], "spark": idx,
         "name": "TwinMarket", "title": f"TwinMarket: 4 model investors among 96 simulated ones, {D} trading days",
         "lede": "A hundred investors trade ten sector indices. Four are played by the model, each with its own style (value, trend-following and so on). After each close they see their account, every index's price, moving averages and the system's recommendations, and decide what to buy or sell.",
@@ -321,7 +363,10 @@ def build_eco_marketsim_talk():
         q = re.search(r"surplus rate so far ([+-]?[\d.]+)%", S)
         if q: sur[s["seat"]][x] = float(q.group(1))
         bk = book_of(S, r"Asks \(price x shares\): (.*)", r"Bids \(price x shares\): (.*)", ", ", 0.01)
-        stage = "public comment" if m.group(5) == "communication" else "guidance to traders"
+        g_ = aid(s["act"]).get("payload", {})
+        stage = "public comment" if m.group(5) == "communication" else (
+            "guidance: target price " + (f"${g_['price'] / 100:,.2f}" if isinstance(g_.get("price"), (int, float)) else "none")
+            + ("; strategy weights " + ", ".join(f"{a} {b:g}" for a, b in (g_.get("weights") or {}).items()) if g_.get("weights") else ""))
         steps.append({"seat": s["seat"], "x": x, "head": f"Day {m.group(1)}, decision {m.group(3)} ({m.group(4)}) · {stage}",
                       "kind": aid(s["act"])["action_id"], "act": s["act"], "state": S, "thinking": s["thinking"], "book": dict(bk, last=lastp[x], unit="$") if bk else None})
     first = next(v for v in lastp if v is not None); lastv = [v for v in lastp if v is not None][-1]
@@ -357,7 +402,23 @@ def build_eco_qfinzero():
         kind = "order" if k == "submit_order" else "cancel" if k == "cancel_order" else "advance" if k == "advance" else "tool"
         if k == "submit_order":
             side = str(p.get("side", "")).lower(); marks.append({"x": b, "sym": p.get("symbol"), "kind": "buy" if side.startswith("b") else "sell"})
-        steps.append({"seat": 0, "x": b, "head": f"{m.group(2)} · bar {b + 1} · {k}", "kind": kind, "act": s["act"], "state": S, "thinking": s["thinking"]})
+        if k == "submit_order":
+            did = (f"sends a {str(p.get('order_type', '')).lower()} order to {str(p.get('side', '')).lower()} {p.get('qty', 0):,} {p.get('symbol', '')}"
+                   + (f" at ${p['limit_price']:,.2f}" if p.get("limit_price") else ""))
+        elif k == "cancel_order":
+            did = f"cancels order {p.get('order_id', '')}"
+        elif k == "advance":
+            did = f"moves the clock {p.get('bars', 1)} bar" + ("s" if p.get("bars", 1) != 1 else "")
+        elif k.startswith("query_"):
+            did = f"looks up {k[6:].replace('_', ' ')}" + (f" of {p['symbol']}" if p.get("symbol") else "") + (f", {p['start']} to {p['end']}" if p.get("start") else "")
+        else:
+            did = k.replace("_", " ")
+        steps.append({"seat": 0, "x": b, "head": f"{m.group(2)} · bar {b + 1} · {did}", "kind": kind, "act": s["act"], "state": S, "thinking": s["thinking"]})
+    for j, stp in enumerate(steps[:-1]):  # after the clock moves, what the account holds
+        if aid(stp["act"])["action_id"] == "advance":
+            nxt = steps[j + 1]["state"]
+            e_ = re.search(r"equity ([\d.]+)", nxt); pos = re.search(r"Positions: (.*)", nxt)
+            stp["head"] += (f" · equity then {float(e_.group(1)):,.2f}" if e_ else "") + (f"; positions: {pos.group(1).rstrip('.')[:90]}" if pos else "")
     apb = int(re.search(r"(\d+) actions left at this bar", st[0]["state"]).group(1))
     charts = []
     for sym in [s for s in ("ACME", "BOLT", "CRUX") if s in ohlc]:

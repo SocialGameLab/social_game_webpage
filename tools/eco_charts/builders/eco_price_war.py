@@ -615,9 +615,11 @@ def build(src, calls=None):
         else:
             kind = "below" if p < uc - 1e-9 else "keep"
             verb = f"keeps {money(p)}"
-        buy_txt = ("buys none" if row["bought"] == 0 and (ask or 0) == 0 else
-                   f"buys {row['bought']}" + (f" (asked {ask:,}, cash covers {row['bought']})" if ask is not None and row["bought"] < ask else ""))
+        buy_txt = ("orders no stock" if row["bought"] == 0 and (ask or 0) == 0 else
+                   f"orders {row['bought']} units of stock" + (f" (asked {ask:,}, cash covers {row['bought']})" if ask is not None and row["bought"] < ask else ""))
         head = f"Day {d} {DOT} {verb} {DOT} {buy_txt}" + (f" {DOT} no stock" if row["offer"] <= 1e-9 else "")
+        if row.get("sold") is not None:  # what that day's consumers bought from it
+            head += f" {DOT} sells {row['sold']:,.2f} units, profit {money(row['profit'], True)}"
         st = {"seat": s, "x": d - 1, "head": head, "kind": kind, "act": en(e.get("move") or ""),
               "state": en(common.state_part(e.get("view") or "")) or "Not recorded.", "day": d, "action": a}
         steps.append(st)

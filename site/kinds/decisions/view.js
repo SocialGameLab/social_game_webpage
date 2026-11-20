@@ -115,11 +115,16 @@
       const moves = evs.filter((e) => e.event === "move");
       const last = moves[moves.length - 1];
       const facts = [["Env", r.env_id], ["Decisions", r.turns], r.fallbacks ? ["Fallback moves", r.fallbacks] : null].filter(Boolean);
+      // The game's chart replay (content `page_link`), opened at this decision: #<game>[.nohist].s<index of the move>.
+      const link = (ui.game() || {}).page_link;
+      const all = r._dcMoves || (r._dcMoves = r.events.filter((e) => e.event === "move"));
+      const cta = link && last ? `<a class="dc-cta" href="${esc(`${link.href}${r.id.endsWith("_no_history") ? ".nohist" : ""}.s${all.indexOf(last)}`)}">See decision ${esc(last.turn)} in the ${esc(link.label)} →</a>` : "";
       const seen = !last ? "" : canReadView(last)
         ? `<pre class="dc-view">${esc(stateOf(last.view)) || "(empty)"}</pre>`
         : `<p class="muted small">This lens cannot see what ${esc(ui.shortName(r, last.actor))} saw.</p>`;
       return [
         ui.endBanner(r),
+        cta,
         last ? ui.block(`Decision ${esc(last.turn)} of ${esc(r.turns)}`, decision(r, last, true)) : ui.block("Decisions", `<p class="muted small">No decision yet.</p>`),
         last ? ui.block(`What ${esc(ui.shortName(r, last.actor))} saw before it`, seen) : "",
         ui.block("Match", `<div class="kv-list small">${facts.map(([k, v]) => `<span class="kv"><span class="kv__k">${esc(k)}</span> ${esc(v)}</span>`).join("")}</div>`),

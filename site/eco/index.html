@@ -266,7 +266,7 @@ footer { font-size: 12px; color: var(--ink-3); max-width: 96ch; }
     const s = document.createElement('script'); s.src = 'data/' + key + '.js';
     s.onload = () => (window.__REPLAY_DATA__ && window.__REPLAY_DATA__[key]) ? ok(window.__REPLAY_DATA__[key]) : fail(new Error('no data'));
     s.onerror = () => fail(new Error('missing data/' + key + '.js')); document.head.appendChild(s); }); }
-  async function show(id, which) {
+  async function show(id, which, at) {
     const g = ALL.find(x => x.id === id) || ready[0]; id = g.id; cur = g;
     run = NOHIST.has(id) && which === 'nohist' ? 'nohist' : 'history';
     const key = id + (run === 'nohist' ? '__no_history' : ''), tag = '#' + id + (run === 'nohist' ? '.nohist' : '');
@@ -277,6 +277,7 @@ footer { font-size: 12px; color: var(--ink-3); max-width: 96ch; }
       try { cache[key] = (window.__INLINE__ && window.__INLINE__[key]) || await loadData(key); }
       catch (e) { $('view').innerHTML = '<p class="loading">This game’s data did not load. Reload the page to try again.</p>'; return; } }
     G = cache[key]; sel = 0; hover = null; seat = null; pane = 'decision'; hidden.clear(); view = [0, G.x.n - 1]; animate = !reduce; render();
+    if (at != null && at >= 0 && at < G.steps.length) select(at);
   }
   const NOTE_GAME = {};
   function placeholder(g) { const [lab, col] = ST[g.st];
@@ -573,7 +574,8 @@ footer { font-size: 12px; color: var(--ink-3); max-width: 96ch; }
   if (window.ResizeObserver) new ResizeObserver(onResize).observe($('view')); else window.addEventListener('resize', onResize);
   window.__tradingReplay = { show, select, setView, play, stop };
   const h0 = (location.hash || '').slice(1).split('.');
-  rail(); show(h0[0] || ready[0].id, h0[1]);
+  const at = (h0.find(p => /^s\d+$/.test(p)) || '').slice(1);
+  rail(); show(h0[0] || ready[0].id, h0.includes('nohist') ? 'nohist' : undefined, at === '' ? null : Number(at));
 })();
 </script>
 

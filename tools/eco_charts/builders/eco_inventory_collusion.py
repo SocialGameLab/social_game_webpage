@@ -641,6 +641,9 @@ def build(bundle_dir, calls=None):
         sold_out_now = st_start == 0 and not P["unlimited_inventory"]
         if sold_out_now:
             head += " (sold out)"
+        cur = byround.get(r)
+        if cur and cur.get("sold") and cur["sold"][s] is not None:  # the round's market result for this seller
+            head += f" {DOT} sells {cur['sold'][s]:,} units, profit {cur['profit'][s]:,.2f}"
         forced = fd.get("round") == r and fd.get("seat") == s
         if forced:
             head += f" {DOT} replaced by {p3(fd.get('forced'))}"

@@ -187,13 +187,14 @@ def build_eco_liquidation_2p():
 # ---------------------------------------------------------------- ABIDES daily investor
 def build_eco_abides():
     st, rw = steps_of("eco_abides")
-    xn = len(st); lab, last, prof, shares, bb, ba, marks, steps = [], [], [], [], [], [], [], []
+    xn = len(st); lab, last, prof, shares, cash, bb, ba, marks, steps = [], [], [], [], [], [], [], [], []
     for i, s in enumerate(st):
         S = s["state"]
         lab.append(re.search(r"Time (\d\d:\d\d):\d\d", S).group(1))
         m = re.search(r"Market: last trade \$([\d,.]+\d)", S); last.append(num(m.group(1)) if m else None)
         m = re.search(r"\(profit ([+-]?)\$([\d,.]+\d)\)", S); prof.append((-1 if m.group(1) == "-" else 1) * num(m.group(2)) if m else None)
         m = re.search(r"Your account: cash -?\$[\d,.]+, (-?[\d,]+) shares", S); shares.append(num(m.group(1)) if m else None)
+        m = re.search(r"Your account: cash (-?)\$([\d,.]+\d)", S); cash.append((-1 if m.group(1) else 1) * num(m.group(2)) if m else None)
         bk = book_of(S, r"Asks \(best first[^)]*\): (.*)", r"Bids \(best first[^)]*\): (.*)", ", ")
         bb.append(bk["bids"][0][0] if bk and bk["bids"] else None); ba.append(bk["asks"][0][0] if bk and bk["asks"] else None)
         k = aid(s["act"])["action_id"]
@@ -202,6 +203,15 @@ def build_eco_abides():
                       "book": dict(bk, last=last[-1], unit="$") if bk else None})
     cnt = {k: sum(aid(s["act"])["action_id"] == k for s in st) for k in ("buy", "sell", "hold")}
     pr = [v for v in prof if v is not None]
+    # The exchange never checks cash (as in ABIDES-Gym), so buys run on unlimited credit; say how far this run went.
+    lev = ""
+    if shares[-1] and last[-1] and cash[-1] is not None and last[0]:
+        pos = shares[-1] * last[-1]
+        first_neg = next((i for i, c in enumerate(cash) if c is not None and c < 0), None)
+        lev = (f" The exchange does not check cash, as in ABIDES-Gym, so buys run on credit: "
+               + (f"after decision {first_neg} the cash was {'−' if cash[first_neg] < 0 else ''}${abs(cash[first_neg]):,.2f}, and " if first_neg else "")
+               + f"at the last decision the trader held {shares[-1]:,.0f} shares worth about ${pos:,.0f}, {pos / 10000:,.0f} times its $10,000 starting cash, "
+               + f"while the last trade moved {sgn((last[-1] / last[0] - 1) * 100, 3)} over the game.")
     write("eco_abides", {"spark": prof,
         "name": "ABIDES", "title": "A day as an investor on the ABIDES exchange",
         "lede": "The trader starts with $10,000 in cash. Through the session it decides at intervals to buy 100 shares, sell 100 shares or hold, always with market orders. It sees its account, the last trade and five levels of bids and asks. The score is the change in account value by the close.",
@@ -209,7 +219,7 @@ def build_eco_abides():
                   {"k": "Final P&L", "v": (f"{'−' if pr[-1] < 0 else '+'}${abs(pr[-1]):,.2f}" if pr else "—"), "s": "Marked at the last trade, minus $10,000"},
                   {"k": "Final position", "v": f"{shares[-1]:,.0f} shares" if shares[-1] is not None else "—", "s": f"{cnt['buy']} buys, {cnt['sell']} sell, {cnt['hold']} holds"},
                   {"k": "Price range", "v": f"${min(v for v in last if v):,.2f}–${max(v for v in last if v):,.2f}", "s": "Last trades seen during the game"}],
-        "foot": "ABIDES-Gym task markets-daily_investor-v0; every other trader on the exchange is simulated. Each decision is a 100-share market order, so buys fill at the ask and sells at the bid.",
+        "foot": "ABIDES-Gym task markets-daily_investor-v0; every other trader on the exchange is simulated. Each decision is a 100-share market order, so buys fill at the ask and sells at the bid." + lev,
         "x": {"n": xn, "labels": lab},
         "charts": [
             {"title": "Last trade, best bid and best ask", "sub": "Thick line: last trade. Thin lines: best ask and best bid. Triangles: the model's buys and sells.", "height": 250, "fmt": "price2",

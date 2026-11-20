@@ -53,7 +53,11 @@ header.gh { display: grid; gap: 6px; }
 .eyebrow { font: 500 12px/1.4 var(--mono); color: var(--ink-3); letter-spacing: .02em; }
 h1 { margin: 0; font-size: 27px; font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
 .lede { margin: 0; color: var(--ink-2); max-width: 82ch; }
-.mr-link { justify-self: start; font-size: 13px; color: var(--accent); }
+/* The same three views as the game's Match Room page; this page is the third. */
+.mr-switch { justify-self: start; margin-top: 4px; }
+.mr-switch a { font: 500 13px var(--sans); color: var(--ink-2); text-decoration: none; border-radius: 6px; padding: 5px 12px; }
+.mr-switch a:hover { color: var(--ink); }
+.mr-switch a[aria-current="page"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.1); }
 .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .tile { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px 12px; display: grid; gap: 2px; min-width: 0; box-shadow: var(--shadow); }
 .tile .k { font-size: 12px; color: var(--ink-3); }
@@ -289,11 +293,12 @@ footer { font-size: 12px; color: var(--ink-3); max-width: 96ch; }
       <path d="${d}L${sx(vals.length - 1).toFixed(1)} ${H}L${sx(0)} ${H}Z" fill="url(#spk)"/><path d="${d}" fill="none" style="stroke:var(--accent)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
       <circle cx="${sx(vals.length - 1).toFixed(1)}" cy="${sy(vals[vals.length - 1]).toFixed(1)}" r="2.6" style="fill:var(--accent)"/></svg>`; }
 
+  const mrRun = () => run === 'nohist' ? cur.id + '_no_history' : cur.cat.startsWith('Earlier games') ? cur.id + '_deepseek' : cur.id;
   function render() {
     const seats = G.seatNames || ['Model'], multi = seats.length > 1;
     $('view').innerHTML = `
       <div style="display:grid;gap:16px">
-      <header class="gh"><div class="eyebrow">${esc(G.eyebrow)} · ${esc(cur.cat)}</div><h1>${esc(G.title)}</h1><p class="lede">${esc(G.lede)}</p><a class="mr-link" href="../index.html#${esc(cur.id)}">This game in the Match Room: rules and match log →</a></header>
+      <header class="gh"><div class="eyebrow">${esc(G.eyebrow)} · ${esc(cur.cat)}</div><h1>${esc(G.title)}</h1><p class="lede">${esc(G.lede)}</p><nav class="seg mr-switch" aria-label="Views of this game"><a href="../index.html#${esc(cur.id)}.rules">How to play</a><a href="../index.html#${esc(cur.id)}.watch.${esc(mrRun())}">Watch the match</a><a aria-current="page">Chart replay</a></nav></header>
       <section class="tiles">${G.tiles.map(t => `<div class="tile"><span class="k">${esc(t.k)}</span><span class="v">${esc(t.v)}</span><span class="s">${esc(t.s || '')}</span>${spark(t.spark)}</div>`).join('')}</section>
       <div class="bar" role="toolbar" aria-label="Playback">
         <button class="btn primary" id="play" type="button">▶ Play</button>

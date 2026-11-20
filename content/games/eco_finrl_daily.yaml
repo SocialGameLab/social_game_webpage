@@ -8,7 +8,7 @@ tagline: >-
   One trader replays real daily prices of one stock and decides each day how
   much of its portfolio to keep in it. It never learns the stock's name or
   the date.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_finrl_daily"}
 setup:
   - The trader replays real dividend-adjusted closes of one stock, here AAPL

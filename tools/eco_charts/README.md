@@ -16,6 +16,9 @@ The page itself has no dependencies and opens from `file://`.
   `eco_ghp4`); `build_trading_en.py` for seven trading games (InvestorBench, two-trader liquidation, ABIDES, MarS,
   TwinMarket, MarketSim, QFinZero); `common.py` (loading and checks); `SCHEMA.md` (the data format).
 - `to_site.py`: writes a builder's JSON as `site/eco/data/<game>.js`, without reasoning text.
+- `labels.py`: called by `tools/build_data.py` for every run; a run that has a chart replay gets the
+  replay's one-line summary and name of each decision on its `move` events, and its seat names, which the
+  Match Room's `decisions` view shows. Rebuild the chart data before `build_data.py`.
 - `check/smoke_one.js`: loads the page headless (Node.js with jsdom) with one game's data and works every control. It
   fails on script errors, empty fields, NaN or non-English text.
 

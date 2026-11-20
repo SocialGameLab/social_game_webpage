@@ -8,7 +8,7 @@ tagline: >-
   Four fund managers steer their own crowds of trader agents through three
   days of a simulated stock market hit by a tariff shock. Before each
   decision they can post a public market comment.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_marketsim_talk"}
 setup:
   - One stock trades for three days in a continuous double auction, and ten

@@ -8,7 +8,7 @@ tagline: >-
   Four investors trade ten sector indices among 96 rule-based investors, with
   one call auction per index each day. They can also write public posts that
   the others read the next day.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_twinmarket_lite"}
 setup:
   - Four seats, P0 to P3, and 96 rule-based investors trade 10 industry

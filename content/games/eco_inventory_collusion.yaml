@@ -8,7 +8,7 @@ tagline: >-
   Two sellers of a perishable good, like seats on one flight, set prices for
   20 rounds from a fixed stock. Will they keep prices high together or
   compete them down?
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_inventory_collusion"}
 setup:
   - Each seller starts with 8,800 units, 440 a round on average, cannot

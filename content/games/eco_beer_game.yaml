@@ -8,7 +8,7 @@ tagline: >-
   Four stages of a supply chain each order from the stage above, seeing only
   their own stock. Steady customer demand can still turn into wild swings in
   orders further up the chain.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_beer_game"}
 setup:
   - P0 is the Retailer, P1 the Wholesaler, P2 the Distributor and P3 the

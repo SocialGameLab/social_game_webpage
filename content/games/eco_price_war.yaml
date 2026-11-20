@@ -8,7 +8,7 @@ tagline: >-
   Five firms sell the same good to shoppers who buy only from the cheapest of
   the few firms they check. Will the firms hold prices above cost, or
   undercut each other into bankruptcy?
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_price_war"}
 setup:
   - Five firms each start with $500.00 and sell one good to 50 programmatic

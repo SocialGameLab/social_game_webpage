@@ -8,7 +8,7 @@ tagline: >-
   Two agents buy wood, stone and gold from one shared pool to run their own
   secret projects. They can talk first, but if their orders together exceed
   the supply, the round is annulled and both get nothing.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_grounding_negotiation"}
 setup:
   - Each round the pool holds 10 wood, 10 stone and 6 gold at fixed unit

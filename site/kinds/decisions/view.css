@@ -1,0 +1,45 @@
+/* Kind "decisions": one entry per decision, and the board's copy of what the seat saw. */
+
+.dc-row { display: grid; grid-template-columns: 52px 1fr; gap: 0 10px; align-items: baseline; }
+
+.dc-top { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+
+.dc-label {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: var(--brass-soft);
+  color: var(--ink);
+}
+
+.dc-head { margin-top: 2px; font-size: 14px; color: var(--ink-2); overflow-wrap: anywhere; }
+
+.dc-chips { display: flex; flex-wrap: wrap; gap: 4px 6px; margin-top: 5px; }
+
+.dc-chip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 1px 7px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  overflow-wrap: anywhere;
+}
+
+.dc-words { margin-top: 5px; font-size: 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.dc-fb { padding: 0 5px; border-radius: 4px; background: var(--brass-soft); color: var(--brass); font-size: 11px; }
+
+.dc-view {
+  margin: 0;
+  max-height: 52vh;
+  overflow: auto;
+  padding: 10px;
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

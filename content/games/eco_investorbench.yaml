@@ -8,7 +8,7 @@ tagline: >-
   One trader replays real trading days of one stock, reading the price,
   recent momentum and the day's news, then going long, short or flat until
   the next close.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_investorbench"}
 setup:
   - One trader replays a real historical window of one asset, here

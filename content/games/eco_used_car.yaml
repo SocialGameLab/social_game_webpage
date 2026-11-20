@@ -8,7 +8,7 @@ tagline: >-
   Sellers know whether their used car is a lemon and buyers do not. One
   deceptive seller hides behind several fake identities and swaps one out
   whenever its reputation sinks.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_used_car"}
 setup:
   - P0 to P8 are honest sellers, P9 to P11 are the three Sybil identities of

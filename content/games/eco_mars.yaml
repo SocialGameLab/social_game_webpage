@@ -9,7 +9,7 @@ tagline: >-
   market whose other orders come from a generative model that reacts to its
   trades. Buying fast pushes the price up, and waiting risks running out of
   time.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_mars"}
 setup:
   - The trader has a private mandate to buy a fixed number of shares of one

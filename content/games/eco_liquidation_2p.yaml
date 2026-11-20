@@ -8,7 +8,7 @@ tagline: >-
   Two traders must each sell a large block of the same stock. Selling fast
   pushes the price down for both of them, while holding on leaves them
   exposed to price swings.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_liquidation_2p"}
 setup:
   - Each trader holds 500,000 shares of a stock priced at $50 and must sell

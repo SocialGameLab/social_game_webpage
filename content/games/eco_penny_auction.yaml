@@ -8,7 +8,7 @@ tagline: >-
   Every bid costs a fee and raises the price by a few cents, and the last
   bidder standing buys the item. The fees can add up to far more than the
   item is worth.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_penny_auction"}
 setup:
   - Three bidders compete for one item, here a game controller worth

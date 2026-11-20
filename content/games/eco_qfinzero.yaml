@@ -8,7 +8,7 @@ tagline: >-
   One trader works through tools in a replay of a synthetic stock market. It
   asks for prices, news and earnings, sends orders to a paper broker and
   moves the clock forward itself.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_qfinzero"}
 setup:
   - The market is the QFinZero sample, 20 fictional US stocks from

@@ -8,7 +8,7 @@ tagline: >-
   Regions share one climate and one economy for 100 years. Each can bargain
   for binding promises to cut emissions, but cutting costs the region that
   does it and helps everyone only later.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_rice_n"}
 setup:
   - Seats P0 to P4 govern regions R1 to R5 of 27 fictitious regions, and the

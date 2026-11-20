@@ -7,7 +7,7 @@ players: 1 player · 26 decisions
 tagline: >-
   One trader buys and sells a stock on a simulated exchange full of scripted
   traders. It starts with $10,000 and is scored on its profit at the close.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_abides"}
 setup:
   - The trader starts with $10,000 and no shares of the one stock, ABM, on

@@ -7,7 +7,7 @@ players: 1 player · 396 trading days
 tagline: >-
   One trader runs a billion-dollar portfolio of five real stocks, where its
   own large trades push prices against it and every trade has a cost.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_market_impact"}
 setup:
   - The trader replays real daily closes of five stocks, shown only as S01

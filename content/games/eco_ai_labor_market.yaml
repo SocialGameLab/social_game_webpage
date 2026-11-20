@@ -8,7 +8,7 @@ tagline: >-
   Workers on a gig platform either bid for jobs or train a skill each round.
   Clients pick by reputation and price, so every worker is tempted to
   undercut the rest.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_ai_labor_market"}
 setup:
   - Eight seats, P0 to P7, compete with two scripted workers, a Specialist

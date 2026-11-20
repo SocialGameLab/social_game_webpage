@@ -8,7 +8,7 @@ tagline: >-
   Two players cross a small colored board, paying one chip of each tile's
   color per step. They can sign a contract or promise to pay for each
   other's steps, but a promise can be broken.
-view: moves
+view: decisions
 page_link: {label: Chart replay, href: "eco/index.html#eco_colored_trails"}
 setup:
   - P0 plays P-Red and P1 plays P-Blue, and both start on the green top-left

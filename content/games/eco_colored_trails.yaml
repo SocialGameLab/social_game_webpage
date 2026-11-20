@@ -1,0 +1,65 @@
+# Colored Trails with Contracts: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_colored_trails
+title: Colored Trails with Contracts
+kind: Negotiation
+players: 2 players · 6 turns
+tagline: >-
+  Two players cross a small colored board, paying one chip of each tile's
+  color per step. They can sign a contract or promise to pay for each
+  other's steps, but a promise can be broken.
+view: decisions
+page_link: {label: Chart replay, href: "eco/index.html#eco_colored_trails"}
+setup:
+  - P0 plays P-Red and P1 plays P-Blue, and both start on the green top-left
+    tile of a 4x4 board of red, blue and green tiles and head for the green
+    tile at the bottom right.
+  - Every step onto a tile costs one chip of that tile's color, and P-Red
+    starts with 14 red and 2 green chips, P-Blue with 14 blue and 2 green.
+  - Before the first turn, the two take up to 8 turns of one message each to
+    agree a contract that names, tile by tile, who pays the other's chip
+    there.
+  - Everything is public, including the board, both positions, both chip
+    counts and both best paths.
+round:
+  - P-Red, then P-Blue, may propose one Pay-for-Partner arrangement, a
+    promise to pay for some of the other's steps onto a color, which the
+    other accepts or rejects.
+  - P-Red, then P-Blue, stays or moves one tile up, down, left or right,
+    paying with a contract entry, a promised chip or its own chip.
+  - When a step lands on a color the partner promised to cover, the partner
+    chooses `honor` or `refuse`, and a refused promise stays owed.
+win:
+  - The game ends when both players reach the goal, after 3 turns in a row
+    without a move or accepted arrangement, when nobody can move, or after
+    40 turns.
+  - A player on the goal scores `20 + 5 × chips left`, anyone else scores 0,
+    and a player who fails to provide a chip owed under the contract scores
+    0.
+  - Each reward is the score divided by 150, the highest score the rules
+    allow.
+  - The players are not competing, and each one maximizes only its own
+    score.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the board, both
+    players' positions, chips and best paths, any contract and arrangements
+    in force, the last 5 turns of history and the decision at hand.
+  - It answers with one JSON action that fits the decision, such as `say` or
+    `propose_contract` in the talk, `propose_arrangement` or `skip` when
+    trading, `move` with a tile, or `honor` or `refuse`.
+watch_for:
+  - All 16 messages over the 8 negotiation turns declined a contract, and no
+    terms were ever proposed.
+  - Board 14 is Independent, so neither player needed the other, both
+    skipped trading in all 6 turns, and both reached the goal in turn 6 with
+    10 chips left for 70 points each.
+  - Without chat history, one exchange was proposed and none was accepted,
+    and both players still scored 70.
+run_label: Recording
+runs:
+  - id: eco_colored_trails
+    label: With chat history
+    note: Each seat also saw its own recent turns as chat history.
+  - id: eco_colored_trails_no_history
+    label: Without chat history
+    note: Each prompt was the seat's only input, as in the source.

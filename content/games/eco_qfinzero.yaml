@@ -1,0 +1,53 @@
+# QFinZero: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_qfinzero
+title: QFinZero
+kind: Markets and trading
+players: 1 player · 60 trading days
+tagline: >-
+  One trader works through tools in a replay of a synthetic stock market. It
+  asks for prices, news and earnings, sends orders to a paper broker and
+  moves the clock forward itself.
+view: decisions
+page_link: {label: Chart replay, href: "eco/index.html#eco_qfinzero"}
+setup:
+  - The market is the QFinZero sample, 20 fictional US stocks from
+    2025-01-02 to 2025-03-31, with daily bars, news, earnings reports and
+    macro releases.
+  - The trader starts with 100,000 in cash, and in this recording it can
+    trade ACME, BOLT and CRUX, long or short, under margin rules.
+  - Nothing is shown unless the trader asks, and every data tool answers
+    only as of the current bar.
+  - Orders go to a paper broker with slippage of up to 1 bp and a fee of
+    0.0005 per share.
+round:
+  - At each daily bar the trader sees the clock, the current bars, its
+    account, positions, open orders and the answers to its queries so far.
+  - It takes one action at a time, a data query such as `query_bars` or
+    `query_news`, `submit_order`, `cancel_order`, `advance` or `finish`.
+  - Queries and orders do not move the clock, but after 8 of them at one bar
+    the clock advances by itself.
+  - Orders are matched from the next bar on, at the broker's fill prices.
+win:
+  - The game ends at the last of the 60 bars, or after `finish`, when the
+    clock runs to the end with the trader's positions.
+  - The reward is the total return, `(final equity - 100,000) / 100,000`,
+    clipped to [-1, 1], with no risk adjustment.
+  - There is no opponent.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the session and
+    clock, the current bars, its account and orders, the broker's events,
+    its action budget, the tool results at this bar and the legal actions
+    with a JSON schema.
+  - No tool ever returns anything dated after the current bar.
+  - It answers with one JSON action per turn, for example `submit_order`
+    with a symbol, side, quantity, order type and time in force.
+watch_for:
+  - The trader made 348 data queries, submitted 56 orders, cancelled 18 and
+    advanced the clock 34 times.
+  - At its last decision, on bar 59, its equity stood at 155,242, up 55.24%
+    from the start.
+  - The session ended with a reward of 0.6976, its total return after the
+    last bar.
+runs:
+  - id: eco_qfinzero

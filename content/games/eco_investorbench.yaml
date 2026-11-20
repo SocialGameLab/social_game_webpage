@@ -1,0 +1,53 @@
+# InvestorBench: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_investorbench
+title: InvestorBench
+kind: Markets and trading
+players: 1 player · 149 trading days
+tagline: >-
+  One trader replays real trading days of one stock, reading the price,
+  recent momentum and the day's news, then going long, short or flat until
+  the next close.
+view: decisions
+page_link: {label: Chart replay, href: "eco/index.html#eco_investorbench"}
+setup:
+  - One trader replays a real historical window of one asset, here
+    Honeywell (HON) stock from 2020-10-01.
+  - The prices, news and filing summaries are the ones the InvestorBench
+    authors published, so nothing is simulated and the trader cannot move
+    the price.
+  - There are no fees, no quantities and no limits on switching.
+round:
+  - After the day's close the trader sees the adjusted close, the
+    cumulative log return over the last three trading days, the day's news
+    with sentiment labels, any 10-K or 10-Q summary filed that day, and its
+    own position and return.
+  - It answers `buy` (long), `sell` (short) or `hold` (flat) for the next
+    day, and `hold` does not keep yesterday's position.
+  - The day pays `position × ln(next close / today's close)`, with the
+    position +1, -1 or 0.
+win:
+  - The game ends with the decision on the second-to-last date, here after
+    149 decisions, and there is no opponent.
+  - The reward is the cumulative return divided by the return of perfect
+    foresight on the same days, 167.06% here, so it lies between -1 and 1.
+  - Staying flat scores 0, and buying and holding scores 0.206 on this
+    window.
+agents:
+  - Each day the agent gets a text prompt with the rules, the asset and
+    date, the close, the momentum line, its position and return so far, the
+    day's news and any filing summary, and the legal actions.
+  - It never sees anything dated after the current day, though some
+    same-day news may have come out after the close.
+  - It answers with one JSON action, `buy`, `sell` or `hold`, with an empty
+    payload.
+watch_for:
+  - The model returned +108.8% for a score of 0.658, against +33.2% for
+    buy and hold.
+  - Its call matched the next day's move on 106 of 148 days, a 72% hit
+    rate, and it flipped its position 63 times.
+  - It was long 108 days and short 41 days and never flat, and since it
+    sees the date and ticker it may remember this real price history, which
+    has not been tested.
+runs:
+  - id: eco_investorbench

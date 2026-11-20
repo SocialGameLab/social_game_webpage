@@ -1,0 +1,48 @@
+# Network Adoption: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_network_adoption
+title: Network Adoption
+kind: Economics experiments
+players: 2 players · 8 rounds
+tagline: >-
+  Two players on an old technology standard each decide whether to switch to
+  a new one. Switching pays only if the other switches too, so will they
+  move together or stay locked in?
+view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_network_adoption"}
+setup:
+  - P0 is the row player and P1 the column player, and both start on an old
+    standard.
+  - Each round a player chooses `A` (switch to the new standard) or `B`
+    (stay with the old one).
+  - In this recording's payoff table, `AA` pays 87 to P0 and 94 to P1, `BB`
+    pays 59 and 25, `AB` pays 30 and 17, and `BA` pays 42 and 21.
+  - The payoff table, past choices and scores are public, and in this
+    recording the players cannot talk.
+round:
+  - Each player privately submits `A` or `B` with `choose`.
+  - The two choices are revealed together, and each player's payoff from
+    the table is added to its score.
+win:
+  - The game ends after 8 rounds.
+  - Each player's reward is its own cumulative payoff, and the higher total
+    is recorded as the winner.
+  - Both switching and both staying are equilibria, and in this table
+    switching is both the better and the safer one, so `AA` is the
+    predicted outcome.
+agents:
+  - Each turn the agent gets a text prompt with the rules, the payoff table,
+    both scores, the past choices and the legal action.
+  - The other player's choice for the round stays hidden until both have
+    chosen.
+  - It answers with one JSON action, `choose` with `A` or `B`.
+watch_for:
+  - Both players switched in round 1 and chose `AA` in all 8 rounds, the
+    most this table allows, ending on 696 and 752.
+  - That is +224 and +552 over staying with the old standard for all 8
+    rounds.
+  - From round 2 each prompt's private info also showed the player's own
+    choice from the previous round as `pending`, a leftover the engine does
+    not clear and the prompt does not explain.
+runs:
+  - id: eco_network_adoption

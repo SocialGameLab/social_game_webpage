@@ -1,0 +1,63 @@
+# Beer Game: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_beer_game
+title: Beer Game
+kind: Economics experiments
+players: 4 players · 20 rounds
+tagline: >-
+  Four stages of a supply chain each order from the stage above, seeing only
+  their own stock. Steady customer demand can still turn into wild swings in
+  orders further up the chain.
+view: decisions
+page_link: {label: Chart replay, href: "eco/index.html#eco_beer_game"}
+setup:
+  - P0 is the Retailer, P1 the Wholesaler, P2 the Distributor and P3 the
+    Manufacturer, and every stage starts with 12 units in stock.
+  - Each round customers demand a whole number from 0 to 8, drawn at
+    random, and only the Retailer sees it.
+  - An order takes 2 rounds to reach the supplier and its shipment 2 more
+    rounds to arrive, while production takes 3 rounds.
+  - Each stage sees only its own stage, never the others' stock, backlog or
+    orders.
+round:
+  - Each stage learns the order that reaches it this round (for the
+    Retailer, the customers' demand) and the shipment arriving now.
+  - Each stage plays `order` with a whole number from 0 to 100, the units it
+    orders from its supplier or, for the Manufacturer, puts into production.
+  - Each stage ships its backlog and the incoming order as far as its stock
+    allows, at most 20 units a round, and owes the rest.
+  - Each stage pays 0.5 per unit in stock and 1 per unit owed at the end of
+    the round.
+win:
+  - The game ends after 20 rounds, and orders that cannot arrive in time
+    cost nothing.
+  - Each stage's reward is `1 - 2 × min(cost, 400) / 400`, which is 1 at
+    zero cost, 0 at a cost of 200 and -1 at 400 or more.
+  - The highest reward is recorded as the winner, but the game's real
+    question is the bullwhip effect, orders that swing more and more toward
+    the Manufacturer.
+agents:
+  - Each round the agent gets a text prompt with the rules, its stage, the
+    order and shipment reaching it, its stock and backlog, the shipments on
+    their way, its unfilled orders, its last 3 rounds of shipments and the
+    legal action with a JSON schema.
+  - It never sees the other stages' stock, orders or costs, or the demand
+    unless it is the Retailer.
+  - It answers with one JSON action, `order` with a `quantity`.
+watch_for:
+  - Order variance rose at every step up the chain, from 8.05 at the
+    Retailer to 47.29 at the Manufacturer, up 487.4% against a demand
+    variance of 8.13.
+  - The start-up, rounds 1 to 6, holds 73% and 82% of the Distributor's and
+    Manufacturer's squared deviations, and from round 7 on the variance rose
+    on only 1 of 3 links.
+  - The chain paid 375 in all, 357 of it for holding stock, and without chat
+    history the Manufacturer's order variance climbed further, to 58.36.
+run_label: Recording
+runs:
+  - id: eco_beer_game
+    label: With chat history
+    note: Each seat also saw its own recent turns as chat history.
+  - id: eco_beer_game_no_history
+    label: Without chat history
+    note: Each prompt was the seat's only input, as in the source.

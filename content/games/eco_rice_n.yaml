@@ -1,0 +1,60 @@
+# RICE-N: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_rice_n
+title: RICE-N
+kind: Economics experiments
+players: 5 players · 20 five-year steps
+tagline: >-
+  Regions share one climate and one economy for 100 years. Each can bargain
+  for binding promises to cut emissions, but cutting costs the region that
+  does it and helps everyone only later.
+view: decisions
+page_link: {label: Chart replay, href: "eco/index.html#eco_rice_n"}
+setup:
+  - Seats P0 to P4 govern regions R1 to R5 of 27 fictitious regions, and the
+    other 22 follow a fixed plan, saving 30% of output and never
+    mitigating.
+  - The game runs 100 years in 20 steps of 5 years, from 2015 to 2115.
+  - Each region produces output from its capital, population and
+    technology, and rising temperature destroys part of it while mitigation
+    costs another part.
+  - All regions' emissions warm one shared climate, which damages every
+    region's output in later steps.
+round:
+  - Each region sends every other region a proposal with `propose`, a
+    minimum mitigation rate it promises and one it requests.
+  - Each region accepts or rejects the proposals it received with
+    `evaluate`, and an accepted proposal binds its sender to the promise and
+    the receiver to the request.
+  - Each region plays `act`, setting its savings rate, its mitigation rate
+    (at least its agreed minimum), an export limit, import bids and tariffs,
+    all in steps of 0.1.
+  - Every stage is played by all regions at once, and then the economy and
+    the climate move on five years.
+win:
+  - The game ends after 20 steps.
+  - A region's reward each step is its utility from consumption, and its
+    score is the discounted sum (1.5% a year) divided by the largest
+    possible value, between 0 and 1.
+  - A region that mitigates fully while the others do not lowers its own
+    score, and the highest score is recorded as the winner.
+agents:
+  - Each stage the agent gets a text prompt with the rules, the year and
+    stage, the climate, its own region's economy and last step, a public
+    table of every region, and the proposals it sent and received or its
+    agreed minimum.
+  - It never sees other regions' utilities or minimum rates, proposals
+    between other regions, or other choices made in the same stage.
+  - It answers with one JSON action, `propose`, `evaluate` with the list of
+    proposals it accepts, or `act` with its rates.
+watch_for:
+  - Of the 344 proposals the five regions sent each other, 324 asked for
+    mitigation while promising nothing, and none of the 20 that promised a
+    rate was accepted.
+  - Only R1 (P0) ever mitigated, 10% from 2015 to 2040, bound from 2020 by
+    16 accepted requests that promised nothing, while R2 to R5 never did.
+  - The temperature rose from 0.85 °C to 6.51 °C above pre-industrial, set
+    mostly by the 22 fixed-plan regions, and scores ended between 0.230 for
+    R1 and 0.606 for R2.
+runs:
+  - id: eco_rice_n

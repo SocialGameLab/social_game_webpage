@@ -1,0 +1,61 @@
+# Two-Trader Liquidation: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_liquidation_2p
+title: Two-Trader Liquidation
+kind: Markets and trading
+players: 2 players · 14 of 60 rounds
+tagline: >-
+  Two traders must each sell a large block of the same stock. Selling fast
+  pushes the price down for both of them, while holding on leaves them
+  exposed to price swings.
+view: decisions
+page_link: {label: Chart replay, href: "eco/index.html#eco_liquidation_2p"}
+setup:
+  - Each trader holds 500,000 shares of a stock priced at $50 and must sell
+    them all within 60 rounds of one trading day each.
+  - Trader 1 (P0) has a risk aversion of 1e-6 and Trader 2 (P1) of 1e-4,
+    and neither sees the other's holdings, sales or risk aversion.
+  - All shares sold in a round execute at one price, the market price minus
+    $0.0625 and minus $2.5e-06 for every share both traders sell that
+    round.
+  - The total sold also lowers the market price for good by $2.5e-07 a
+    share.
+round:
+  - Each trader that still holds shares plays `sell` with a fraction of its
+    remaining shares, from 0 to 1, without seeing the other's choice.
+  - Both traders' sales execute together at the round's execution price.
+  - The market price falls by the permanent impact and then moves by a
+    random shock.
+  - In round 60 every remaining share is sold automatically.
+win:
+  - The game ends after round 60, and rounds after both traders have sold
+    out pass without decisions.
+  - A trader's cost is its shortfall plus its risk aversion times the price
+    variance times the sum of its squared holdings over the rounds.
+  - Its reward is `1 - cost / D`, kept in [-1, 1], where D is the cost of
+    selling the whole block alone in round 1, $656,250 here.
+  - The higher reward is recorded as the winner.
+agents:
+  - Each round the agent gets a text prompt with the rules and market
+    parameters, the current and last 7 market prices, its own block,
+    holdings, sales and execution prices, cash, risk aversion and costs so
+    far, and the legal action.
+  - It never sees the other trader's block, holdings, sales, risk aversion
+    or score, only their effect on prices.
+  - It answers with one JSON action, `sell` with a `fraction`.
+watch_for:
+  - Trader 2 (P1), the more risk-averse, sold 437,000 of its 500,000 shares
+    in round 1 and the rest in round 2, for a score of -0.074.
+  - Trader 1 (P0) sold 98,350 shares in round 1 and then about a fifth of
+    what it still held each round, selling out in round 14 for a score of
+    0.447.
+  - Without chat history Trader 1 took 24 rounds to sell out, and the
+    scores were 0.434 and -0.096.
+run_label: Recording
+runs:
+  - id: eco_liquidation_2p
+    label: With chat history
+    note: Each seat also saw its own recent turns as chat history.
+  - id: eco_liquidation_2p_no_history
+    label: Without chat history
+    note: Each prompt was the seat's only input, as in the source.

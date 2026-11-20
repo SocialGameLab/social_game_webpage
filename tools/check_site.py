@@ -64,6 +64,12 @@ def main() -> int:
             game = _payload(data, "MatchRoom.addData")
             if game.get("id") != gid:
                 errors.append(f"{gid}: data file holds id {game.get('id')!r}")
+            # A page_link inside the site must point at a published file.
+            href = (game.get("page_link") or {}).get("href", "")
+            if href and "://" not in href:
+                target = SITE / href.split("#")[0].split("?")[0]
+                if not (target / "index.html" if target.is_dir() else target).is_file():
+                    errors.append(f"{gid}: page_link {href!r} is not a page in site/")
 
     # CI has no social-game-env checkout; locally, catch runs dropped from demo/.
     if DEMO_INDEX.exists():

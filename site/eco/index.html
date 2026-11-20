@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eco Game Replays</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: an analyst's replay desk. A left rail lists all 50 games by category with their recording status;
+   the main column shows the selected game: summary tiles, a playback bar, a decision timeline with one lane
+   per player, the game's charts on a shared step axis, and a sticky ticket (decision / observation).
+   Served by the Match Room at eco/; data/<game>.js is written by tools/eco_charts (see its README). */
+:root {
+  --bg: #f4f5f7; --surface: #ffffff; --raise: #f9fafb; --ink: #12151a; --ink-2: #464c58; --ink-3: #7a8190;
+  --rule: #e1e4e9; --grid: #edf0f3; --sel: #12151a; --focus: #2a78d6; --accent: #2a78d6;
+  --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a; --c4: #eda100; --hold: #8a909c; --muted: #a3a9b4;
+  --shadow: 0 1px 2px rgba(18,21,26,.05), 0 6px 18px rgba(18,21,26,.05);
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e1013; --surface: #161a1f; --raise: #1b1f25; --ink: #f0f2f5; --ink-2: #b4bac5; --ink-3: #848b98; --rule: #282d35; --grid: #1f232a; --sel: #f0f2f5; --focus: #3987e5; --accent: #3987e5;
+  --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --hold: #8d94a1; --muted: #5b616c; --shadow: none; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0e1013; --surface: #161a1f; --raise: #1b1f25; --ink: #f0f2f5; --ink-2: #b4bac5; --ink-3: #848b98; --rule: #282d35; --grid: #1f232a; --sel: #f0f2f5; --focus: #3987e5; --accent: #3987e5;
+  --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --hold: #8d94a1; --muted: #5b616c; --shadow: none; color-scheme: dark; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.55; }
+button, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.app { display: grid; grid-template-columns: 268px minmax(0, 1fr); min-height: 100%; }
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); align-self: start; height: calc(100vh - env(safe-area-inset-top, 0px)); overflow: auto;
+  background: var(--surface); border-right: 1px solid var(--rule); padding-block: 20px 28px; padding-inline: 16px; display: grid; align-content: start; gap: 18px; }
+.brand { display: grid; gap: 4px; }
+.brand b { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+.brand span { font-size: 12px; color: var(--ink-3); }
+.cover { display: grid; gap: 6px; font-size: 12px; color: var(--ink-2); }
+.meter { height: 6px; border-radius: 999px; background: var(--bg); overflow: hidden; display: flex; }
+.meter i { display: block; height: 100%; }
+.group { display: grid; gap: 2px; }
+.group h3 { margin: 0 0 4px; font: 600 11px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.game { display: grid; grid-template-columns: 10px minmax(0, 1fr); align-items: center; gap: 9px; text-align: left; background: none; border: 0; border-radius: 7px; padding: 6px 8px; cursor: pointer; color: var(--ink-2); }
+.game:hover { background: var(--bg); color: var(--ink); }
+.game[aria-current="true"] { background: var(--ink); color: var(--surface); }
+.game .dot { width: 8px; height: 8px; border-radius: 50%; }
+.game .nm { font-size: 13px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.legendrail { display: grid; gap: 4px; font-size: 11.5px; color: var(--ink-3); }
+.legendrail span { display: inline-flex; align-items: center; gap: 7px; }
+.picker { display: none; }
+.content { min-width: 0; padding-block: 22px 56px; padding-inline: 24px; display: grid; gap: 16px; align-content: start; max-width: 1280px; }
+header.gh { display: grid; gap: 6px; }
+.eyebrow { font: 500 12px/1.4 var(--mono); color: var(--ink-3); letter-spacing: .02em; }
+h1 { margin: 0; font-size: 27px; font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
+.lede { margin: 0; color: var(--ink-2); max-width: 82ch; }
+/* The same three views as the game's Match Room page; this page is the third. */
+.mr-switch { justify-self: start; margin-top: 4px; }
+.mr-switch a { font: 500 13px var(--sans); color: var(--ink-2); text-decoration: none; border-radius: 6px; padding: 5px 12px; }
+.mr-switch a:hover { color: var(--ink); }
+.mr-switch a[aria-current="page"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.1); }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px 12px; display: grid; gap: 2px; min-width: 0; box-shadow: var(--shadow); }
+.tile .k { font-size: 12px; color: var(--ink-3); }
+.tile .v { font: 500 24px/1.25 var(--mono); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; letter-spacing: -.01em; }
+.tile .s { font-size: 12px; color: var(--ink-2); }
+.tile svg { display: block; width: 100%; height: 36px; margin-top: 6px; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 9px 12px; box-shadow: var(--shadow); }
+.btn { display: inline-flex; align-items: center; gap: 6px; font: 500 13px var(--sans); background: var(--raise); border: 1px solid var(--rule); border-radius: 8px; padding: 5px 12px; cursor: pointer; }
+.btn:hover:not(:disabled) { border-color: var(--ink-3); }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn.primary { background: var(--ink); color: var(--surface); border-color: var(--ink); min-width: 84px; justify-content: center; }
+.seg { display: inline-flex; gap: 2px; background: var(--bg); border-radius: 8px; padding: 2px; flex-wrap: wrap; }
+.seg button { font: 500 12px var(--sans); border: 0; background: none; color: var(--ink-2); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.1); }
+.hint { font-size: 12px; color: var(--ink-3); margin-left: auto; }
+kbd { font: 500 11px var(--mono); padding: 1px 5px; border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 4px; background: var(--raise); }
+.main { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.stack { display: grid; gap: 14px; min-width: 0; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px 12px; min-width: 0; box-shadow: var(--shadow); }
+.panel h2 { margin: 0 0 2px; font-size: 14px; font-weight: 600; }
+.panel .sub { margin: 0 0 8px; font-size: 12px; color: var(--ink-3); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 8px; font-size: 12px; color: var(--ink-2); margin: 0 0 6px; }
+.legend .item { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--rule); cursor: pointer; user-select: none; background: var(--raise); }
+.legend .item:hover { border-color: var(--ink-3); }
+.legend .item[aria-pressed="false"] { opacity: .45; text-decoration: line-through; }
+.legend .static { display: inline-flex; align-items: center; gap: 6px; padding: 2px 4px; }
+.sw { width: 12px; height: 10px; border-radius: 2px; display: inline-block; }
+.ln { width: 18px; height: 0; border-top: 2px solid; display: inline-block; }
+.chart { position: relative; touch-action: pan-y; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; user-select: none; }
+.chart svg.plot { cursor: crosshair; }
+.chart text { font-family: var(--mono); font-size: 11px; fill: var(--ink-3); }
+.chart .lane-label { font-family: var(--sans); font-size: 12px; fill: var(--ink-2); }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--rule); border-radius: 9px;
+  padding: 8px 10px; font: 12px/1.55 var(--mono); color: var(--ink); box-shadow: 0 8px 24px rgba(0,0,0,.16); white-space: nowrap; z-index: 3; }
+.tip b { font-weight: 500; }
+.ticket { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 14px); display: grid; gap: 12px; max-height: calc(100vh - 28px); overflow: auto; }
+.nav { display: flex; align-items: center; gap: 8px; }
+.nav input { flex: 1; min-width: 0; accent-color: var(--ink); }
+.count { font: 500 12px var(--mono); color: var(--ink-3); white-space: nowrap; }
+.head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; }
+.who { font: 500 12px var(--sans); padding: 2px 9px; border-radius: 999px; background: var(--bg); color: var(--ink-2); border: 1px solid var(--rule); }
+.ttabs { display: flex; gap: 2px; border-bottom: 1px solid var(--rule); }
+.ttabs button { font: 500 13px var(--sans); background: none; border: 0; border-bottom: 2px solid transparent; padding: 6px 10px; margin-bottom: -1px; color: var(--ink-3); cursor: pointer; }
+.ttabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.pane { display: grid; gap: 12px; }
+.actcard { display: grid; gap: 8px; background: var(--raise); border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; }
+.pill { justify-self: start; font: 600 12px var(--sans); padding: 3px 10px; border-radius: 999px; color: #fff; white-space: nowrap; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: 12px/1.4 var(--mono); padding: 3px 8px; border-radius: 6px; background: var(--surface); border: 1px solid var(--rule); color: var(--ink-2); max-width: 100%; overflow-wrap: anywhere; }
+.chip b { color: var(--ink); font-weight: 500; }
+.label { font-size: 11px; font-weight: 600; color: var(--ink-3); letter-spacing: .08em; text-transform: uppercase; margin: 0 0 6px; }
+.conclusion { margin: 0; font-size: 13px; line-height: 1.65; color: var(--ink); background: var(--raise); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; padding: 10px 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+pre.box { font: 12.5px/1.6 var(--mono); color: var(--ink-2); white-space: pre-wrap; word-break: break-word; background: var(--bg);
+  border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; max-height: 60vh; overflow: auto; margin: 0; }
+.meta { font-size: 12px; color: var(--ink-3); }
+.loading { color: var(--ink-3); padding: 40px 0; }
+.status { display: inline-flex; align-items: center; gap: 7px; font: 500 12px var(--sans); padding: 3px 10px; border-radius: 999px; background: var(--raise); border: 1px solid var(--rule); }
+.placeholder { display: grid; gap: 14px; max-width: 760px; }
+.placeholder .panel p { margin: 0; color: var(--ink-2); }
+footer { font-size: 12px; color: var(--ink-3); max-width: 96ch; }
+.feed { display: grid; gap: 8px; max-height: 420px; overflow: auto; padding-right: 4px; }
+.fe { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 4px 12px; padding: 8px 10px; border-radius: 9px; border: 1px solid transparent; }
+.fe.now { background: var(--raise); border-color: var(--rule); }
+.fe.later { display: none; }
+.fe .w { font: 600 12px var(--sans); color: var(--ink); }
+.fe .x { font: 11px var(--mono); color: var(--ink-3); }
+.fe .k { justify-self: start; font: 600 11px var(--sans); padding: 1px 8px; border-radius: 999px; color: #fff; }
+.fe .tx { grid-column: 2; font-size: 13px; color: var(--ink-2); white-space: pre-wrap; overflow-wrap: anywhere; }
+.draw { animation: draw 1s ease-out both; }
+@keyframes draw { from { stroke-dashoffset: var(--len); } to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .draw { animation: none; } }
+@media (max-width: 1080px) { .main { grid-template-columns: minmax(0, 1fr); } .ticket { position: static; max-height: none; } .hint { display: none; } }
+@media (max-width: 900px) { .app { grid-template-columns: minmax(0, 1fr); } .rail { display: none; } .picker { display: block; } .content { padding-inline: 16px; } }
+@media (max-width: 640px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } h1 { font-size: 22px; } }
+.picker select { width: 100%; font: 500 14px var(--sans); padding: 8px 10px; border-radius: 10px; border: 1px solid var(--rule); background: var(--surface); }
+</style>
+<style>html,body{margin:0} [hidden]{display:none!important} img{max-width:100%}</style>
+</head>
+<body>
+
+
+<div class="app">
+  <nav class="rail" id="rail" aria-label="Games"></nav>
+  <main class="content">
+    <div class="picker"><label class="label" for="pick">Game</label><select id="pick"></select></div>
+    <div id="view"><p class="loading">Loading…</p></div>
+  </main>
+</div>
+
+<script>
+(function () {
+  // ---------------- catalog: all 50 games, their recording status ----------------
+  const ST = {
+    ready: ['Replay', 'c3'], replay: ['Replay, reasoning not recorded yet', 'c1'], partial: ['Recorded with reasoning, replay next', 'c1'], fixed: ['Rule fixed, re-recording queued', 'c1'],
+    old: ['Old recording without reasoning', 'c4'], earlier: ['Recorded by another model, re-recording', 'c4'], cut: ['Recording incomplete', 'c2'], none: ['Not recorded yet', 'muted'] };
+  const CAT = [
+    ['Negotiation and bargaining', [
+      ['eco_bargaining', 'Bargaining', 'ready', 2, 'A buyer with a budget and a seller with a cost haggle over one item; the seller can be given one of several personas.'],
+      ['eco_agenticpay', 'AgenticPay', 'ready', 2, 'Price negotiation across 13 task types; the later a deal closes, the more its score is discounted.'],
+      ['eco_grounding_negotiation', 'Talk is Cheap', 'ready', '2 or 5', 'Players share a pool of materials and each has a private project; they chat freely, then order materials at the same time.'],
+      ['eco_colored_trails', 'Colored Trails', 'ready', 2, 'Players trade colored chips to move across a board; they can pay for commitments or sign programmatic contracts.'],
+      ['eco_used_car', 'Used-car market', 'ready', 'many', 'A lemons market from Agent Bazaar: sellers may run sock-puppet accounts and buyers judge quality from reputation.'],
+      ['eco_pirate_game', 'Pirate game', 'ready', 10, 'Pirates propose splits of the coins in order of seniority; a proposal needs half the votes or its proposer goes overboard.']]],
+    ['Cooperation and social dilemmas', [
+      ['eco_sanction_pgg', 'Sanctioned public goods', 'ready', 7, 'Each round players choose whether to join a sanctioning institution, contribute, and pay to punish or reward others.'],
+      ['eco_gossip_reciprocity', 'Gossip and donation', 'ready', '5 or 9', 'A donation game with public gossip that tests indirect reciprocity; every move comes with a written reason.'],
+      ['eco_investesg', 'InvestESG', 'ready', 8, 'Companies split money between mitigation, greenwashing and resilience while ESG-minded investors choose whom to fund over a century of climate risk.'],
+      ['eco_rice_n', 'RICE-N', 'ready', 5, 'A climate-economy model of regions that negotiate bilaterally or in clubs, with trade and tariffs.'],
+      ['eco_network_adoption', 'Network adoption', 'ready', 2, 'Adopting a technology standard with network effects (Katz and Shapiro): it is worth more when others use it too.'],
+      ['eco_congestion', 'Congestion', 'ready', 2, 'Two drivers choose between two roads (Rosenthal); a road gets slower the more drivers take it.']]],
+    ['Information, signaling and persuasion', [
+      ['eco_signal_catdog', 'Cat and dog signaling', 'ready', 2, 'One player sees whether a cat or a dog appears and signals with a light; the other must act without a shared convention.'],
+      ['eco_bayesian_persuasion', 'Bayesian persuasion', 'ready', 2, 'A sender designs how much to reveal to sway a receiver, in three settings: reference letters, a courtroom and law enforcement.']]],
+    ['Auctions and pricing', [
+      ['eco_penny_auction', 'Penny auction', 'ready', 3, 'Every bid costs a fee and one bid is registered per countdown; the auction now opens with the first bid already placed, as in the paper.'],
+      ['eco_price_war', 'Price war', 'ready', 5, 'An Agent Bazaar market where consumers arrive at random and some firms are tasked with keeping prices stable.'],
+      ['eco_inventory_collusion', 'Inventory duopoly', 'ready', 2, 'Two sellers with perishable, limited stock set prices; an index measures whether they tacitly collude.']]],
+    ['Supply chains and labor markets', [
+      ['eco_beer_game', 'Beer game', 'ready', 4, 'A four-stage supply chain where each stage sees only its own information: the classic bullwhip effect.'],
+      ['eco_ai_labor_market', 'AI labor market', 'ready', '8 of 10', 'A gig market where workers bid for jobs or spend time training, and clients pick on quality, price and reputation.']]],
+    ['Financial trading', [
+      ['eco_investorbench', 'InvestorBench', 'ready', 1, 'Single-asset trading on the authors’ public price and news data.'],
+      ['eco_liquidation_2p', 'Two-trader liquidation', 'ready', 2, 'Two traders unload large blocks at the same time in an Almgren–Chriss market (from FinRL-Meta).'],
+      ['eco_abides', 'ABIDES', 'ready', 1, 'An ABIDES-Gym exchange: investing over a day or executing a large order.'],
+      ['eco_mars', 'MarS', 'ready', '1 or 2', 'Executing against order flow generated by MarS’s market model.'],
+      ['eco_twinmarket_lite', 'TwinMarket', 'ready', 4, 'Four model investors among 96 rule-based ones, with social posts and rumors.'],
+      ['eco_marketsim_talk', 'MarketSim', 'ready', 4, 'Model fund managers each direct 295 traders in a market of 12,000, with news shocks and public comments.'],
+      ['eco_qfinzero', 'QFinZero', 'ready', 1, 'Simulated trading through tool calls, with every data source locked to the current date.'],
+      ['eco_finrl_daily', 'FinRL daily', 'ready', 1, 'Daily replay of one stock (AAPL, JPM and others) with five position levels.'],
+      ['eco_market_impact', 'Market impact', 'ready', 1, 'FinRL-Meta stock trading where the trader’s own orders move the price.'],
+      ['eco_trading_regime', 'Regime trading', 'ready', 1, 'A market that switches between bull and bear regimes; one trader sets a position each round.'],
+      ['eco_trading_impact', 'Regime trading with impact', 'ready', 2, 'The same regime-switching market with two traders whose combined orders move the price.']]],
+    ['Earlier games: repeated 2x2', [
+      ['eco_sc1', 'Selten-Chmura game 1', 'ready', 2, 'A repeated 2x2 game from Selten and Chmura (2008), constant sum 18; play is compared with their human data and the mixed equilibrium.'],
+      ['eco_sc2', 'Selten-Chmura game 2', 'ready', 2, 'A repeated 2x2 game from Selten and Chmura (2008), constant sum 13; play is compared with their human data and the mixed equilibrium.'],
+      ['eco_sc3', 'Selten-Chmura game 3', 'ready', 2, 'A repeated 2x2 game from Selten and Chmura (2008), constant sum 14; play is compared with their human data and the mixed equilibrium.'],
+      ['eco_sc4', 'Selten-Chmura game 4', 'ready', 2, 'A repeated 2x2 game from Selten and Chmura (2008), constant sum 11; play is compared with their human data and the mixed equilibrium.'],
+      ['eco_sc5', 'Selten-Chmura game 5', 'ready', 2, 'A repeated 2x2 game from Selten and Chmura (2008), constant sum 9; play is compared with their human data and the mixed equilibrium.'],
+      ['eco_sc6', 'Selten-Chmura game 6', 'ready', 2, 'A repeated 2x2 game from Selten and Chmura (2008), constant sum 8; play is compared with their human data and the mixed equilibrium.'],
+      ['eco_sc7', 'Selten-Chmura game 7', 'ready', 2, 'A repeated 2x2 game from Selten and Chmura (2008), non-constant sum, same equilibrium as game 1; play is compared with their human data and the mixed equilibrium.'],
+      ['eco_sc8', 'Selten-Chmura game 8', 'ready', 2, 'A repeated 2x2 game from Selten and Chmura (2008), non-constant sum, same equilibrium as game 2; play is compared with their human data and the mixed equilibrium.'],
+      ['eco_sc9', 'Selten-Chmura game 9', 'ready', 2, 'A repeated 2x2 game from Selten and Chmura (2008), non-constant sum, same equilibrium as game 3; play is compared with their human data and the mixed equilibrium.'],
+      ['eco_sc10', 'Selten-Chmura game 10', 'ready', 2, 'A repeated 2x2 game from Selten and Chmura (2008), non-constant sum, same equilibrium as game 4; play is compared with their human data and the mixed equilibrium.'],
+      ['eco_sc11', 'Selten-Chmura game 11', 'ready', 2, 'A repeated 2x2 game from Selten and Chmura (2008), non-constant sum, same equilibrium as game 5; play is compared with their human data and the mixed equilibrium.'],
+      ['eco_sc12', 'Selten-Chmura game 12', 'ready', 2, 'A repeated 2x2 game from Selten and Chmura (2008), non-constant sum, same equilibrium as game 6; play is compared with their human data and the mixed equilibrium.'],
+      ['eco_ghp4', 'GHP game 4', 'ready', 2, 'A repeated 2x2 game from Goeree, Holt and Palfrey (2003, game 4): the row player wants to mismatch, the column player to match; compared with human data.']]],
+    ['Earlier games: economics classics', [
+      ['eco_bertrand', 'Bertrand competition', 'ready', '2', 'Firms set prices; the cheapest sells to the whole market. Can they keep prices above cost?'],
+      ['eco_cournot', 'Cournot competition', 'ready', '2', 'Firms choose quantities; the market price falls with total output.'],
+      ['eco_commons', 'Common-pool resource', 'ready', 'several', 'Players extract from a shared, regrowing resource; overuse depletes it for everyone.'],
+      ['eco_min_effort', 'Minimum effort', 'ready', 'several', 'Everyone picks an effort level; the payoff depends on the group minimum, so coordination is fragile.'],
+      ['eco_public_goods', 'Public goods', 'ready', '4', 'Players contribute to a common pot that is multiplied and shared equally; free riding pays individually.'],
+      ['eco_sealed_auction', 'Sealed-bid auction', 'ready', 'several', 'Bidders with private values submit sealed bids; the highest bid wins.'],
+      ['eco_volunteer', 'Volunteer\u2019s dilemma', 'ready', 'several', 'One volunteer is enough to provide a good for all, but volunteering is costly.']]]];
+  const NOTE = {
+    old: 'This game was recorded on 2026-11-09, before reasoning was saved. It is queued for re-recording with reasoning; its replay will appear here once that run is done.',
+    cut: 'A recording with reasoning started on 2026-11-10 but the cluster outage stopped it before the game finished, so there is no complete game yet. It is queued for re-recording.',
+    none: 'This game has not been recorded yet: the 2026-11-09 run stopped when the API balance ran out. It is queued, budget permitting.',
+    partial: 'This game was recorded with reasoning on 2026-11-09; its replay page is being built.',
+    earlier: 'This game was added in the first eco pull request and recorded then by another team with a different model (gpt-6-luna), without reasoning. It is being re-recorded with DeepSeek and reasoning.',
+    fixed: 'Both earlier recordings ended at once because every bidder passed on the opening bid. The rule now follows the paper (the first bid is already placed), and the game will be re-recorded.' };
+  const NOHIST = new Set(['eco_beer_game', 'eco_colored_trails', 'eco_grounding_negotiation', 'eco_inventory_collusion', 'eco_penny_auction',
+    'eco_price_war', 'eco_liquidation_2p', 'eco_twinmarket_lite', 'eco_marketsim_talk']);
+  let run = 'history';
+  const ALL = CAT.flatMap(([c, gs]) => gs.map(g => ({ id: g[0], name: g[1], st: g[2], players: g[3], blurb: g[4], cat: c })));
+  const ready = ALL.filter(g => g.st === 'ready');
+
+  const NS = 'http://www.w3.org/2000/svg', cache = {}, ML = 86, MR = 16;
+  const reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const el = (tag, at, parent) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (parent) parent.appendChild(e); return e; };
+  const sign = v => v > 0 ? '+' : v < 0 ? '−' : '';
+  const FMT = { price: [2, ''], price2: [2, ''], price4: [4, ''], pct: [2, '%', 1], pct0: [1, '%'], pct3: [3, '%', 1], int: [0, ''], money: [2, '$', 1], money0: [0, ''], bps: [1, ' bps', 1] };
+  function fmtVal(v, f) { if (v == null) return '—'; const [d, u, signed] = FMT[f] || [2, ''];
+    const s = Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+    if (u === '$') return (v < 0 ? '−' : signed && v > 0 ? '+' : '') + '$' + s; return (signed ? sign(v) : v < 0 ? '−' : '') + s + u; }
+  function tickFmt(v, step, f) { const p10 = Math.pow(10, Math.floor(Math.log10(step)));
+    const d = Math.max(0, Math.min(4, -Math.floor(Math.log10(step) + 1e-9) + (Math.abs(step / p10 - 2.5) < 1e-9 ? 1 : 0)));
+    const u = (FMT[f] || [])[1] || '', s = Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+    return (v < 0 ? '−' : (FMT[f] || [])[2] && v > 0 ? '+' : '') + (u === '$' ? '$' + s : s + (u === '%' ? '%' : '')); }
+  function niceTicks(lo, hi, k) { const span = (hi - lo) || Math.abs(hi) || 1, step0 = span / k, p = Math.pow(10, Math.floor(Math.log10(step0)));
+    const step = [1, 2, 2.5, 5, 10].map(m => m * p).find(s => span / s <= k) || 10 * p; const out = [];
+    for (let v = Math.ceil(lo / step) * step; v <= hi + step * 1e-6; v += step) out.push(+v.toFixed(8)); return { ticks: out, step }; }
+
+  let lastW = -1, G = null, cur = null, sel = 0, hover = null, view = [0, 0], seat = null, timer = null, speed = 1, charts = [], tl = null, pane = 'decision', animate = false;
+  const hidden = new Set();
+  const visibleSteps = () => G.steps.map((s, k) => k).filter(k => seat == null || (G.steps[k].seat || 0) === seat);
+
+  // ---------------- navigation ----------------
+  function rail() { const counts = {}; ALL.forEach(g => counts[g.st] = (counts[g.st] || 0) + 1);
+    const order = ['ready', 'replay', 'partial', 'fixed', 'old', 'earlier', 'cut', 'none'];
+    $('rail').innerHTML = `<div class="brand"><b>Eco game replays</b><span>All 50 social_game_env eco games, played by DeepSeek</span></div>
+      <div class="cover"><span><b>${counts.ready || 0} of ${ALL.length}</b> have a replay</span>
+        <div class="meter" aria-hidden="true">${order.map(k => counts[k] ? `<i style="width:${100 * counts[k] / ALL.length}%;background:var(--${ST[k][1]})"></i>` : '').join('')}</div></div>
+      ${CAT.map(([c, gs]) => `<div class="group"><h3>${esc(c)}</h3>${gs.map(g => `<button class="game" type="button" data-id="${g[0]}" title="${esc(ST[g[2]][0])}"><i class="dot" style="background:var(--${ST[g[2]][1]})"></i><span class="nm">${esc(g[1])}</span></button>`).join('')}</div>`).join('')}
+      <div class="legendrail">${order.filter(k => counts[k]).map(k => `<span><i class="dot" style="width:8px;height:8px;border-radius:50%;display:inline-block;background:var(--${ST[k][1]})"></i>${esc(ST[k][0])} · ${counts[k]}</span>`).join('')}</div>`;
+    $('rail').onclick = e => { const b = e.target.closest('.game'); if (b) show(b.dataset.id); };
+    $('pick').innerHTML = CAT.map(([c, gs]) => `<optgroup label="${esc(c)}">${gs.map(g => `<option value="${g[0]}">${esc(g[1])}${g[2] === 'ready' ? '' : ' (' + esc(ST[g[2]][0].toLowerCase()) + ')'}</option>`).join('')}</optgroup>`).join('');
+    $('pick').onchange = () => show($('pick').value); }
+  function mark(id) { document.querySelectorAll('.game').forEach(b => b.setAttribute('aria-current', b.dataset.id === id ? 'true' : 'false')); $('pick').value = id; }
+
+  // Each game's data is a script (data/<key>.js) so the page also works when opened straight from disk.
+  function loadData(key) { return new Promise((ok, fail) => { const have = window.__REPLAY_DATA__ && window.__REPLAY_DATA__[key]; if (have) return ok(have);
+    const s = document.createElement('script'); s.src = 'data/' + key + '.js';
+    s.onload = () => (window.__REPLAY_DATA__ && window.__REPLAY_DATA__[key]) ? ok(window.__REPLAY_DATA__[key]) : fail(new Error('no data'));
+    s.onerror = () => fail(new Error('missing data/' + key + '.js')); document.head.appendChild(s); }); }
+  async function show(id, which, at) {
+    const g = ALL.find(x => x.id === id) || ready[0]; id = g.id; cur = g;
+    run = NOHIST.has(id) && which === 'nohist' ? 'nohist' : 'history';
+    const key = id + (run === 'nohist' ? '__no_history' : ''), tag = '#' + id + (run === 'nohist' ? '.nohist' : '');
+    stop(); mark(id); try { if (location.hash !== tag) history.replaceState(null, '', tag); } catch (e) {}
+    const inl = window.__INLINE__ && window.__INLINE__[key];
+    if (g.st !== 'ready' && g.st !== 'replay' && !inl) { G = null; placeholder(g); return; }
+    if (!cache[key]) { $('view').innerHTML = '<p class="loading">Loading…</p>';
+      try { cache[key] = (window.__INLINE__ && window.__INLINE__[key]) || await loadData(key); }
+      catch (e) { $('view').innerHTML = '<p class="loading">This game’s data did not load. Reload the page to try again.</p>'; return; } }
+    G = cache[key]; sel = 0; hover = null; seat = null; pane = 'decision'; hidden.clear(); view = [0, G.x.n - 1]; animate = !reduce; render();
+    if (at != null && at >= 0 && at < G.steps.length) select(at);
+  }
+  const NOTE_GAME = {};
+  function placeholder(g) { const [lab, col] = ST[g.st];
+    $('view').innerHTML = `<div class="placeholder"><header class="gh"><div class="eyebrow">social_game_env · ${esc(g.id)} · ${esc(g.cat)}</div><h1>${esc(g.name)}</h1>
+      <p class="lede">${esc(g.blurb)} Players: ${esc(g.players)}.</p></header>
+      <div><span class="status"><i class="dot" style="width:8px;height:8px;border-radius:50%;display:inline-block;background:var(--${col})"></i>${esc(lab)}</span></div>
+      <section class="panel"><h2>Where this game stands</h2><p>${esc(NOTE_GAME[g.id] || NOTE[g.st] || '')}</p></section></div>`; }
+
+  // ---------------- game view ----------------
+  function spark(vals) { if (!vals || vals.length < 2) return '';
+    const W = 220, H = 36, lo = Math.min(...vals), hi = Math.max(...vals), sx = i => 2 + i * (W - 6) / (vals.length - 1), sy = v => 3 + (H - 6) * (1 - (v - lo) / ((hi - lo) || 1));
+    const d = vals.map((v, i) => (i ? 'L' : 'M') + sx(i).toFixed(1) + ' ' + sy(v).toFixed(1)).join('');
+    return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="spk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--accent);stop-opacity:.3"/><stop offset="1" style="stop-color:var(--accent);stop-opacity:0"/></linearGradient></defs>
+      <path d="${d}L${sx(vals.length - 1).toFixed(1)} ${H}L${sx(0)} ${H}Z" fill="url(#spk)"/><path d="${d}" fill="none" style="stroke:var(--accent)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+      <circle cx="${sx(vals.length - 1).toFixed(1)}" cy="${sy(vals[vals.length - 1]).toFixed(1)}" r="2.6" style="fill:var(--accent)"/></svg>`; }
+
+  const mrRun = () => run === 'nohist' ? cur.id + '_no_history' : cur.cat.startsWith('Earlier games') ? cur.id + '_deepseek' : cur.id;
+  function render() {
+    const seats = G.seatNames || ['Model'], multi = seats.length > 1;
+    $('view').innerHTML = `
+      <div style="display:grid;gap:16px">
+      <header class="gh"><div class="eyebrow">${esc(G.eyebrow)} · ${esc(cur.cat)}</div><h1>${esc(G.title)}</h1><p class="lede">${esc(G.lede)}</p><nav class="seg mr-switch" aria-label="Views of this game"><a href="../index.html#${esc(cur.id)}.rules">How to play</a><a href="../index.html#${esc(cur.id)}.watch.${esc(mrRun())}">Watch the match</a><a aria-current="page">Chart replay</a></nav></header>
+      <section class="tiles">${G.tiles.map(t => `<div class="tile"><span class="k">${esc(t.k)}</span><span class="v">${esc(t.v)}</span><span class="s">${esc(t.s || '')}</span>${spark(t.spark)}</div>`).join('')}</section>
+      <div class="bar" role="toolbar" aria-label="Playback">
+        <button class="btn primary" id="play" type="button">▶ Play</button>
+        <span class="seg" id="speed" aria-label="Playback speed">${[0.5, 1, 2, 4].map(s => `<button type="button" data-s="${s}" aria-pressed="${s === speed}">${s}×</button>`).join('')}</span>
+        <button class="btn" id="reset" type="button" disabled>Show all</button>
+        ${NOHIST.has(cur.id) ? `<span class="seg" id="runs" aria-label="Recording"><button type="button" data-r="history" aria-pressed="${run === 'history'}" title="Each seat also saw its own recent turns as chat history">With chat history</button><button type="button" data-r="nohist" aria-pressed="${run === 'nohist'}" title="Each prompt was the seat's only input, as in the source">Without chat history</button></span>` : ''}
+        ${multi ? `<span class="seg" id="seats" aria-label="Show one player"><button type="button" data-k="" aria-pressed="true">All players</button>${seats.map((s, k) => `<button type="button" data-k="${k}" aria-pressed="false">${esc(s)}</button>`).join('')}</span>` : ''}
+        <span class="hint">Drag on a chart to zoom · <kbd>Space</kbd> play · <kbd>←</kbd> <kbd>→</kbd> step · <kbd>Esc</kbd> reset</span>
+      </div>
+      <div class="main"><div class="stack" id="charts"></div>
+        <aside class="panel ticket" aria-live="polite">
+          <div class="nav"><button class="btn" id="prev" type="button" aria-label="Previous step">←</button><input id="slider" type="range" min="0" step="1" aria-label="Step"><button class="btn" id="next" type="button" aria-label="Next step">→</button><span class="count" id="count"></span></div>
+          <div class="head" id="head"></div>
+          <div class="ttabs" role="tablist"><button type="button" role="tab" data-p="decision">Decision</button><button type="button" role="tab" data-p="observation">Observation</button></div>
+          <div class="pane" id="p-decision"><div><p class="label">Action</p><div class="actcard"><span class="pill" id="pill"></span><div class="chips" id="chips"></div></div></div></div>
+          <div class="pane" id="p-observation" hidden><p class="meta">The game state as the model saw it at this step (rules and action format omitted).</p><pre class="box" id="state"></pre></div>
+        </aside></div>
+      <footer>${esc(G.foot || '')}</footer></div>`;
+    tl = makeTimeline(); charts = G.charts.map((c, ci) => makeChart(c, ci));
+    if (G.book) { const b = document.createElement('section'); b.className = 'panel';
+      b.innerHTML = `<h2>${esc(G.book.title)}</h2><p class="sub">${esc(G.book.sub)}</p><div class="legend"><span class="static"><i class="sw" style="background:var(--c2)"></i>Asks</span><span class="static"><i class="sw" style="background:var(--c1)"></i>Bids</span></div><div class="chart" id="book"></div>`;
+      $('charts').appendChild(b); }
+    if (G.feed && G.feed.length) { const f = document.createElement('section'); f.className = 'panel';
+      f.innerHTML = `<h2>${esc(G.feedTitle || 'Transcript')}</h2><p class="sub">${esc(G.feedSub || 'Everything said or done up to the selected step; the selected step is highlighted.')}</p><div class="feed" id="feed"></div>`;
+      $('charts').appendChild(f);
+      $('feed').innerHTML = G.feed.map((e, k) => { const kd = G.kinds[e.kind] || [e.kind || '', 'muted'];
+        return `<div class="fe" data-x="${e.x}" data-k="${k}"><span class="w">${esc(e.who || '')}</span><span class="x">${esc(G.x.labels[e.x] || '')}</span>${e.kind ? `<span class="k" style="background:var(--${kd[1]})">${esc(kd[0])}</span>` : '<span></span>'}<span class="tx">${esc(e.text || '')}</span></div>`; }).join(''); }
+    const sl = $('slider'); sl.max = G.steps.length - 1; sl.oninput = () => select(+sl.value);
+    $('prev').onclick = () => step(-1); $('next').onclick = () => step(1);
+    document.querySelector('.ttabs').onclick = e => { const b = e.target.closest('button'); if (b) { pane = b.dataset.p; panes(); } };
+    $('play').onclick = () => timer ? stop() : play();
+    $('speed').onclick = e => { const b = e.target.closest('button'); if (!b) return; speed = +b.dataset.s;
+      [...$('speed').children].forEach(x => x.setAttribute('aria-pressed', x === b)); if (timer) { stop(); play(); } };
+    $('reset').onclick = () => setView(0, G.x.n - 1);
+    if ($('runs')) $('runs').onclick = e => { const b = e.target.closest('button'); if (b && b.dataset.r !== run) show(cur.id, b.dataset.r); };
+    if (multi) $('seats').onclick = e => { const b = e.target.closest('button'); if (!b) return; seat = b.dataset.k === '' ? null : +b.dataset.k;
+      [...$('seats').children].forEach(x => x.setAttribute('aria-pressed', x === b));
+      const vs = visibleSteps(); if (seat != null && (G.steps[sel].seat || 0) !== seat && vs.length) select(vs.find(k => k >= sel) ?? vs[vs.length - 1]); else redraw(); };
+    panes(); redraw(); select(0); animate = false;
+  }
+  function panes() { document.querySelectorAll('.ttabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.p === pane));
+    ['decision', 'observation'].forEach(p => $('p-' + p).hidden = p !== pane); }
+
+  // ---------------- shared x mapping, zoom ----------------
+  function xmap(W, banded) { const a = view[0], b = view[1], cnt = b - a + 1, iw = W - ML - MR, cw = iw / cnt;
+    const x = i => ML + (banded ? (i - a + .5) * cw : (cnt === 1 ? iw / 2 : (i - a) * iw / (cnt - 1)));
+    const at = px => Math.max(a, Math.min(b, banded ? a + Math.floor((px - ML) / cw) : a + Math.round((px - ML) / iw * (cnt - 1))));
+    return { x, at, iw, cw, slot: banded ? cw : iw / Math.max(1, cnt - 1) }; }
+  const firstBanded = () => !!(G.charts[0] && (G.charts[0].candles || G.charts[0].bars));
+  function setView(a, b) { a = Math.max(0, Math.min(a, G.x.n - 1)); b = Math.max(a, Math.min(b, G.x.n - 1)); view = [a, b];
+    const r = $('reset'); if (r) r.disabled = a === 0 && b === G.x.n - 1; redraw(); }
+  function ensureVisible(i) { if (i >= view[0] && i <= view[1]) return; const span = view[1] - view[0];
+    const a = Math.max(0, Math.min(i - Math.floor(span / 2), G.x.n - 1 - span)); setView(a, a + span); }
+  function interact(svg, W, map, onHover, h) {
+    let down = null, band = null;
+    const px = ev => { const b = svg.getBoundingClientRect(); return (ev.clientX - b.left) * W / (b.width || W); };
+    svg.onmousedown = ev => { down = px(ev); band = el('rect', { x: down, y: 0, width: 0, height: h, fill: 'var(--accent)', 'fill-opacity': .08, stroke: 'var(--accent)', 'stroke-dasharray': '3 3' }, svg); };
+    svg.onmousemove = ev => { const p = px(ev); if (down != null && band) { band.setAttribute('x', Math.min(down, p)); band.setAttribute('width', Math.abs(p - down)); }
+      hover = map.at(p); onHover(ev); };
+    svg.onmouseleave = () => { hover = null; if (band) { band.remove(); band = null; } down = null; updateAll(); };
+    svg.onmouseup = ev => { const p = px(ev); if (band) { band.remove(); band = null; }
+      if (down != null && Math.abs(p - down) > 6) { const i = map.at(Math.min(p, down)), j = map.at(Math.max(p, down)); if (j > i) setView(i, j); }
+      else selectAt(map.at(p)); down = null; };
+    svg.ondblclick = () => setView(0, G.x.n - 1);
+  }
+  function selectAt(i) { const vs = visibleSteps(); let best = -1, bd = 1e9; vs.forEach(k => { const d = Math.abs(G.steps[k].x - i); if (d < bd) { bd = d; best = k; } }); if (best >= 0) select(best); }
+
+  // ---------------- decision timeline ----------------
+  function makeTimeline() { const box = document.createElement('section'); box.className = 'panel';
+    const kinds = Object.entries(G.kinds).map(([k, [lab, col]]) => `<span class="static"><i class="sw" style="background:var(--${col})"></i>${esc(lab)}</span>`).join('');
+    box.innerHTML = `<h2>Decisions</h2><p class="sub">Each block is one decision by the model, colored by action; blocks stacked in one slot happened at the same time. Click a block to open it.</p><div class="legend">${kinds}</div><div class="chart"></div>`;
+    $('charts').appendChild(box); const host = box.querySelector('.chart'), tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; host.appendChild(tip);
+    return { host, tip, svg: null }; }
+  function drawTimeline() { const t = tl, seats = G.seatNames || ['Model'], W = Math.max(340, t.host.clientWidth || 700);
+    const map = xmap(W, firstBanded()), groups = {}; let kmax = 1;
+    G.steps.forEach((s, k) => { const key = (s.seat || 0) + ':' + s.x; (groups[key] = groups[key] || []).push(k); kmax = Math.max(kmax, groups[key].length); });
+    const laneH = Math.max(16, Math.min(64, kmax * 7)), gap = 8, H = seats.length * (laneH + gap) + 18;
+    if (t.svg) t.svg.remove(); const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'plot', role: 'img', 'aria-label': 'Decisions' }); t.svg = svg; t.map = map; t.cells = [];
+    seats.forEach((name, si) => { const y0 = si * (laneH + gap);
+      el('rect', { x: ML, y: y0, width: map.iw, height: laneH, rx: 5, fill: 'var(--bg)' }, svg);
+      const lab = el('text', { x: ML - 10, y: y0 + laneH / 2 + 4, 'text-anchor': 'end', class: 'lane-label' }, svg); lab.textContent = name;
+      if (seat != null && seat !== si) lab.setAttribute('opacity', .4); });
+    Object.entries(groups).forEach(([key, ks]) => { const [si, xi] = key.split(':').map(Number); if (xi < view[0] || xi > view[1]) return;
+      const y0 = si * (laneH + gap), ch = laneH / kmax, w = Math.max(2, Math.min(18, map.slot * .72));
+      ks.forEach((k, j) => { const s = G.steps[k], col = (G.kinds[s.kind] || [0, 'muted'])[1];
+        const r = el('rect', { x: map.x(xi) - w / 2, y: y0 + laneH - (j + 1) * ch + .5, width: w, height: Math.max(1.5, ch - 1), rx: Math.min(2, w / 3), fill: `var(--${col})` }, svg);
+        if (seat != null && seat !== si) r.setAttribute('opacity', .22); t.cells.push([r, k]); }); });
+    const want = Math.max(2, Math.floor(map.iw / 96)), every = Math.max(1, Math.ceil((view[1] - view[0] + 1) / want));
+    for (let i = view[0]; i <= view[1]; i += every) el('text', { x: map.x(i), y: H - 4, 'text-anchor': 'middle' }, svg).textContent = G.x.labels[i] || '';
+    t.selBox = el('rect', { fill: 'none', stroke: 'var(--sel)', 'stroke-width': 2, rx: 3 }, svg); t.hov = el('line', { y1: 0, y2: H - 16, stroke: 'var(--ink-3)', 'stroke-dasharray': '3 3', visibility: 'hidden' }, svg);
+    t.host.insertBefore(svg, t.tip);
+    interact(svg, W, map, ev => updateAll(ev, 'tl'), H - 16); }
+  function updateTimeline(ev) { const t = tl; if (!t || !t.svg) return; const cell = t.cells.find(c => c[1] === sel);
+    if (cell) { const r = cell[0]; ['x', 'y', 'width', 'height'].forEach(a => t.selBox.setAttribute(a, +r.getAttribute(a) + (a === 'x' || a === 'y' ? -2 : 4))); t.selBox.setAttribute('visibility', 'visible'); }
+    else t.selBox.setAttribute('visibility', 'hidden');
+    if (hover != null) { t.hov.setAttribute('x1', t.map.x(hover)); t.hov.setAttribute('x2', t.map.x(hover)); t.hov.setAttribute('visibility', 'visible'); } else t.hov.setAttribute('visibility', 'hidden');
+    if (ev && hover != null) { const here = G.steps.filter(s => s.x === hover && (seat == null || (s.seat || 0) === seat));
+      tipAt(t, ev, [`<b>${esc(G.x.labels[hover] || '')}</b>`].concat(here.slice(0, 8).map(s => `${esc((G.kinds[s.kind] || [s.kind])[0])} · ${esc((G.seatNames || [''])[s.seat || 0] || '')}`))
+        .concat(here.length > 8 ? [`… ${here.length - 8} more`] : []).concat([`<span style="color:var(--ink-3)">Click to open the first one</span>`])); }
+    else t.tip.hidden = true; }
+
+  // ---------------- charts ----------------
+  function makeChart(spec, ci) {
+    const box = document.createElement('section'); box.className = 'panel';
+    box.innerHTML = `<h2>${esc(spec.title)}</h2><p class="sub">${esc(spec.sub || '')}</p><div class="legend"></div><div class="chart"></div>`;
+    $('charts').appendChild(box);
+    const c = { spec, ci, host: box.querySelector('.chart'), legend: box.querySelector('.legend'), svg: null };
+    c.tip = document.createElement('div'); c.tip.className = 'tip'; c.tip.hidden = true; c.host.appendChild(c.tip);
+    spec.lines = spec.lines || [];
+    const items = spec.lines.filter(l => l.name).map(l => ({ key: l.name, html: l.noline ? `<i class="sw" style="background:var(--${l.color});border-radius:50%;width:9px;height:9px"></i>`
+        : `<i class="ln" style="border-top-color:var(--${l.color});border-top-style:${l.dash ? 'dashed' : 'solid'}"></i>` }))
+      .concat((spec.bars || []).map(b => ({ key: b.name, html: `<i class="sw" style="background:var(--${b.color})"></i>` })));
+    items.forEach(it => { const s = document.createElement('span'); s.className = 'item'; s.tabIndex = 0; s.setAttribute('role', 'button'); s.setAttribute('aria-pressed', 'true');
+      s.innerHTML = it.html + esc(it.key); const toggle = () => { const k = ci + ':' + it.key; hidden.has(k) ? hidden.delete(k) : hidden.add(k); s.setAttribute('aria-pressed', !hidden.has(k)); draw(c); updateChart(c); };
+      s.onclick = toggle; s.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } }; c.legend.appendChild(s); });
+    const statics = (spec.candles ? ['<i class="sw" style="background:var(--c1)"></i>Up day', '<i class="sw" style="background:var(--c2)"></i>Down day'] : [])
+      .concat(spec.band ? [`<i class="sw" style="background:var(--c1)"></i>${esc(spec.band.pos)}`, `<i class="sw" style="background:var(--c2)"></i>${esc(spec.band.neg)}`] : [])
+      .concat(spec.markers && spec.markers.length ? ['<span style="color:var(--c1)">▲</span> Buy&nbsp;&nbsp;<span style="color:var(--c2)">▼</span> Sell'] : [])
+      .concat(spec.flags && spec.flags.length ? ['<i class="ln" style="border-top-color:var(--c4);border-top-style:dashed"></i>News release'] : [])
+      .concat(((spec.grid || {}).legend || []).map(([lab, col]) => `<i class="sw" style="background:var(--${col})"></i>${esc(lab)}`));
+    statics.forEach(h => { const s = document.createElement('span'); s.className = 'static'; s.innerHTML = h; c.legend.appendChild(s); });
+    return c;
+  }
+
+  function drawGrid(c) {
+    const s = c.spec, gd = s.grid, host = c.host, W = Math.max(340, host.clientWidth || 700), rh = gd.rowHeight || 26, H = gd.rows.length * rh + 24;
+    const map = xmap(W, true), a = view[0], b = view[1];
+    if (c.svg) c.svg.remove(); const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'plot', role: 'img', 'aria-label': s.title }); c.svg = svg;
+    gd.rows.forEach((name, r) => { const y0 = r * rh;
+      el('text', { x: ML - 10, y: y0 + rh / 2 + 4, 'text-anchor': 'end', class: 'lane-label' }, svg).textContent = name;
+      for (let i = a; i <= b; i++) { const cell = (gd.cells[r] || [])[i]; const w = Math.max(2, map.cw - 3), x0 = map.x(i) - w / 2;
+        if (!cell) { el('rect', { x: x0, y: y0 + 2, width: w, height: rh - 4, rx: 4, fill: 'var(--bg)' }, svg); continue; }
+        el('rect', { x: x0, y: y0 + 2, width: w, height: rh - 4, rx: 4, fill: `var(--${cell.c || 'muted'})`, 'fill-opacity': cell.o != null ? cell.o : .9 }, svg);
+        if (cell.t != null && w >= String(cell.t).length * 7 + 6) el('text', { x: map.x(i), y: y0 + rh / 2 + 4, 'text-anchor': 'middle', style: 'fill:#fff;font-weight:500' }, svg).textContent = cell.t; } });
+    const want = Math.max(2, Math.floor(map.iw / 96)), every = Math.max(1, Math.ceil((b - a + 1) / want));
+    for (let i = a; i <= b; i += every) el('text', { x: map.x(i), y: H - 6, 'text-anchor': 'middle' }, svg).textContent = G.x.labels[i] || '';
+    c.selLine = el('rect', { y: 0, height: gd.rows.length * rh, fill: 'none', stroke: 'var(--sel)', 'stroke-width': 1.5, rx: 4 }, svg);
+    c.hovLine = el('line', { y1: 0, y2: gd.rows.length * rh, stroke: 'var(--ink-3)', 'stroke-dasharray': '3 3', visibility: 'hidden' }, svg);
+    c.dots = []; c.map = map; c.y = () => 0; c.isGrid = true; host.insertBefore(svg, c.tip);
+    interact(svg, W, map, ev => updateAll(ev, c), gd.rows.length * rh);
+  }
+  function draw(c) {
+    if (c.spec.grid) return drawGrid(c);
+    const s = c.spec, host = c.host, W = Math.max(340, host.clientWidth || 700), H = s.height, banded = !!(s.candles || s.bars);
+    const m = { t: 14, b: s.band ? 40 : 26 }, ih = H - m.t - m.b, map = xmap(W, banded), x = map.x, a = view[0], b = view[1];
+    const show = l => !hidden.has(c.ci + ':' + l.name), inV = i => i >= a && i <= b;
+    const vals = [];
+    s.lines.filter(show).forEach(l => l.v.forEach((v, i) => v != null && inV(i) && vals.push(v)));
+    if (s.candles) s.candles.forEach((k, i) => k && inV(i) && vals.push(k[1], k[2]));
+    if (s.bars) { s.bars.filter(show).forEach(bb => bb.v.forEach((v, i) => v != null && inV(i) && vals.push(v))); vals.push(0); }
+    if (s.zero) vals.push(0); if (!vals.length) vals.push(0, 1);
+    let lo = Math.min(...vals), hi = Math.max(...vals); const pad = (hi - lo || Math.abs(hi) || 1) * .1; lo -= pad; hi += pad;
+    if (s.bars && Math.min(...vals) >= 0) lo = 0;
+    const { ticks, step } = niceTicks(lo, hi, 4), y0 = Math.min(lo, ticks[0]), y1 = Math.max(hi, ticks[ticks.length - 1]);
+    const y = v => m.t + ih - (v - y0) / ((y1 - y0) || 1) * ih;
+    if (c.svg) c.svg.remove();
+    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'plot', role: 'img', 'aria-label': s.title }); c.svg = svg;
+    const defs = el('defs', {}, svg), clipId = `clip${c.ci}`, cp = el('clipPath', { id: clipId }, defs); el('rect', { x: ML - 1, y: 0, width: map.iw + 2, height: H }, cp);
+    const grad = col => { const id = `g${c.ci}${col}`; if (!defs.querySelector('#' + id)) { const g = el('linearGradient', { id, x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+        el('stop', { offset: 0, style: `stop-color:var(--${col});stop-opacity:.26` }, g); el('stop', { offset: 1, style: `stop-color:var(--${col});stop-opacity:.02` }, g); } return `url(#${id})`; };
+    ticks.forEach(t => { el('line', { x1: ML, x2: W - MR, y1: y(t), y2: y(t), stroke: 'var(--grid)', 'stroke-width': 1 }, svg);
+      el('text', { x: ML - 8, y: y(t) + 4, 'text-anchor': 'end' }, svg).textContent = tickFmt(t, step, s.fmt); });
+    if (s.zero && y0 < 0 && y1 > 0) el('line', { x1: ML, x2: W - MR, y1: y(0), y2: y(0), stroke: 'var(--ink-3)', 'stroke-width': 1 }, svg);
+    const want = Math.max(2, Math.floor(map.iw / 96)), every = Math.max(1, Math.ceil((b - a + 1) / want)), xl = m.t + ih + (s.band ? 34 : 18);
+    for (let i = a; i <= b; i += every) el('text', { x: x(i), y: xl, 'text-anchor': 'middle' }, svg).textContent = G.x.labels[i] || '';
+    const g = el('g', { 'clip-path': `url(#${clipId})` }, svg);
+    if (s.band) { const sy = m.t + ih + 8, bw = map.slot;
+      s.band.v.forEach((v, i) => { if (v && inV(i)) el('rect', { x: x(i) - bw / 2, y: sy, width: bw + .4, height: 10, fill: v > 0 ? 'var(--c1)' : 'var(--c2)' }, svg); }); }
+    if (s.candles) s.candles.forEach((k, i) => { if (!k || !inV(i)) return; const [o, h, l, cl] = k, col = cl >= o ? 'var(--c1)' : 'var(--c2)', bw = Math.max(1.5, map.cw * .62);
+      el('line', { x1: x(i), x2: x(i), y1: y(h), y2: y(l), stroke: col, 'stroke-width': 1.2 }, g);
+      el('rect', { x: x(i) - bw / 2, y: Math.min(y(o), y(cl)), width: bw, height: Math.max(1.2, Math.abs(y(o) - y(cl))), fill: col, rx: 1 }, g); });
+    if (s.bars) { const vis = s.bars.filter(show), gw = map.cw * .72, bw = gw / Math.max(1, vis.length), yb = y(Math.max(y0, Math.min(0, y1)));
+      vis.forEach((bb, j) => bb.v.forEach((v, i) => { if (v == null || !inV(i)) return; const x0 = x(i) - gw / 2 + j * bw, yv = y(v);
+        el('rect', { x: x0 + 1, y: Math.min(yv, yb), width: Math.max(1, bw - 2), height: Math.max(1, Math.abs(yb - yv)), fill: `var(--${bb.color})`, rx: 2 }, g); })); }
+    const seatName = seat == null ? null : (G.seatNames || [])[seat], seatNames = G.seatNames || [];
+    s.lines.filter(show).forEach(l => { let d = '', pen = false, first = null, lastX = null; const pts = [];
+      l.v.forEach((v, i) => { if (v == null) { pen = false; return; } const X = x(i), Y = y(v); if (inV(i)) pts.push([X, Y]);
+        if (!pen) { d += 'M' + X.toFixed(1) + ' ' + Y.toFixed(1); if (first == null) first = X; } else d += l.step ? 'H' + X.toFixed(1) + 'V' + Y.toFixed(1) : 'L' + X.toFixed(1) + ' ' + Y.toFixed(1);
+        pen = true; lastX = X; });
+      const dim = seatName && seatNames.includes(l.name) && l.name !== seatName ? .2 : 1, base = y(Math.max(y0, Math.min(0, y1))).toFixed(1);
+      if (l.area && pts.length > 1) el('path', { d: d + `L${lastX.toFixed(1)} ${base}L${first.toFixed(1)} ${base}Z`, fill: grad(l.color), opacity: dim }, g);
+      if (!l.noline && d) { const p = el('path', { d, fill: 'none', stroke: `var(--${l.color})`, 'stroke-width': l.thin ? 1.2 : seatName && l.name === seatName ? 3 : 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', 'stroke-dasharray': l.dash ? '5 4' : 'none', opacity: dim }, g);
+        if (animate && !l.dash) { try { const len = p.getTotalLength(); if (len) { p.style.setProperty('--len', len); p.setAttribute('stroke-dasharray', len); p.classList.add('draw'); } } catch (e) {} } }
+      if (l.dots || pts.length === 1) pts.forEach(([X, Y]) => el('circle', { cx: X, cy: Y, r: l.noline ? 4.5 : 3.5, fill: `var(--${l.color})`, stroke: 'var(--surface)', 'stroke-width': 1.5, opacity: dim }, g)); });
+    (s.markers || []).forEach(mk => { if (mk.y == null || !inV(mk.x)) return; const up = mk.kind === 'buy', cx = x(mk.x), cy = y(mk.y) + (up ? 12 : -12), z = 5.5;
+      el('path', { d: up ? `M${cx} ${cy - z}L${cx + z} ${cy + z}L${cx - z} ${cy + z}Z` : `M${cx} ${cy + z}L${cx + z} ${cy - z}L${cx - z} ${cy - z}Z`, fill: up ? 'var(--c1)' : 'var(--c2)', stroke: 'var(--surface)', 'stroke-width': 1.5 }, g); });
+    (s.flags || []).forEach(f => { if (!inV(f.x)) return; el('line', { x1: x(f.x), x2: x(f.x), y1: m.t, y2: m.t + ih, stroke: 'var(--c4)', 'stroke-width': 1.5, 'stroke-dasharray': '4 3' }, g);
+      el('circle', { cx: x(f.x), cy: m.t + 3, r: 4, fill: 'var(--c4)' }, svg); });
+    const ends = s.lines.filter(l => l.end && show(l)).map(l => { let i = Math.min(b, l.v.length - 1); while (i >= a && l.v[i] == null) i--; return i < a ? null : { l, i, yy: y(l.v[i]) - 7 }; }).filter(Boolean).sort((p, q) => p.yy - q.yy);
+    for (let k = 1; k < ends.length; k++) if (ends[k].yy - ends[k - 1].yy < 13) ends[k].yy = ends[k - 1].yy + 13;
+    ends.forEach(e => { el('text', { x: W - MR, y: e.yy, 'text-anchor': 'end', style: 'fill:var(--ink-2)' }, svg).textContent = e.l.name + ' ' + fmtVal(e.l.v[e.i], s.fmt); });
+    c.selLine = el('line', { y1: m.t, y2: m.t + ih, stroke: 'var(--sel)', 'stroke-width': 1.5 }, svg);
+    c.hovLine = el('line', { y1: m.t, y2: m.t + ih, stroke: 'var(--ink-3)', 'stroke-width': 1, 'stroke-dasharray': '3 3', visibility: 'hidden' }, svg);
+    c.dots = s.lines.filter(l => show(l) && !l.noline).map(l => [l, el('circle', { r: 4, fill: `var(--${l.color})`, stroke: 'var(--surface)', 'stroke-width': 2, visibility: 'hidden' }, svg)]);
+    c.map = map; c.y = y; host.insertBefore(svg, c.tip);
+    interact(svg, W, map, ev => updateAll(ev, c), m.t + ih);
+  }
+  function tipAt(c, ev, rows) { c.tip.innerHTML = rows.join('<br>'); c.tip.hidden = false;
+    const hb = c.host.getBoundingClientRect(); let left = ev.clientX - hb.left + 14; if (left + c.tip.offsetWidth > hb.width) left = ev.clientX - hb.left - c.tip.offsetWidth - 14;
+    c.tip.style.left = Math.max(0, left) + 'px'; c.tip.style.top = Math.max(0, ev.clientY - hb.top - c.tip.offsetHeight - 12) + 'px'; }
+  function updateChart(c, ev) {
+    if (!c.svg) return; const s = c.spec, xs = G.steps[sel].x, i = hover == null ? xs : hover, show = l => !hidden.has(c.ci + ':' + l.name), vis = v => v >= view[0] && v <= view[1];
+    c.selLine.setAttribute('visibility', vis(xs) ? 'visible' : 'hidden');
+    if (c.isGrid) { c.selLine.setAttribute('x', c.map.x(xs) - c.map.cw / 2); c.selLine.setAttribute('width', c.map.cw); }
+    else { c.selLine.setAttribute('x1', c.map.x(xs)); c.selLine.setAttribute('x2', c.map.x(xs)); }
+    c.hovLine.setAttribute('x1', c.map.x(i)); c.hovLine.setAttribute('x2', c.map.x(i)); c.hovLine.setAttribute('visibility', hover == null ? 'hidden' : 'visible');
+    c.dots.forEach(([l, d]) => { const v = l.v[i]; if (v == null || !vis(i)) { d.setAttribute('visibility', 'hidden'); return; } d.setAttribute('cx', c.map.x(i)); d.setAttribute('cy', c.y(v)); d.setAttribute('visibility', 'visible'); });
+    if (hover != null && ev && s.grid) { const rows = [`<b>${esc(G.x.labels[i] || '')}</b>`].concat(s.grid.rows.map((r, k) => { const cl = (s.grid.cells[k] || [])[i];
+        return `${esc(r)}: ${cl ? esc(cl.tip || cl.t || '') : '—'}`; })); tipAt(c, ev, rows); return; }
+    if (hover != null && ev) { const rows = [`<b>${esc(G.x.labels[i] || '')}</b>`];
+      if (s.candles && s.candles[i]) { const [o, h, l, cl] = s.candles[i]; rows.push(`O ${o.toFixed(2)}&nbsp;&nbsp;H ${h.toFixed(2)}`, `L ${l.toFixed(2)}&nbsp;&nbsp;C ${cl.toFixed(2)}`); }
+      s.lines.filter(show).forEach(l => rows.push(`<span style="color:var(--${l.color})">●</span> ${esc(l.name)} ${fmtVal(l.v[i], s.fmt)}`));
+      (s.bars || []).filter(show).forEach(b => rows.push(`<span style="color:var(--${b.color})">■</span> ${esc(b.name)} ${fmtVal(b.v[i], s.fmt)}`));
+      (s.flags || []).filter(f => f.x === i).forEach(f => rows.push(`<span style="display:block;white-space:normal;max-width:300px;color:var(--ink-2)">News: ${esc(f.text)}</span>`));
+      tipAt(c, ev, rows); } else c.tip.hidden = true;
+  }
+  function updateAll(ev, src) { charts.forEach(c => updateChart(c, src === c ? ev : null)); updateTimeline(src === 'tl' ? ev : null); }
+  function redraw() { if (!G) return; lastW = $('view').clientWidth; drawTimeline(); charts.forEach(c => draw(c)); updateAll(); if (G.book) drawBook(G.steps[sel].book); }
+
+  // ---------------- ticket ----------------
+  function chipsOf(act) { let j; try { j = JSON.parse(act); } catch (e) { return [`<span class="chip">${esc(act)}</span>`]; }
+    const p = j.payload || {}, out = [], val = v => typeof v === 'object' ? JSON.stringify(v) : String(v);
+    Object.entries(p).forEach(([k, v]) => {
+      if (Array.isArray(v) && v.length && typeof v[0] === 'object') v.slice(0, 12).forEach(o => out.push(`<span class="chip">${Object.entries(o).map(([a, b]) => `${esc(a)} <b>${esc(val(b))}</b>`).join(' · ')}</span>`));
+      else if (v && typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length <= 8) Object.entries(v).forEach(([a, b]) => out.push(`<span class="chip">${esc(k)}.${esc(a)} <b>${esc(val(b))}</b></span>`));
+      else { const s = val(v); out.push(`<span class="chip">${esc(k)} <b>${esc(s.length > 260 ? s.slice(0, 260) + ' …' : s)}</b></span>`); } });
+    return out.length ? out : ['<span class="chip">No parameters</span>']; }
+  function select(k) {
+    sel = Math.max(0, Math.min(G.steps.length - 1, k)); const st = G.steps[sel];
+    $('slider').value = sel; $('count').textContent = `Step ${sel + 1} of ${G.steps.length}`;
+    const who = (G.seatNames || [])[st.seat || 0]; $('head').innerHTML = (G.seatNames && G.seatNames.length > 1 ? `<span class="who">${esc(who)}</span>` : '') + esc(st.head);
+    const kd = G.kinds[st.kind] || [st.kind, 'muted'], p = $('pill'); p.textContent = kd[0]; p.style.background = `var(--${kd[1]})`;
+    $('chips').innerHTML = chipsOf(st.act).join('');
+    $('state').textContent = st.state || 'Not recorded.';
+    ensureVisible(st.x); updateAll(); if (G.book) drawBook(st.book);
+    const fd = $('feed'); if (fd) { let lastNow = null; fd.querySelectorAll('.fe').forEach(e => { const x = +e.dataset.x, k = +e.dataset.k, f = G.feed[k];
+        const now = f.step != null ? f.step === sel : x === st.x, later = f.step != null ? f.step > sel : x > st.x;
+        e.classList.toggle('now', now); e.classList.toggle('later', later); if (now) lastNow = e; });
+      if (lastNow) fd.scrollTop = Math.max(0, lastNow.offsetTop - fd.offsetTop - fd.clientHeight / 2); else fd.scrollTop = fd.scrollHeight; }
+  }
+  function step(d) { const vs = visibleSteps(); if (!vs.length) return; const pos = vs.indexOf(sel);
+    const nxt = pos < 0 ? (d > 0 ? vs.find(k => k > sel) : [...vs].reverse().find(k => k < sel)) : vs[pos + d];
+    if (nxt != null) select(nxt); else if (d > 0) stop(); }
+  function play() { if (!G) return; const vs = visibleSteps(); if (vs.indexOf(sel) === vs.length - 1) select(vs[0]);
+    timer = setInterval(() => step(1), 1100 / speed); const b = $('play'); if (b) b.textContent = '❚❚ Pause'; }
+  function stop() { if (timer) clearInterval(timer); timer = null; const b = $('play'); if (b) b.textContent = '▶ Play'; }
+
+  function drawBook(bk) { const host = $('book'); if (!host) return; host.innerHTML = '';
+    if (!bk || (!(bk.asks || []).length && !(bk.bids || []).length)) { host.innerHTML = '<p class="sub">No order book at this step (for example before the open).</p>'; return; }
+    const asks = bk.asks.slice().sort((a, b) => b[0] - a[0]), bids = bk.bids.slice().sort((a, b) => b[0] - a[0]);
+    const rows = asks.map(r => ['ask', r[0], r[1]]).concat([['last', bk.last, null]]).concat(bids.map(r => ['bid', r[0], r[1]]));
+    const W = Math.max(340, host.clientWidth || 640), rh = 26, H = rows.length * rh + 6, lw = 132, maxQ = Math.max(1, ...rows.filter(r => r[2] != null).map(r => r[2]));
+    const fp = v => v == null ? '—' : (bk.unit === '$' ? '$' + v.toFixed(2) : v.toLocaleString('en-US'));
+    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Order book' });
+    rows.forEach((r, k) => { const yy = 3 + k * rh, side = r[0], p = r[1], q = r[2];
+      if (side === 'last') { el('line', { x1: lw, x2: W - 8, y1: yy + rh / 2, y2: yy + rh / 2, stroke: 'var(--ink-3)', 'stroke-dasharray': '3 3' }, svg);
+        el('text', { x: lw - 10, y: yy + rh / 2 + 4, 'text-anchor': 'end', style: 'fill:var(--ink)' }, svg).textContent = 'Last ' + fp(p); return; }
+      if (bk.mine != null && Math.abs(p - bk.mine) < 1e-9) el('rect', { x: 4, y: yy + 1, width: W - 8, height: rh - 2, rx: 5, fill: 'none', stroke: 'var(--ink)', 'stroke-dasharray': '4 3' }, svg);
+      el('text', { x: lw - 10, y: yy + rh / 2 + 4, 'text-anchor': 'end' }, svg).textContent = fp(p);
+      el('rect', { x: lw, y: yy + 4, width: W - lw - 8, height: rh - 8, rx: 3, fill: 'var(--bg)' }, svg);
+      const bw = Math.max(2, (W - lw - 96) * q / maxQ);
+      el('rect', { x: lw, y: yy + 4, width: bw, height: rh - 8, rx: 3, fill: side === 'ask' ? 'var(--c2)' : 'var(--c1)', 'fill-opacity': .88 }, svg);
+      el('text', { x: lw + bw + 6, y: yy + rh / 2 + 4 }, svg).textContent = q.toLocaleString('en-US') + ' sh'; });
+    host.appendChild(svg); }
+
+  document.addEventListener('keydown', e => { if (!G) return; const tag = e.target.tagName;
+    if ((tag === 'INPUT' && e.target.type !== 'range') || tag === 'SELECT') return;
+    if (e.key === 'ArrowLeft') { step(-1); e.preventDefault(); } else if (e.key === 'ArrowRight') { step(1); e.preventDefault(); }
+    else if (e.key === ' ' && tag !== 'BUTTON' && !(e.target.getAttribute && e.target.getAttribute('role') === 'button')) { timer ? stop() : play(); e.preventDefault(); }
+    else if (e.key === 'Escape') setView(0, G.x.n - 1); });
+  let rt = null; const onResize = () => { const w = $('view').clientWidth; if (w === lastW) return; clearTimeout(rt); rt = setTimeout(redraw, 80); };
+  if (window.ResizeObserver) new ResizeObserver(onResize).observe($('view')); else window.addEventListener('resize', onResize);
+  window.__tradingReplay = { show, select, setView, play, stop };
+  const h0 = (location.hash || '').slice(1).split('.');
+  const at = (h0.find(p => /^s\d+$/.test(p)) || '').slice(1);
+  rail(); show(h0[0] || ready[0].id, h0.includes('nohist') ? 'nohist' : undefined, at === '' ? null : Number(at));
+})();
+</script>
+
+</body>
+</html>

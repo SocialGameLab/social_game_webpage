@@ -1,0 +1,51 @@
+# Buyer-Seller Bargaining: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_bargaining
+title: Buyer-Seller Bargaining
+kind: Negotiation
+players: 2 players · 6 rounds
+tagline: >-
+  A buyer with a secret budget and a seller with a secret cost haggle over
+  one product for up to six rounds. Each side scores the share of the gap
+  between budget and cost that it keeps.
+view: deals
+view_options: {offer_events: [offer], round_events: [deal]}
+page_link: {label: Chart replay, href: "eco/index.html#eco_bargaining"}
+setup:
+  - One product is drawn with a public codename and list price, and the
+    seed decides which seat buys and which sells.
+  - Only the buyer knows its budget and only the seller knows its cost.
+  - The seller may never ask or accept a price below its cost.
+  - In some instances the budget is below the cost, so no deal suits both
+    sides and walking away is the right call.
+round:
+  - The buyer sends one message, a public `talk` text plus one action
+    (`buy` at a price, `deal` to accept the seller's latest offer, `await`
+    or `quit`).
+  - The seller replies the same way with `sell`, `deal`, `await` or `quit`.
+  - If nobody has ended the game, the next round starts, up to 6 rounds.
+win:
+  - The game ends at the first `deal` or `quit`, when the buyer offers more
+    than its budget, or after 6 rounds.
+  - A deal at price P pays the buyer `(B - P) / |B - C|` and the seller
+    `(P - C) / |B - C|`, each clipped to [-1, 1], where B is the budget and
+    C the cost.
+  - A quit or 6 rounds without a deal pays both 0, and a buyer offer above
+    its budget gives the buyer -1.
+  - No winner is named, and each side is judged by its own reward.
+agents:
+  - Each turn the agent gets a text prompt with the rules, its role, its
+    private budget or cost with instructions, the public state with the
+    list price and latest offers, the recent messages and the legal actions.
+  - It never sees the other side's budget or cost.
+  - The talk text and the move come back together as one JSON action, such
+    as `buy` with a `talk` text and an `offer` price.
+watch_for:
+  - The buyer opened at $300.00, 54.5% of its $550.35 budget, and the
+    seller started at the $687.94 list price.
+  - The seller's asks of $550.00 and $540.00 landed $0.35 and $10.35 under
+    the buyer's private budget, which the seller never saw.
+  - The buyer accepted $540.00 in round 6 of 6, keeping $10.35 of the
+    $404.97 gap, so it scored 0.026 and the seller 0.974.
+runs:
+  - id: eco_bargaining

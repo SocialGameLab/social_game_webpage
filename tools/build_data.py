@@ -31,6 +31,8 @@ from typing import Any
 
 import yaml
 
+from eco_charts.labels import annotate as eco_words
+
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content"
 DATA = ROOT / "site" / "data"
@@ -85,7 +87,7 @@ def _build_run(demo: Path, gid: str, meta: dict[str, Any]) -> dict[str, Any] | N
         return None
     rec = _read_json(bundle / "run.json")
     _check_version(f"{gid}/{meta['id']}", rec.get("schema_version"))
-    return {
+    run = {
         "id": meta["id"],
         "label": meta.get("label"),
         "note": meta.get("note"),
@@ -97,6 +99,9 @@ def _build_run(demo: Path, gid: str, meta: dict[str, Any]) -> dict[str, Any] | N
         **_public_extras(rec["extras"]),
         "prompt": rec["prompt"],
     }
+    # A run with an eco chart replay names its decisions and seats the way the replay does.
+    eco_words(gid, meta["id"], run)
+    return run
 
 
 def _load_split(path: Path) -> dict[str, dict[str, str]]:

@@ -93,6 +93,7 @@
         <div class="view-switch" role="group" aria-label="View">
           <button type="button" data-view="rules" aria-pressed="${state.view === "rules"}">How to play</button>
           <button type="button" data-view="watch" aria-pressed="${state.view === "watch"}">Watch the match</button>
+          ${g.page_link ? `<a class="view-switch__link" href="${esc(g.page_link.href)}">${esc(g.page_link.label)}</a>` : ""}
         </div>
       </section>
       <hr class="rule">

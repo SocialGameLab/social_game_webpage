@@ -1,0 +1,53 @@
+# Cat and Dog Signaling: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_signal_catdog
+title: Cat and Dog Signaling
+kind: Signaling
+players: 2 players · 1 round
+tagline: >-
+  Alice sees a cat or a dog, and Bob must guess which without seeing it. A
+  free light bulb could carry the answer, but nothing says what the light
+  means.
+view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_signal_catdog"}
+setup:
+  - Alice and Bob are one team, separated by a wall that stops them from
+    communicating, and the seed decides which seat is Alice.
+  - Each round a cat or a dog, each with chance 1/2, is placed on Alice's
+    side, and only Alice sees it.
+  - Nothing fixes what the light means, so "light on means cat" and "light
+    on means dog" pay off only if both players pick the same one.
+round:
+  - Alice takes one action, `light_on` or `light_off` for free,
+    `remove_wall` for 5 points so that Bob sees the animal, or `quit` for a
+    sure +1 that ends the round.
+  - Unless Alice quit, Bob sees whether the light is on and, if the wall is
+    gone, the animal.
+  - Bob plays `guess_cat` or `guess_dog` (+10 if right, -10 if wrong) or
+    `bail` (+0.5).
+  - The round's points are added to the team score, and both players see
+    the actions and the points.
+win:
+  - The recorded game has 1 round, as in the paper's main setting.
+  - After `remove_wall` the round scores +5 for a right guess, -15 for a
+    wrong one and -4.5 if Bob bails.
+  - Both players receive the same team score, so there is no winner.
+  - For partners who agreed on nothing, removing the wall is the best play,
+    since it gives a sure 5.
+agents:
+  - Each turn the agent gets a text prompt with the rules, its role, the
+    public state (light, wall, any revealed animal, team score) and the
+    legal actions, and Alice's prompt also holds the animal.
+  - Bob never sees the animal unless the wall is removed.
+  - It answers with one JSON action with an empty payload, such as
+    `light_on` or `guess_cat`.
+watch_for:
+  - Alice (P1) saw a cat and turned the light on for free, leaving the wall
+    up.
+  - Bob (P0) saw only the lit bulb, guessed cat and was right, so the team
+    scored +10, the most one round can score, on a convention the two never
+    agreed on.
+  - Removing the wall would have paid a sure +5, and had Bob read the light
+    the other way, the round would have scored -10.
+runs:
+  - id: eco_signal_catdog

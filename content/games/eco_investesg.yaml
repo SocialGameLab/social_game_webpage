@@ -1,0 +1,58 @@
+# InvestESG: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_investesg
+title: InvestESG
+kind: Economics experiments
+players: 8 players · 100 years
+tagline: >-
+  Five companies decide each year how much to spend on cutting emissions,
+  which protects everyone from climate disasters, while three investors
+  choose whom to fund after seeing each company's ESG score.
+view: decisions
+page_link: {label: Chart replay, href: "eco/index.html#eco_investesg"}
+setup:
+  - Companies P0 to P4 start with 10 trillion each and investors P5 to P7
+    with 16.70 trillion each, for 100 years from 2021 to 2120.
+  - A company's capital left after spending grows 10% a year, and each
+    climate disaster destroys 7% of every company's capital.
+  - Three kinds of disaster strike independently, with chances that start
+    at 28%, 13% and 17% and rise every year.
+  - Investor P5 cares only about return, while P6 and P7 are ESG-minded with
+    α = 10.
+round:
+  - Every seat decides at once, from the same snapshot of the state.
+  - Each company plays `allocate`, spending 0% to 5% of its capital on
+    mitigation, a share that is also its public ESG score.
+  - Each investor takes back last year's holdings and plays `invest`,
+    splitting its capital equally among the companies it names or keeping
+    cash.
+  - All mitigation so far slows the rise of the disaster chances, then the
+    year's disasters strike and each company's capital grows or shrinks.
+win:
+  - The game ends after 100 years, or earlier if every company goes
+    bankrupt.
+  - A company's reward maps its total capital gains G, investors' money
+    included, to `log(1 + G/10) / log(1 + G_max/10)`, where G_max is the
+    whole market compounding at 10% for 100 years.
+  - An investor's reward is its yearly portfolio returns plus α times its
+    portfolio's ESG score, summed and divided by `100 × (0.1 + α × 0.05)`.
+  - The highest reward is recorded as the winner.
+agents:
+  - Each year the agent gets a text prompt with the rules and settings,
+    every company's capital, last margin and ESG score, every investor's
+    cash and holdings, its own totals and last 5 years, and the legal
+    actions with a JSON schema.
+  - It never sees the other seats' choices for the current year or the
+    disaster draws.
+  - It answers with one JSON action, `allocate` with a mitigation percentage
+    or `invest` with a list of companies.
+watch_for:
+  - P2 carried the mitigation, spending 4.41% of its capital a year on
+    average, while P0 and P1 spent nothing in 92 and 95 of 100 years.
+  - The ESG investors P6 and P7 put 93% and 92% of their money in P2, yet P2
+    ended poorest with 81.3 trillion and total gains of +18.6, against
+    +2,664 for the free rider P0.
+  - Climate risk ended at 55.4% in 2120 after 62 disasters, where the same
+    draws without this mitigation give 116.
+runs:
+  - id: eco_investesg

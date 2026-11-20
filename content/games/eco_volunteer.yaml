@@ -8,6 +8,7 @@ tagline: >-
   One volunteer is enough to help everyone, but volunteering costs you.
   Each player hopes someone else will step up.
 view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_volunteer"}
 setup:
   - Three identical players play 10 rounds.
   - If anyone volunteers, everyone gets a benefit of 10, and each
@@ -33,5 +34,11 @@ watch_for:
   - Because 10 rounds do not split evenly over 3 seats, P0 volunteered four
     times (rounds 1, 4, 7 and 10) and finished on 92, behind P1 and P2 on
     94.
+run_label: Recording
 runs:
   - id: eco_volunteer
+    label: gpt-6-luna
+    note: Recorded with azure/o_series/gpt-6-luna, like the other games on this site.
+  - id: eco_volunteer_deepseek
+    label: DeepSeek
+    note: Recorded with deepseek-flash; the Chart replay draws this run.

@@ -9,6 +9,7 @@ tagline: >-
   wants to match and P1 wants to differ, and the payoffs do not sum to a
   constant.
 view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_sc12"}
 setup:
   - P0 picks the row and P1 the column of the same 2×2 game, played for 8
     rounds.
@@ -42,5 +43,11 @@ watch_for:
     0 cell twice.
   - P1 lies too (it says A in rounds 2 and 6 and plays B for 9 to 3), but
     P0's three A/A rounds and two B/B rounds carry it to a 50 to 32 win.
+run_label: Recording
 runs:
   - id: eco_sc12
+    label: gpt-6-luna
+    note: Recorded with azure/o_series/gpt-6-luna, like the other games on this site.
+  - id: eco_sc12_deepseek
+    label: DeepSeek
+    note: Recorded with deepseek-flash; the Chart replay draws this run.

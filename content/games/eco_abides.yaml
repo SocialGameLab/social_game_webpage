@@ -1,0 +1,48 @@
+# ABIDES Exchange: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_abides
+title: ABIDES Exchange
+kind: Markets and trading
+players: 1 player · 26 decisions
+tagline: >-
+  One trader buys and sells a stock on a simulated exchange full of scripted
+  traders. It starts with $10,000 and is scored on its profit at the close.
+view: decisions
+page_link: {label: Chart replay, href: "eco/index.html#eco_abides"}
+setup:
+  - The trader starts with $10,000 and no shares of the one stock, ABM, on
+    a simulated NASDAQ-like exchange.
+  - Everyone else is scripted, with 1,000 noise traders, 102 value traders,
+    12 momentum traders and 2 market makers.
+  - In this recording the session runs from 09:35 to a 10:00 close, with
+    one decision every 60 seconds, 26 in all.
+  - There are no cash or position limits, so cash can go negative and
+    shares can be sold short.
+round:
+  - The trader sees the clock, its account, the last trade, five levels of
+    bids and asks, and the ABIDES-Gym state vector.
+  - It plays `buy` or `sell`, a market order for 100 shares, or `hold`.
+  - The market keeps trading for 60 simulated seconds until the next
+    decision.
+win:
+  - The game ends after the close, or earlier if the account value falls to
+    $3,000 or less.
+  - The reward is `(final account value - 10,000) / 10,000`, clipped to
+    [-1, 1], with shares still held valued at the last trade price.
+  - Holding all day scores exactly 0, and there is no opponent.
+agents:
+  - Each decision the agent gets a text prompt with the rules, the task,
+    its account, the market data and the legal actions with a JSON schema.
+  - It never sees the hidden fundamental value, other traders' accounts or
+    orders, or the seeds that drive the background market.
+  - It answers with one JSON action, `buy`, `sell` or `hold`, with an empty
+    payload.
+watch_for:
+  - The trader bought 22 times, sold once and held 3 times, ending with
+    2,000 shares.
+  - The exchange never checks cash, so it bought on credit, and its final
+    shares were worth about $2 million, 200 times its $10,000 starting cash.
+  - That leverage turned a 0.044% rise in the last trade, from $999.99 to
+    $1,000.43, into a profit of $894.32, a score of 0.0894.
+runs:
+  - id: eco_abides

@@ -90,6 +90,36 @@ games:
   - eco_public_goods
   - eco_sealed_auction
   - eco_volunteer
+  - eco_bargaining
+  - eco_agenticpay
+  - eco_pirate_game
+  - eco_grounding_negotiation
+  - eco_colored_trails
+  - eco_signal_catdog
+  - eco_bayesian_persuasion
+  - eco_sanction_pgg
+  - eco_gossip_reciprocity
+  - eco_network_adoption
+  - eco_congestion
+  - eco_investesg
+  - eco_rice_n
+  - eco_penny_auction
+  - eco_price_war
+  - eco_inventory_collusion
+  - eco_beer_game
+  - eco_ai_labor_market
+  - eco_used_car
+  - eco_trading_regime
+  - eco_trading_impact
+  - eco_investorbench
+  - eco_liquidation_2p
+  - eco_abides
+  - eco_mars
+  - eco_twinmarket_lite
+  - eco_marketsim_talk
+  - eco_qfinzero
+  - eco_finrl_daily
+  - eco_market_impact
   - inspection_game
   - battle_of_sexes
   - blotto

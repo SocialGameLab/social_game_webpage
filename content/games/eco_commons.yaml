@@ -9,6 +9,7 @@ tagline: >-
   the lake collapses for everyone.
 view: rounds
 view_options: {"round_label": "Month"}
+page_link: {label: Chart replay, href: "eco/index.html#eco_commons"}
 setup:
   - The lake starts full at its capacity of 100 tons of fish.
   - All five fishers see the stock, everyone's past catches and the
@@ -40,5 +41,11 @@ watch_for:
   - The talk drifts with the empty nets; by month 9 fishers note the
     zero-catch rounds, and the last two town halls switch to requests of 20
     or 100 for the final harvest.
+run_label: Recording
 runs:
   - id: eco_commons
+    label: gpt-6-luna
+    note: Recorded with azure/o_series/gpt-6-luna, like the other games on this site.
+  - id: eco_commons_deepseek
+    label: DeepSeek
+    note: Recorded with deepseek-flash; the Chart replay draws this run.

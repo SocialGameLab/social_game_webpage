@@ -8,6 +8,7 @@ tagline: >-
   Two firms secretly set prices each round, and the cheaper one takes the
   whole market. Can they keep prices high without undercutting each other?
 view: rounds
+page_link: {label: Chart replay, href: "eco/index.html#eco_bertrand"}
 setup:
   - Two identical firms each make goods at a unit cost of 10.
   - Market demand is `100 - lowest price`, and prices can be any whole
@@ -34,5 +35,11 @@ watch_for:
     the schedule exactly for rounds 1 to 9, earning 2025 per round taken.
   - In round 10, which both had just confirmed was P1's turn, P0 undercut to
     54 and took the market, so P0 won 12149 to 8100.
+run_label: Recording
 runs:
   - id: eco_bertrand
+    label: gpt-6-luna
+    note: Recorded with azure/o_series/gpt-6-luna, like the other games on this site.
+  - id: eco_bertrand_deepseek
+    label: DeepSeek
+    note: Recorded with deepseek-flash; the Chart replay draws this run.

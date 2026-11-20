@@ -1,0 +1,61 @@
+# Price War: page copy and the recorded runs to show.
+# Field reference: templates/game/content.yaml.
+id: eco_price_war
+title: Price War
+kind: Economics experiments
+players: 5 players · 32 days
+tagline: >-
+  Five firms sell the same good to shoppers who buy only from the cheapest of
+  the few firms they check. Will the firms hold prices above cost, or
+  undercut each other into bankruptcy?
+view: decisions
+page_link: {label: Chart replay, href: "eco/index.html#eco_price_war"}
+setup:
+  - Five firms each start with $500.00 and sell one good to 50 programmatic
+    consumers, about 30 of whom arrive each day.
+  - Stock costs $1.00 a unit, and every firm pays $2.00 overhead plus a 5%
+    tax on its cash each day.
+  - Each arriving consumer checks 3 random firms that have stock and orders
+    only from the cheapest, as many units as its daily income buys at the
+    average posted price.
+  - Firms go by letters drawn at random each game, and each is told to be a
+    straightforward profit-maximizer.
+round:
+  - Every firm in business plays `decide` at the same time, setting a price
+    and the number of units to buy.
+  - The stock is paid for at once, and unsold stock carries over.
+  - Consumers arrive and order from the cheapest firm they checked, and one
+    whose pick has sold out buys nothing that day.
+  - Each firm pays the overhead and the tax, and a firm whose cash falls
+    below $0 is bankrupt and leaves for good.
+win:
+  - The game ends after 32 days, or earlier if no firm is left.
+  - Each firm's reward is `(final cash - 500) / 500`, clipped to [-1, 1],
+    and a bankrupt firm scores -1.
+  - The tax drains cash fast, so a firm that never trades keeps $66.22 after
+    32 days, a reward of -0.868.
+  - The highest reward is recorded as the winner.
+agents:
+  - Each day the agent gets a text prompt with the rules, the market
+    settings, its strategy text, its own letter, its cash and stock, the
+    prices the other firms set the day before, its own last few days and the
+    legal action with a JSON schema.
+  - It never sees other firms' cash, stock or sales, the consumers' choices,
+    or the other firms' choices for the same day.
+  - It answers with one JSON action, `decide` with a `price` and a whole
+    number of units to `buy`.
+watch_for:
+  - The mean posted price fell from $3.06 on day 1 to the $1.00 unit cost by
+    day 6, and all five firms sold below cost on average.
+  - Firm B (P1) spent $163.00 of its $165.28 on stock on day 24, sold none of
+    it, and went bankrupt on day 25.
+  - Every firm ended below the $66.22 of a firm that never traded, while
+    without chat history prices also fell to cost but no firm went bankrupt.
+run_label: Recording
+runs:
+  - id: eco_price_war
+    label: With chat history
+    note: Each seat also saw its own recent turns as chat history.
+  - id: eco_price_war_no_history
+    label: Without chat history
+    note: Each prompt was the seat's only input, as in the source.
